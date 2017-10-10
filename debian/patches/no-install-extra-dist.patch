@@ -1,0 +1,19 @@
+diff --git a/Makefile.am b/Makefile.am
+index ccdf2156..f2267b26 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -12,14 +12,6 @@ SUBDIRS = \
+ 	wm \
+ 	extra
+ 
+-EXTRA_DIST = \
+-	COPYING \
+-	LICENSE_CC_BY_SA4 \
+-	README.md
+-
+-install-data-hook:
+-	cp -Rv $(EXTRA_DIST) $(adaptadir)
+-
+ uninstall-hook:
+ 	test -e $(noktodir) && rm -rfv $(noktodir)
+ 	test -e $(adaptadir) && rm -rfv $(adaptadir)
