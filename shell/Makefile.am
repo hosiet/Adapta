@@ -8,12 +8,18 @@ shelldir   = $(srcdir)/gnome-shell
 shell_file = \
 	$(shelldir)/gnome-shell.css \
 	$(shelldir)/gnome-shell-theme.gresource \
+	$(shelldir)/message-indicator-symbolic.svg \
 	$(shelldir)/no-events.svg \
 	$(shelldir)/no-notifications.svg \
 	$(shelldir)/noise-texture.png \
 	$(shelldir)/process-working.svg \
 	$(shelldir)/toggle-off.svg \
 	$(shelldir)/toggle-on.svg
+if ENABLE_GNOME
+if GNOME_IS_326
+shell_gdm3_file = $(shelldir)/gdm3-Adapta.css
+endif
+endif
 shell_pad_osd_file = \
 	$(shelldir)/pad-osd.css
 shell_asset_file = \
@@ -35,6 +41,7 @@ shell_asset_file = \
 	$(shelldir)/assets/more-results.svg \
 	$(shelldir)/assets/show-apps-checked.svg \
 	$(shelldir)/assets/show-apps-hover.svg \
+	$(shelldir)/assets/show-apps-panel-dynamic.svg \
 	$(shelldir)/assets/show-apps-panel-hover.svg \
 	$(shelldir)/assets/show-apps-panel.svg \
 	$(shelldir)/assets/show-apps.svg \
@@ -106,12 +113,18 @@ shellnoktodir    = $(srcdir)/gnome-shell-nokto
 shell_nokto_file = \
 	$(shellnoktodir)/gnome-shell.css \
 	$(shellnoktodir)/gnome-shell-theme.gresource \
+	$(shellnoktodir)/message-indicator-symbolic.svg \
 	$(shellnoktodir)/no-events.svg \
 	$(shellnoktodir)/no-notifications.svg \
 	$(shellnoktodir)/noise-texture.png \
 	$(shellnoktodir)/process-working.svg \
 	$(shellnoktodir)/toggle-off.svg \
 	$(shellnoktodir)/toggle-on.svg
+if ENABLE_GNOME
+if GNOME_IS_326
+shell_nokto_gdm3_file = $(shellnoktodir)/gdm3-Adapta-Nokto.css
+endif
+endif
 shell_nokto_asset_file = \
 	$(shellnoktodir)/assets/calendar-arrow-left-hover.svg \
 	$(shellnoktodir)/assets/calendar-arrow-left.svg \
@@ -131,6 +144,7 @@ shell_nokto_asset_file = \
 	$(shellnoktodir)/assets/more-results.svg \
 	$(shellnoktodir)/assets/show-apps-checked.svg \
 	$(shellnoktodir)/assets/show-apps-hover.svg \
+	$(shellnoktodir)/assets/show-apps-panel-dynamic.svg \
 	$(shellnoktodir)/assets/show-apps-panel-hover.svg \
 	$(shellnoktodir)/assets/show-apps-panel.svg \
 	$(shellnoktodir)/assets/show-apps.svg \
@@ -142,12 +156,18 @@ shelletadir   = $(srcdir)/gnome-shell-eta
 shelleta_file = \
 	$(shelletadir)/gnome-shell.css \
 	$(shelletadir)/gnome-shell-theme.gresource \
+	$(shelletadir)/message-indicator-symbolic.svg \
 	$(shelletadir)/no-events.svg \
 	$(shelletadir)/no-notifications.svg \
 	$(shelletadir)/noise-texture.png \
 	$(shelletadir)/process-working.svg \
 	$(shelletadir)/toggle-off.svg \
 	$(shelletadir)/toggle-on.svg
+if ENABLE_GNOME
+if GNOME_IS_326
+shell_eta_gdm3_file = $(shelletadir)/gdm3-Adapta-Eta.css
+endif
+endif
 shelleta_asset_file = \
 	$(shelletadir)/assets/calendar-arrow-left-hover.svg \
 	$(shelletadir)/assets/calendar-arrow-left.svg \
@@ -167,6 +187,7 @@ shelleta_asset_file = \
 	$(shelletadir)/assets/more-results.svg \
 	$(shelletadir)/assets/show-apps-checked.svg \
 	$(shelletadir)/assets/show-apps-hover.svg \
+	$(shelletadir)/assets/show-apps-panel-dynamic.svg \
 	$(shelletadir)/assets/show-apps-panel-hover.svg \
 	$(shelletadir)/assets/show-apps-panel.svg \
 	$(shelletadir)/assets/show-apps.svg \
@@ -178,12 +199,18 @@ shellnoktoetadir     = $(srcdir)/gnome-shell-nokto-eta
 shell_nokto_eta_file = \
 	$(shellnoktoetadir)/gnome-shell.css \
 	$(shellnoktoetadir)/gnome-shell-theme.gresource \
+	$(shellnoktoetadir)/message-indicator-symbolic.svg \
 	$(shellnoktoetadir)/no-events.svg \
 	$(shellnoktoetadir)/no-notifications.svg \
 	$(shellnoktoetadir)/noise-texture.png \
 	$(shellnoktoetadir)/process-working.svg \
 	$(shellnoktoetadir)/toggle-off.svg \
 	$(shellnoktoetadir)/toggle-on.svg
+if ENABLE_GNOME
+if GNOME_IS_326
+shell_nokto_eta_gdm3_file = $(shellnoktoetadir)/gdm3-Adapta-Nokto-Eta.css
+endif
+endif
 shell_nokto_eta_asset_file = \
 	$(shellnoktoetadir)/assets/calendar-arrow-left-hover.svg \
 	$(shellnoktoetadir)/assets/calendar-arrow-left.svg \
@@ -203,6 +230,7 @@ shell_nokto_eta_asset_file = \
 	$(shellnoktoetadir)/assets/more-results.svg \
 	$(shellnoktoetadir)/assets/show-apps-checked.svg \
 	$(shellnoktoetadir)/assets/show-apps-hover.svg \
+	$(shellnoktoetadir)/assets/show-apps-panel-dynamic.svg \
 	$(shellnoktoetadir)/assets/show-apps-panel-hover.svg \
 	$(shellnoktoetadir)/assets/show-apps-panel.svg \
 	$(shellnoktoetadir)/assets/show-apps.svg \
@@ -409,6 +437,16 @@ if ENABLE_GNOME
 		gnome-shell/$(GNOME_SCSS_VERSION)/gnome-shell-eta.scss ../gnome-shell-eta/gnome-shell.css
 	cd $(srcdir)/sass && $(SASSC) $(sassc_option) \
 		gnome-shell/$(GNOME_SCSS_VERSION)/gnome-shell-dark-eta.scss ../gnome-shell-nokto-eta/gnome-shell.css
+if GNOME_IS_326
+	cd $(srcdir)/sass && $(SASSC) $(sassc_option) \
+		gnome-shell/$(GNOME_SCSS_VERSION)/gdm3.scss ../gnome-shell/gdm3-Adapta.css
+	cd $(srcdir)/sass && $(SASSC) $(sassc_option) \
+		gnome-shell/$(GNOME_SCSS_VERSION)/gdm3-dark.scss ../gnome-shell-nokto/gdm3-Adapta-Nokto.css
+	cd $(srcdir)/sass && $(SASSC) $(sassc_option) \
+		gnome-shell/$(GNOME_SCSS_VERSION)/gdm3-eta.scss ../gnome-shell-eta/gdm3-Adapta-Eta.css
+	cd $(srcdir)/sass && $(SASSC) $(sassc_option) \
+		gnome-shell/$(GNOME_SCSS_VERSION)/gdm3-dark-eta.scss ../gnome-shell-nokto-eta/gdm3-Adapta-Nokto-Eta.css
+endif
 	cd $(srcdir)/sass && $(SASSC) $(sassc_option) \
 		gnome-shell/$(GNOME_SCSS_VERSION)/pad-osd.scss ../gnome-shell/pad-osd.css
 	cd $(srcdir)/sass && $(SASSC) $(sassc_option) \
@@ -487,6 +525,9 @@ if ENABLE_GNOME
 		$(adaptadir)/gnome-shell/extensions/workspaces-to-dock
 	cp -Rv $(shell_extension_workspace_asset_file) \
 		$(adaptadir)/gnome-shell/extensions/workspaces-to-dock/assets
+if GNOME_IS_326
+	cp -Rv $(shell_gdm3_file) $(adaptadir)/gnome-shell
+endif
 
 	$(MKDIR_P) $(noktodir)/gnome-shell
 	$(MKDIR_P) $(noktodir)/gnome-shell/assets
@@ -505,6 +546,9 @@ if ENABLE_GNOME
 		$(noktodir)/gnome-shell/extensions/workspaces-to-dock
 	cp -Rv $(shell_extension_workspace_asset_file) \
 		$(noktodir)/gnome-shell/extensions/workspaces-to-dock/assets
+if GNOME_IS_326
+	cp -Rv $(shell_nokto_gdm3_file) $(noktodir)/gnome-shell
+endif
 
 	$(MKDIR_P) $(adaptaetadir)/gnome-shell
 	$(MKDIR_P) $(adaptaetadir)/gnome-shell/assets
@@ -523,6 +567,9 @@ if ENABLE_GNOME
 		$(adaptaetadir)/gnome-shell/extensions/workspaces-to-dock
 	cp -Rv $(shell_extension_workspace_asset_file) \
 		$(adaptaetadir)/gnome-shell/extensions/workspaces-to-dock/assets
+if GNOME_IS_326
+	cp -Rv $(shell_eta_gdm3_file) $(adaptaetadir)/gnome-shell
+endif
 
 	$(MKDIR_P) $(noktoetadir)/gnome-shell
 	$(MKDIR_P) $(noktoetadir)/gnome-shell/assets
@@ -541,6 +588,9 @@ if ENABLE_GNOME
 		$(noktoetadir)/gnome-shell/extensions/workspaces-to-dock
 	cp -Rv $(shell_extension_workspace_asset_file) \
 		$(noktoetadir)/gnome-shell/extensions/workspaces-to-dock/assets
+if GNOME_IS_326
+	cp -Rv $(shell_nokto_eta_gdm3_file) $(noktoetadir)/gnome-shell
+endif
 endif
 
 if ENABLE_CINNAMON
@@ -602,16 +652,8 @@ endif
 
 if ENABLE_XFCE
 	$(MKDIR_P) $(adaptadir)/xfce-notify-4.0
-	$(MKDIR_P) $(adaptadir)/gtk-2.0/Xfce
-	$(MKDIR_P) $(noktodir)/gtk-2.0/Xfce
-	$(MKDIR_P) $(adaptaetadir)/gtk-2.0/Xfce
-	$(MKDIR_P) $(noktoetadir)/gtk-2.0/Xfce
 	cp -Rv $(xfce_image_file) $(adaptadir)/xfce-notify-4.0
 	cp -Rv $(xfce_rc_file) $(adaptadir)/xfce-notify-4.0
-	cp -Rv $(xfce_image_file) $(adaptadir)/gtk-2.0/Xfce
-	cp -Rv $(xfce_image_file) $(noktodir)/gtk-2.0/Xfce
-	cp -Rv $(xfce_image_file) $(adaptaetadir)/gtk-2.0/Xfce
-	cp -Rv $(xfce_image_file) $(noktoetadir)/gtk-2.0/Xfce
 endif
 
 # *******************
@@ -641,14 +683,6 @@ endif
 if ENABLE_XFCE
 	test -e $(adaptadir)/xfce-notify-4.0 && \
 		rm -rfv $(adaptadir)/xfce-notify-4.0
-	test -e $(adaptadir)/gtk-2.0/Xfce && \
-		rm -rfv $(adaptadir)/gtk-2.0/Xfce
-	test -e $(noktodir)/gtk-2.0/Xfce && \
-		rm -rfv $(noktodir)/gtk-2.0/Xfce
-	test -e $(adaptaetadir)/gtk-2.0/Xfce && \
-		rm -rfv $(adaptaetadir)/gtk-2.0/Xfce
-	test -e $(noktoetadir)/gtk-2.0/Xfce && \
-		rm -rfv $(noktoetadir)/gtk-2.0/Xfce
 endif
 
 # ****************************
@@ -704,7 +738,15 @@ CLEANFILES += \
 	$(srcdir)/asset/assets-gnome-shell/common/window-close-hover.svg \
 	$(srcdir)/asset/assets-gnome-shell/dot/*.svg \
 	$(srcdir)/asset/assets-gnome-shell/workspaces-to-dock/*.svg
+if GNOME_IS_326
+CLEANFILES += \
+	$(srcdir)/gnome-shell/gdm3-Adapta.css \
+	$(srcdir)/gnome-shell-nokto/gdm3-Adapta-Nokto.css \
+	$(srcdir)/gnome-shell-eta/gdm3-Adapta-Eta.css \
+	$(srcdir)/gnome-shell-nokto-eta/gdm3-Adapta-Nokto-Eta.css
 endif
+endif
+
 if ENABLE_CINNAMON
 CLEANFILES += \
 	$(srcdir)/cinnamon/cinnamon.css \

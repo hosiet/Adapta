@@ -71,15 +71,13 @@ gtk2dir   = $(srcdir)/gtk-2.0
 gtk2_file = \
 	$(gtk2dir)/3rd-party.rc \
 	$(gtk2dir)/colors.rc \
-	$(gtk2dir)/common.rc \
-	$(gtk2dir)/misc.rc
+	$(gtk2dir)/common.rc
 gtk2_gtkrc_file = \
 	$(gtk2dir)/gtkrc
 gtk2_eta_file = \
 	$(gtk2dir)/3rd-party-eta.rc \
 	$(gtk2dir)/colors.rc \
-	$(gtk2dir)/common-eta.rc \
-	$(gtk2dir)/misc-eta.rc
+	$(gtk2dir)/common-eta.rc
 gtk2_eta_gtkrc_file = \
 	$(gtk2dir)/gtkrc-eta
 gtk2_assetdir   = $(srcdir)/asset/assets-gtk2
@@ -109,14 +107,12 @@ gtk2_arrow_file = \
 	$(gtk2_assetdir)/Arrows/up.png \
 	$(gtk2_assetdir)/Arrows/up-dark.png
 gtk2_button_file = \
+	$(gtk2_assetdir)/Buttons/accent-flat-button-active.png \
+	$(gtk2_assetdir)/Buttons/accent-flat-button-hover.png \
 	$(gtk2_assetdir)/Buttons/button-active.png \
 	$(gtk2_assetdir)/Buttons/button-hover.png \
 	$(gtk2_assetdir)/Buttons/button-insensitive.png \
 	$(gtk2_assetdir)/Buttons/button.png \
-	$(gtk2_assetdir)/Buttons/checked-flat-button-active.png \
-	$(gtk2_assetdir)/Buttons/checked-flat-button-hover.png \
-	$(gtk2_assetdir)/Buttons/checked-flat-button-insensitive.png \
-	$(gtk2_assetdir)/Buttons/checked-flat-button.png \
 	$(gtk2_assetdir)/Buttons/flat-button-active.png \
 	$(gtk2_assetdir)/Buttons/flat-button-hover.png \
 	$(gtk2_assetdir)/Buttons/ltr-button-active.png \
@@ -128,9 +124,19 @@ gtk2_button_file = \
 	$(gtk2_assetdir)/Buttons/rtl-button-insensitive.png \
 	$(gtk2_assetdir)/Buttons/rtl-button.png
 gtk2_checkradio_file = \
+	$(gtk2_assetdir)/Check-Radio/check-mixed-active.png \
+	$(gtk2_assetdir)/Check-Radio/check-mixed-hover-menuitem.png \
+	$(gtk2_assetdir)/Check-Radio/check-mixed-hover.png \
+	$(gtk2_assetdir)/Check-Radio/check-mixed-insensitive-menuitem.png \
+	$(gtk2_assetdir)/Check-Radio/check-mixed-insensitive.png \
+	$(gtk2_assetdir)/Check-Radio/check-mixed-menuitem.png \
+	$(gtk2_assetdir)/Check-Radio/check-mixed.png \
 	$(gtk2_assetdir)/Check-Radio/check-off-active.png \
+	$(gtk2_assetdir)/Check-Radio/check-off-hover-menuitem.png \
 	$(gtk2_assetdir)/Check-Radio/check-off-hover.png \
+	$(gtk2_assetdir)/Check-Radio/check-off-insensitive-menuitem.png \
 	$(gtk2_assetdir)/Check-Radio/check-off-insensitive.png \
+	$(gtk2_assetdir)/Check-Radio/check-off-menuitem.png \
 	$(gtk2_assetdir)/Check-Radio/check-off.png \
 	$(gtk2_assetdir)/Check-Radio/check-on-active.png \
 	$(gtk2_assetdir)/Check-Radio/check-on-hover.png \
@@ -139,9 +145,19 @@ gtk2_checkradio_file = \
 	$(gtk2_assetdir)/Check-Radio/check-on-hover-menuitem.png \
 	$(gtk2_assetdir)/Check-Radio/check-on-insensitive-menuitem.png \
 	$(gtk2_assetdir)/Check-Radio/check-on-menuitem.png \
+	$(gtk2_assetdir)/Check-Radio/radio-mixed-active.png \
+	$(gtk2_assetdir)/Check-Radio/radio-mixed-hover-menuitem.png \
+	$(gtk2_assetdir)/Check-Radio/radio-mixed-hover.png \
+	$(gtk2_assetdir)/Check-Radio/radio-mixed-insensitive-menuitem.png \
+	$(gtk2_assetdir)/Check-Radio/radio-mixed-insensitive.png \
+	$(gtk2_assetdir)/Check-Radio/radio-mixed-menuitem.png \
+	$(gtk2_assetdir)/Check-Radio/radio-mixed.png \
 	$(gtk2_assetdir)/Check-Radio/radio-off-active.png \
+	$(gtk2_assetdir)/Check-Radio/radio-off-hover-menuitem.png \
 	$(gtk2_assetdir)/Check-Radio/radio-off-hover.png \
+	$(gtk2_assetdir)/Check-Radio/radio-off-insensitive-menuitem.png \
 	$(gtk2_assetdir)/Check-Radio/radio-off-insensitive.png \
+	$(gtk2_assetdir)/Check-Radio/radio-off-menuitem.png \
 	$(gtk2_assetdir)/Check-Radio/radio-off.png \
 	$(gtk2_assetdir)/Check-Radio/radio-on-active.png \
 	$(gtk2_assetdir)/Check-Radio/radio-on-hover.png \
@@ -186,6 +202,7 @@ gtk2_other_file = \
 	$(gtk2_assetdir)/Others/bottom.png \
 	$(gtk2_assetdir)/Others/focus.png \
 	$(gtk2_assetdir)/Others/left.png \
+	$(gtk2_assetdir)/Others/menu-bg.png \
 	$(gtk2_assetdir)/Others/null.svg \
 	$(gtk2_assetdir)/Others/right.png \
 	$(gtk2_assetdir)/Others/top-hover.png \
@@ -243,13 +260,11 @@ gtk2_toolbar_file = \
 gtk2_nokto_file = \
 	$(gtk2dir)/3rd-party-dark.rc \
 	$(gtk2dir)/colors-dark.rc \
-	$(gtk2dir)/common-dark.rc \
-	$(gtk2dir)/misc-dark.rc
+	$(gtk2dir)/common-dark.rc
 gtk2_nokto_eta_file = \
 	$(gtk2dir)/3rd-party-dark-eta.rc \
 	$(gtk2dir)/colors-dark.rc \
-	$(gtk2dir)/common-dark-eta.rc \
-	$(gtk2dir)/misc-dark-eta.rc
+	$(gtk2dir)/common-dark-eta.rc
 gtk2_nokto_gtkrc_file = \
 	$(gtk2dir)/gtkrc-dark
 gtk2_nokto_eta_gtkrc_file = \
@@ -276,14 +291,12 @@ gtk2_nokto_arrow_file = \
 	$(gtk2_assetdir)/Arrows/up-dark.png \
 	$(gtk2_assetdir)/Arrows/up-insensitive-dark.png
 gtk2_nokto_button_file = \
+	$(gtk2_assetdir)/Buttons/accent-flat-button-active.png \
+	$(gtk2_assetdir)/Buttons/accent-flat-button-hover.png \
 	$(gtk2_assetdir)/Buttons/button-active-dark.png \
 	$(gtk2_assetdir)/Buttons/button-dark.png \
 	$(gtk2_assetdir)/Buttons/button-hover-dark.png \
 	$(gtk2_assetdir)/Buttons/button-insensitive-dark.png \
-	$(gtk2_assetdir)/Buttons/checked-flat-button-active.png \
-	$(gtk2_assetdir)/Buttons/checked-flat-button-hover.png \
-	$(gtk2_assetdir)/Buttons/checked-flat-button-insensitive.png \
-	$(gtk2_assetdir)/Buttons/checked-flat-button.png \
 	$(gtk2_assetdir)/Buttons/flat-button-active-dark.png \
 	$(gtk2_assetdir)/Buttons/flat-button-hover-dark.png \
 	$(gtk2_assetdir)/Buttons/ltr-button-active-dark.png \
@@ -295,10 +308,20 @@ gtk2_nokto_button_file = \
 	$(gtk2_assetdir)/Buttons/rtl-button-hover-dark.png \
 	$(gtk2_assetdir)/Buttons/rtl-button-insensitive-dark.png
 gtk2_nokto_checkradio_file = \
+	$(gtk2_assetdir)/Check-Radio/check-mixed-active-dark.png \
+	$(gtk2_assetdir)/Check-Radio/check-mixed-dark.png \
+	$(gtk2_assetdir)/Check-Radio/check-mixed-hover-dark.png \
+	$(gtk2_assetdir)/Check-Radio/check-mixed-hover-menuitem.png \
+	$(gtk2_assetdir)/Check-Radio/check-mixed-insensitive-dark.png \
+	$(gtk2_assetdir)/Check-Radio/check-mixed-insensitive-menuitem.png \
+	$(gtk2_assetdir)/Check-Radio/check-mixed-menuitem.png \
 	$(gtk2_assetdir)/Check-Radio/check-off-active-dark.png \
 	$(gtk2_assetdir)/Check-Radio/check-off-dark.png \
 	$(gtk2_assetdir)/Check-Radio/check-off-hover-dark.png \
+	$(gtk2_assetdir)/Check-Radio/check-off-hover-menuitem-dark.png \
 	$(gtk2_assetdir)/Check-Radio/check-off-insensitive-dark.png \
+	$(gtk2_assetdir)/Check-Radio/check-off-insensitive-menuitem-dark.png \
+	$(gtk2_assetdir)/Check-Radio/check-off-menuitem-dark.png \
 	$(gtk2_assetdir)/Check-Radio/check-on-active-dark.png \
 	$(gtk2_assetdir)/Check-Radio/check-on-dark.png \
 	$(gtk2_assetdir)/Check-Radio/check-on-hover-dark.png \
@@ -306,10 +329,20 @@ gtk2_nokto_checkradio_file = \
 	$(gtk2_assetdir)/Check-Radio/check-on-hover-menuitem.png \
 	$(gtk2_assetdir)/Check-Radio/check-on-insensitive-menuitem.png \
 	$(gtk2_assetdir)/Check-Radio/check-on-menuitem.png \
+	$(gtk2_assetdir)/Check-Radio/radio-mixed-active-dark.png \
+	$(gtk2_assetdir)/Check-Radio/radio-mixed-dark.png \
+	$(gtk2_assetdir)/Check-Radio/radio-mixed-hover-dark.png \
+	$(gtk2_assetdir)/Check-Radio/radio-mixed-hover-menuitem.png \
+	$(gtk2_assetdir)/Check-Radio/radio-mixed-insensitive-dark.png \
+	$(gtk2_assetdir)/Check-Radio/radio-mixed-insensitive-menuitem.png \
+	$(gtk2_assetdir)/Check-Radio/radio-mixed-menuitem.png \
 	$(gtk2_assetdir)/Check-Radio/radio-off-active-dark.png \
 	$(gtk2_assetdir)/Check-Radio/radio-off-dark.png \
 	$(gtk2_assetdir)/Check-Radio/radio-off-hover-dark.png \
+	$(gtk2_assetdir)/Check-Radio/radio-off-hover-menuitem-dark.png \
 	$(gtk2_assetdir)/Check-Radio/radio-off-insensitive-dark.png \
+	$(gtk2_assetdir)/Check-Radio/radio-off-insensitive-menuitem-dark.png \
+	$(gtk2_assetdir)/Check-Radio/radio-off-menuitem-dark.png \
 	$(gtk2_assetdir)/Check-Radio/radio-on-active-dark.png \
 	$(gtk2_assetdir)/Check-Radio/radio-on-dark.png \
 	$(gtk2_assetdir)/Check-Radio/radio-on-hover-dark.png \
@@ -353,6 +386,7 @@ gtk2_nokto_other_file = \
 	$(gtk2_assetdir)/Others/bottom.png \
 	$(gtk2_assetdir)/Others/focus-dark.png \
 	$(gtk2_assetdir)/Others/left.png \
+	$(gtk2_assetdir)/Others/menu-bg-dark.png \
 	$(gtk2_assetdir)/Others/null.svg \
 	$(gtk2_assetdir)/Others/right.png \
 	$(gtk2_assetdir)/Others/top-hover.png \
@@ -439,11 +473,14 @@ indexeta_file       = $(srcdir)/index.theme-eta
 index_noktoeta_file = $(srcdir)/index.theme-nokto-eta
 
 sassc_option = -M -t compact
-parallel_option = -0 --no-notice --line-buffer --jobs 100% --noswap
+parallel_option = -0 --no-notice --line-buffer --jobs 100%
 
 # *******************************************
 # * Generate CSS stylesheets and PNG images *
 # *******************************************
+
+# ignore -jN option for --enable-parallel
+.NOTPARALLEL:
 
 all:
 	$(MKDIR_P) $(srcdir)/gtk-3.20 && \

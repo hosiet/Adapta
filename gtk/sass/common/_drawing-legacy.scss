@@ -22,7 +22,7 @@
 
 $z-depth-1: 0 1px 1px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.16);
 $z-depth-2: 0 2px 2px rgba(0, 0, 0, 0.12), 0 3px 4px rgba(0, 0, 0, 0.20);
-$z-depth-3: 0 5px 5px rgba(0, 0, 0, 0.16), 0 4px 4px rgba(0, 0, 0, 0.20);
+$z-depth-3: 0 4px 5px rgba(0, 0, 0, 0.16), 0 4px 4px rgba(0, 0, 0, 0.20);
 $z-depth-4: 0 6px 8px -4px rgba(0, 0, 0, 0.16),
             0 10px 6px rgba(0, 0, 0, 0.20);
 $z-depth-5: 0 8px 10px -4px rgba(0, 0, 0, 0.20),
@@ -127,6 +127,15 @@ $toolbar-shadow-dark: inset 0 1px 1px rgba(0, 0, 0, 0.18),
                       inset 0 8px 3px -5px rgba(0, 0, 0, 0.14);
 
 
+//
+// Nautilus Desktop Label shadow
+//
+
+$z-depth-1-label: 0 0 1px rgba(0, 0, 0, 0.26),
+                  0 1px 2px rgba(0, 0, 0, 0.26),
+                  0 2px 3px rgba(0, 0, 0, 0.32);
+
+
 // /******************
 //  * Ripple effects *
 //  ******************/
@@ -144,7 +153,7 @@ $toolbar-shadow-dark: inset 0 1px 1px rgba(0, 0, 0, 0.18),
     background-image: -gtk-gradient(radial,
                                     center center, 0,
                                     center center, 0.001,
-                                    to(gtkalpha(currentColor, 0.1)),
+                                    to($track-color),
                                     to(transparent)),
                       linear-gradient(to bottom, gtkalpha(currentColor, 0));
   }
@@ -152,9 +161,9 @@ $toolbar-shadow-dark: inset 0 1px 1px rgba(0, 0, 0, 0.18),
     background-image: -gtk-gradient(radial,
                                     center center, 0,
                                     center center, 0.4,
-                                    to(gtkalpha(currentColor, 0.1)),
+                                    to($track-color),
                                     to(transparent)),
-                      linear-gradient(to bottom, gtkalpha(currentColor, 0.1));
+                      linear-gradient(to bottom, $track-color);
   }
 }
 
@@ -163,17 +172,17 @@ $toolbar-shadow-dark: inset 0 1px 1px rgba(0, 0, 0, 0.18),
     background-image: -gtk-gradient(radial,
                                     center center, 0,
                                     center center, 0.001,
-                                    to(gtkalpha(currentColor, 0.1)),
+                                    to($track-color),
                                     to(transparent)),
-                      linear-gradient(to bottom, gtkalpha(currentColor, 0.1));
+                      linear-gradient(to bottom, $track-color);
   }
   to {
     background-image: -gtk-gradient(radial,
                                     center center, 0,
                                     center center, 0.4,
-                                    to(gtkalpha(currentColor, 0.1)),
+                                    to($track-color),
                                     to(transparent)),
-                      linear-gradient(to bottom, gtkalpha(currentColor, 0.1));
+                      linear-gradient(to bottom, $track-color);
   }
 }
 
@@ -190,9 +199,9 @@ $toolbar-shadow-dark: inset 0 1px 1px rgba(0, 0, 0, 0.18),
     background-image: -gtk-gradient(radial,
                                     center center, 0,
                                     center center, 0.4,
-                                    to(gtkalpha(currentColor, 0.1)),
+                                    to($track-color),
                                     to(transparent)),
-                      linear-gradient(to bottom, gtkalpha(currentColor, 0.1));
+                      linear-gradient(to bottom, $track-color);
   }
 }
 
@@ -219,7 +228,7 @@ $toolbar-shadow-dark: inset 0 1px 1px rgba(0, 0, 0, 0.18),
     border-image: -gtk-gradient(radial,
                                 center bottom, 0,
                                 center bottom, 0.5,
-                                to($track_color),
+                                to($outline_track_color),
                                 to(transparent))
                                 0 0 1 / 0 0 1px;
     color: $secondary_fg_color;
@@ -242,7 +251,7 @@ $toolbar-shadow-dark: inset 0 1px 1px rgba(0, 0, 0, 0.18),
     border-image: -gtk-gradient(radial,
                                 center bottom, 0,
                                 center bottom, 0.5,
-                                to($track_color),
+                                to($outline_track_color),
                                 to(transparent))
                                 0 0 1 / 0 0 1px;
     color: $insensitive_fg_color;
@@ -254,7 +263,7 @@ $toolbar-shadow-dark: inset 0 1px 1px rgba(0, 0, 0, 0.18),
     border-image: -gtk-gradient(radial,
                                 center bottom, 0,
                                 center bottom, 0.5,
-                                to($track_color),
+                                to($outline_track_color),
                                 to(transparent))
                                 0 0 1 / 0 0 1px;
     background-color: transparent;
@@ -278,7 +287,7 @@ $toolbar-shadow-dark: inset 0 1px 1px rgba(0, 0, 0, 0.18),
     border-image: -gtk-gradient(radial,
                                 center bottom, 0,
                                 center bottom, 0.5,
-                                to($track_color),
+                                to($outline_track_color),
                                 to(transparent))
                                 0 0 1 / 0 0 1px;
     background-color: transparent;
@@ -399,7 +408,7 @@ $toolbar-shadow-dark: inset 0 1px 1px rgba(0, 0, 0, 0.18),
                                     center center, 0.5,
                                     to(gtkalpha(currentColor, 0)),
                                     to(transparent)),
-                      linear-gradient(to bottom, gtkalpha(currentColor, 0.1));
+                      linear-gradient(to bottom, $track-color);
     box-shadow: none;
   }
   @else if $t==flat-active {
@@ -448,7 +457,7 @@ $toolbar-shadow-dark: inset 0 1px 1px rgba(0, 0, 0, 0.18),
 // Overshoot
 //
 
-@mixin overshoot($p, $t:normal, $c:$secondary_selected_bg_color) {
+@mixin overshoot($p, $t:normal, $c:$accent_color) {
 //
 // Overshoot drawing function
 //
@@ -474,7 +483,7 @@ $toolbar-shadow-dark: inset 0 1px 1px rgba(0, 0, 0, 0.18),
   background-image: -gtk-gradient(radial,
                                   $_position, 0,
                                   $_position, 0.75,
-                                  to(gtkopacity($c, 0.2)),
+                                  to(gtkopacity($c, 0.13)),
                                   to(transparent));
   background-repeat: no-repeat;
   background-position: $_position;

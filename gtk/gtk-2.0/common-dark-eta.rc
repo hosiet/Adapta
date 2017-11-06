@@ -4,13 +4,18 @@
 gtk-auto-mnemonics = 1
 gtk-primary-button-warps-slider = 1
 
-style "default" {
+style "default" = "default_colors" {
   xthickness = 0
   ythickness = 0
 
   #
   # Style Properties
   #
+  GnomeHRef::link_color = @link_color
+  GtkHTML::link-color = @link_color
+  GtkHTML::vlink-color = @visited_link_color
+  GtkIMHtml::hyperlink-color = @link_color
+  GtkIMHtml::hyperlink-visited-color = @visited_link_color
   GtkWidget::link-color = @link_color
   GtkWidget::visited-link-color = @visited_link_color
   GtkWidget::focus-line-width = 1
@@ -167,6 +172,46 @@ style "default" {
       overlay_file      = "Check-Radio/check-on-dark.png"
       overlay_stretch   = FALSE
     }
+    image {
+      function          = CHECK
+      recolorable       = TRUE
+      state             = NORMAL
+      shadow            = ETCHED_IN
+      overlay_file      = "Check-Radio/check-mixed-dark.png"
+      overlay_stretch   = FALSE
+    }
+    image {
+      function          = CHECK
+      recolorable       = TRUE
+      state             = PRELIGHT
+      shadow            = ETCHED_IN
+      overlay_file      = "Check-Radio/check-mixed-hover-dark.png"
+      overlay_stretch   = FALSE
+    }
+    image {
+      function          = CHECK
+      recolorable       = TRUE
+      state             = ACTIVE
+      shadow            = ETCHED_IN
+      overlay_file      = "Check-Radio/check-mixed-active-dark.png"
+      overlay_stretch   = FALSE
+    }
+    image {
+      function          = CHECK
+      recolorable       = TRUE
+      state             = INSENSITIVE
+      shadow            = ETCHED_IN
+      overlay_file      = "Check-Radio/check-mixed-insensitive-dark.png"
+      overlay_stretch   = FALSE
+    }
+    image {
+      function          = CHECK
+      recolorable       = TRUE
+      state             = SELECTED
+      shadow            = ETCHED_IN
+      overlay_file      = "Check-Radio/check-mixed-dark.png"
+      overlay_stretch   = FALSE
+    }
 
     #
     # Radio Buttons
@@ -239,6 +284,42 @@ style "default" {
       state             = SELECTED
       shadow            = IN
       overlay_file      = "Check-Radio/radio-on-dark.png"
+      overlay_stretch   = FALSE
+    }
+    image {
+      function          = OPTION
+      state             = NORMAL
+      shadow            = ETCHED_IN
+      overlay_file      = "Check-Radio/radio-mixed-dark.png"
+      overlay_stretch   = FALSE
+    }
+    image {
+      function          = OPTION
+      state             = PRELIGHT
+      shadow            = ETCHED_IN
+      overlay_file      = "Check-Radio/radio-mixed-hover-dark.png"
+      overlay_stretch   = FALSE
+    }
+    image {
+      function          = OPTION
+      state             = ACTIVE
+      shadow            = ETCHED_IN
+      overlay_file      = "Check-Radio/radio-mixed-active-dark.png"
+      overlay_stretch   = FALSE
+    }
+    image {
+      function          = OPTION
+      state             = INSENSITIVE
+      shadow            = ETCHED_IN
+      overlay_file      = "Check-Radio/radio-mixed-insensitive-dark.png"
+      overlay_stretch   = FALSE
+    }
+    image {
+      function          = OPTION
+      recolorable       = TRUE
+      state             = SELECTED
+      shadow            = ETCHED_IN
+      overlay_file      = "Check-Radio/radio-mixed-dark.png"
       overlay_stretch   = FALSE
     }
 
@@ -655,6 +736,12 @@ style "progressbar" {
   }
 }
 
+style "inline_progress" {
+  # do not set normal state background
+  # bg[NORMAL] = mix(0.2, @accent_color, @base_color)
+  bg[SELECTED] = mix(0.6, @accent_color, @base_color) # progress
+}
+
 style "range" {
   engine "pixmap" {
     image {
@@ -976,12 +1063,9 @@ style "entry" {
   xthickness = 4
   ythickness = 4
 
-  bg[NORMAL] = @bg_color
-  bg[ACTIVE] = @bg_color
-  bg[INSENSITIVE] = @bg_color
-  base[NORMAL] = @bg_color
+  base[NORMAL] = @light_color
   base[ACTIVE] = @selected_bg_color
-  base[INSENSITIVE] = @bg_color
+  base[INSENSITIVE] = @light_color
 
   engine "pixmap" {
     image {
@@ -1033,12 +1117,9 @@ style "entry" {
 }
 
 style "notebook_entry" = "entry" {
-  bg[NORMAL] = @bg_color
-  bg[ACTIVE] = @bg_color
-  bg[INSENSITIVE] = @bg_color
-  base[NORMAL] = @bg_color
+  base[NORMAL] = @light_color
   base[ACTIVE] = @selected_bg_color
-  base[INSENSITIVE] = @bg_color
+  base[INSENSITIVE] = @light_color
 }
 
 style "button" {
@@ -1051,10 +1132,10 @@ style "button" {
   base[NORMAL] = @bg_color
   base[ACTIVE] = @bg_color
   base[INSENSITIVE] = @bg_color
-  fg[NORMAL] = mix(0.75, @fg_color, @bg_color)
+  fg[NORMAL] = mix(0.87, @fg_color, @bg_color)
   fg[PRELIGHT] = @fg_color
-  fg[ACTIVE] = @selected_fg_color
-  fg[INSENSITIVE] = mix(0.4, @fg_color, @bg_color)
+  fg[ACTIVE] = @fg_color
+  fg[INSENSITIVE] = mix(0.28, @fg_color, @bg_color)
 
   engine "pixmap" {
     image {
@@ -1107,29 +1188,30 @@ style "button" {
 }
 
 style "button_label" {
-  fg[NORMAL] = mix(0.75, @fg_color, @bg_color)
+  fg[NORMAL] = mix(0.87, @fg_color, @bg_color)
   fg[PRELIGHT] = @fg_color
-  fg[ACTIVE] = @selected_fg_color
-  fg[INSENSITIVE] = mix(0.4, @fg_color, @bg_color)
+  fg[ACTIVE] = @fg_color
+  fg[INSENSITIVE] = mix(0.28, @fg_color, @bg_color)
   font_name = "Bold"
 }
 
 style "misc_button_label" {
-  fg[NORMAL] = mix(0.75, @fg_color, @bg_color)
+  fg[NORMAL] = mix(0.87, @fg_color, @bg_color)
   fg[PRELIGHT] = @fg_color
-  fg[ACTIVE] = @selected_fg_color
-  fg[INSENSITIVE] = mix(0.4, @fg_color, @bg_color)
+  fg[ACTIVE] = @fg_color
+  fg[INSENSITIVE] = mix(0.28, @fg_color, @bg_color)
   font_name = "Regular"
 }
 
 style "flat_button" {
+  GtkButton::inner-border = { 1, 1, 1, 1 }
   xthickness = 4
   ythickness = 4
 
-  fg[NORMAL] = mix(0.75, @fg_color, @bg_color)
+  fg[NORMAL] = mix(0.87, @fg_color, @bg_color)
   fg[PRELIGHT] = @fg_color
-  fg[ACTIVE] = @selected_fg_color
-  fg[INSENSITIVE] = mix(0.4, @fg_color, @bg_color)
+  fg[ACTIVE] = @fg_color
+  fg[INSENSITIVE] = mix(0.28, @fg_color, @bg_color)
 
   engine "pixmap" {
     image {
@@ -1181,14 +1263,22 @@ style "flat_button" {
   }
 }
 
+style "link_button" {
+  engine "pixmap" {
+    image {
+      function = BOX
+    }
+  }
+}
+
 style "location_button" {
   xthickness = 2
   ythickness = 3
 
-  fg[NORMAL] = mix(0.75, @fg_color, @bg_color)
+  fg[NORMAL] = mix(0.87, @fg_color, @bg_color)
   fg[PRELIGHT] = @fg_color
   fg[ACTIVE] = @fg_color
-  fg[INSENSITIVE] = mix(0.4, @fg_color, @bg_color)
+  fg[INSENSITIVE] = mix(0.28, @fg_color, @bg_color)
 
   engine "pixmap" {
     image {
@@ -1223,10 +1313,10 @@ style "location_button" {
 }
 
 style "location_button_label" {
-  fg[NORMAL] = mix(0.75, @fg_color, @bg_color)
+  fg[NORMAL] = mix(0.87, @fg_color, @bg_color)
   fg[PRELIGHT] = @fg_color
   fg[ACTIVE] = @fg_color
-  fg[INSENSITIVE] = mix(0.4, @fg_color, @bg_color)
+  fg[INSENSITIVE] = mix(0.28, @fg_color, @bg_color)
   font_name = "Bold"
 }
 
@@ -1255,6 +1345,10 @@ style "combobox_button" {
 style "combobox_entry" {
   xthickness = 4
   ythickness = 4
+
+  base[NORMAL] = @light_color
+  base[ACTIVE] = @selected_bg_color
+  base[INSENSITIVE] = @light_color
 
   engine "pixmap" {
     # LTR version
@@ -1324,6 +1418,10 @@ style "combobox_entry" {
 }
 
 style "notebook_combobox_entry" {
+  base[NORMAL] = @light_color
+  base[ACTIVE] = @selected_bg_color
+  base[INSENSITIVE] = @light_color
+
   engine "pixmap" {
     # LTR version
     image {
@@ -1466,11 +1564,6 @@ style "combobox_entry_button" {
       direction = RTL
     }
   }
-}
-
-style "combo_entry_button" {
-  xthickness = 4
-  ythickness = 4
 }
 
 style "spinbutton" {
@@ -1715,9 +1808,9 @@ style "menubar" {
   ythickness = 0
 
   bg[NORMAL] = @inverted_dark_color
-  fg[NORMAL] = mix(0.8, @selected_fg_color, shade(0.96, @bg_color))
-  fg[PRELIGHT] = @selected_fg_color
-  fg[INSENSITIVE] = mix(0.4, @selected_fg_color, @bg_color)
+  fg[NORMAL] = mix(0.87, @inverted_fg_color, @inverted_dark_color)
+  fg[PRELIGHT] = @inverted_fg_color
+  fg[INSENSITIVE] = mix(0.28, @inverted_fg_color, @inverted_dark_color)
 }
 
 style "menubar_item" {
@@ -1726,9 +1819,9 @@ style "menubar_item" {
 
   bg[NORMAL] = @inverted_dark_color
   bg[PRELIGHT] = @inverted_dark_color
-  fg[NORMAL] = mix(0.8, @selected_fg_color, shade(0.96, @bg_color))
-  fg[PRELIGHT] = @selected_fg_color
-  fg[INSENSITIVE] = mix(0.4, @selected_fg_color, @bg_color)
+  fg[NORMAL] = mix(0.87, @inverted_fg_color, @inverted_dark_color)
+  fg[PRELIGHT] = @inverted_fg_color
+  fg[INSENSITIVE] = mix(0.28, @inverted_fg_color, @inverted_dark_color)
 
   engine "pixmap" {
     image {
@@ -1742,9 +1835,13 @@ style "menubar_item" {
   }
 }
 
+style "menubar_item_label" {
+  engine "murrine" { textstyle = 0 }
+}
+
 style "menu" {
-  xthickness = 0
-  ythickness = 0
+  xthickness = 1
+  ythickness = 2
 
   GtkMenuItem::arrow-scaling = 0.4
 
@@ -1753,7 +1850,15 @@ style "menu" {
   bg[INSENSITIVE] = mix(0.5, @base_color, @bg_color)
 }
 
-style "menu_framed_box" {
+style "menu_frame" {
+  engine "pixmap" {
+    image {
+      function = BOX
+      file     = "Others/menu-bg-dark.png"
+      border   = { 1, 1, 2, 1 }
+      stretch  = TRUE
+    }
+  }
 }
 
 style "menu_item" {
@@ -1770,10 +1875,11 @@ style "menu_item" {
   # See https://bugs.freedesktop.org/show_bug.cgi?id=38038
   bg[SELECTED] = mix(0.9, @base_color, @fg_color)
   bg[PRELIGHT] = mix(0.9, @base_color, @fg_color)
-  fg[PRELIGHT] = shade(1.04, @fg_color)
-  fg[SELECTED] = shade(1.04, @fg_color)
-  text[PRELIGHT] = shade(1.04, @fg_color)
-  text[SELECTED] = shade(1.04, @fg_color)
+  fg[NORMAL] = mix(0.87, @fg_color, @base_color)
+  fg[PRELIGHT] = @fg_color
+  fg[SELECTED] = @fg_color
+  text[PRELIGHT] = @fg_color
+  text[SELECTED] = @fg_color
 
   engine "pixmap" {
 
@@ -1783,7 +1889,7 @@ style "menu_item" {
       recolorable     = TRUE
       state           = NORMAL
       shadow          = OUT
-      overlay_file    = "Others/null.svg"
+      overlay_file    = "Check-Radio/check-off-menuitem-dark.png"
       overlay_stretch = FALSE
     }
     image {
@@ -1791,7 +1897,7 @@ style "menu_item" {
       recolorable     = TRUE
       state           = PRELIGHT
       shadow          = OUT
-      overlay_file    = "Others/null.svg"
+      overlay_file    = "Check-Radio/check-off-hover-menuitem-dark.png"
       overlay_stretch = FALSE
     }
     image {
@@ -1799,7 +1905,7 @@ style "menu_item" {
       recolorable     = TRUE
       state           = ACTIVE
       shadow          = OUT
-      overlay_file    = "Others/null.svg"
+      overlay_file    = "Check-Radio/check-off-hover-menuitem-dark.png"
       overlay_stretch = FALSE
     }
     image {
@@ -1807,7 +1913,7 @@ style "menu_item" {
       recolorable     = TRUE
       state           = INSENSITIVE
       shadow          = OUT
-      overlay_file    = "Others/null.svg"
+      overlay_file    = "Check-Radio/check-off-insensitive-menuitem-dark.png"
       overlay_stretch = FALSE
     }
     image {
@@ -1842,34 +1948,66 @@ style "menu_item" {
       overlay_file    = "Check-Radio/check-on-insensitive-menuitem.png"
       overlay_stretch = FALSE
     }
+    image {
+      function        = CHECK
+      recolorable     = TRUE
+      state           = NORMAL
+      shadow          = ETCHED_IN
+      overlay_file    = "Check-Radio/check-mixed-menuitem.png"
+      overlay_stretch = FALSE
+    }
+    image {
+      function        = CHECK
+      recolorable     = TRUE
+      state           = PRELIGHT
+      shadow          = ETCHED_IN
+      overlay_file    = "Check-Radio/check-mixed-hover-menuitem.png"
+      overlay_stretch = FALSE
+    }
+    image {
+      function        = CHECK
+      recolorable     = TRUE
+      state           = ACTIVE
+      shadow          = ETCHED_IN
+      overlay_file    = "Check-Radio/check-mixed-hover-menuitem.png"
+      overlay_stretch = FALSE
+    }
+    image {
+      function        = CHECK
+      recolorable     = TRUE
+      state           = INSENSITIVE
+      shadow          = ETCHED_IN
+      overlay_file    = "Check-Radio/check-mixed-insensitive-menuitem.png"
+      overlay_stretch = FALSE
+    }
 
     # Radio Buttons
     image {
       function        = OPTION
       state           = NORMAL
       shadow          = OUT
-      overlay_file    = "Others/null.svg"
+      overlay_file    = "Check-Radio/radio-off-menuitem-dark.png"
       overlay_stretch = FALSE
     }
     image {
       function        = OPTION
       state           = PRELIGHT
       shadow          = OUT
-      overlay_file    = "Others/null.svg"
+      overlay_file    = "Check-Radio/radio-off-hover-menuitem-dark.png"
       overlay_stretch = FALSE
     }
     image {
       function        = OPTION
       state           = ACTIVE
       shadow          = OUT
-      overlay_file    = "Others/null.svg"
+      overlay_file    = "Check-Radio/radio-off-hover-menuitem-dark.png"
       overlay_stretch = FALSE
     }
     image {
       function        = OPTION
       state           = INSENSITIVE
       shadow          = OUT
-      overlay_file    = "Others/null.svg"
+      overlay_file    = "Check-Radio/radio-off-insensitive-menuitem-dark.png"
       overlay_stretch = FALSE
     }
     image {
@@ -1898,6 +2036,34 @@ style "menu_item" {
       state           = INSENSITIVE
       shadow          = IN
       overlay_file    = "Check-Radio/radio-on-insensitive-menuitem.png"
+      overlay_stretch = FALSE
+    }
+    image {
+      function        = OPTION
+      state           = NORMAL
+      shadow          = ETCHED_IN
+      overlay_file    = "Check-Radio/radio-mixed-menuitem.png"
+      overlay_stretch = FALSE
+    }
+    image {
+      function        = OPTION
+      state           = PRELIGHT
+      shadow          = ETCHED_IN
+      overlay_file    = "Check-Radio/radio-mixed-hover-menuitem.png"
+      overlay_stretch = FALSE
+    }
+    image {
+      function        = OPTION
+      state           = ACTIVE
+      shadow          = ETCHED_IN
+      overlay_file    = "Check-Radio/radio-mixed-hover-menuitem.png"
+      overlay_stretch = FALSE
+    }
+    image {
+      function        = OPTION
+      state           = INSENSITIVE
+      shadow          = ETCHED_IN
+      overlay_file    = "Check-Radio/radio-mixed-insensitive-menuitem.png"
       overlay_stretch = FALSE
     }
 
@@ -1937,7 +2103,15 @@ style "menu_item" {
   }
 }
 
-style "separator_menu_item"  {
+style "menu_item_label" {
+  fg[NORMAL] = mix(0.87, @fg_color, mix(0.5, @base_color, @bg_color))
+  fg[PRELIGHT] = @fg_color
+  fg[SELECTED] = @fg_color
+
+  engine "murrine" { textstyle = 0 }
+}
+
+style "separator_menu_item" {
   xthickness = 0
   ythickness = 1
 
@@ -2029,7 +2203,7 @@ style "notebook" {
     # How to draw boxes with a gap on one side (ie the page of a notebook)
     image {
       function   = BOX_GAP
-      file       = "Shadows/frame.png" 
+      file       = "Shadows/frame.png"
       border     = { 1, 1, 1, 1 }
       stretch    = TRUE
       gap_file   = "Others/null.svg"
@@ -2056,7 +2230,7 @@ style "notebook" {
     }
     image {
       function   = BOX_GAP
-      file       = "Shadows/frame.png" 
+      file       = "Shadows/frame.png"
       border     = { 1, 1, 1, 1 }
       stretch    = TRUE
       gap_file   = "Others/null.svg"
@@ -2080,8 +2254,8 @@ style "notebook_viewport" {
 
 style "notebook_tab_label" {
   fg[NORMAL] = @fg_color
-  fg[ACTIVE] = mix(0.6, @fg_color, @bg_color)
-  font_name = "Bold"
+  fg[ACTIVE] = mix(0.54, @fg_color, @bg_color)
+  font_name = "Medium"
 }
 
 style "treeview_header" {
@@ -2284,7 +2458,7 @@ style "inline_toolbar" {
 }
 
 style "bg" {
-  fg[NORMAL] = mix(0.75, @fg_color, @bg_color)
+  fg[NORMAL] = mix(0.87, @fg_color, @bg_color)
   fg[PRELIGHT] = @fg_color
   fg[ACTIVE] = @fg_color
   bg[NORMAL] = @bg_color
@@ -2294,13 +2468,18 @@ style "bg" {
 }
 
 style "base" {
-  fg[NORMAL] = mix(0.75, @fg_color, @bg_color)
+  fg[NORMAL] = mix(0.87, @fg_color, @bg_color)
   fg[PRELIGHT] = @fg_color
   fg[ACTIVE] = @fg_color
   bg[NORMAL] = @base_color
   bg[PRELIGHT] = @base_color
   bg[ACTIVE] = @base_color
   bg[INSENSITIVE] = @base_color
+}
+
+style "calendar" {
+  bg[NORMAL] = @secondary_dark_color
+  base[NORMAL] = @light_color
 }
 
 style "tooltips" {
@@ -2312,13 +2491,16 @@ style "tooltips" {
   bg[SELECTED] = @tooltip_bg_color
 }
 
-style "text" {
+style "text" = "default_colors" {
+  fg[NORMAL] = @fg_color # FIXME: VMWare needs this?
+
   engine "murrine" { textstyle = 0 }
 }
 
 class "GtkWidget"            style "default"
 class "GtkScrollbar"         style "scrollbar"
 class "GtkButton"            style "button"
+class "GtkLinkButton"        style "link_button"
 class "GtkEntry"             style "entry"
 class "GtkOldEditable"       style "entry"
 class "GtkSpinButton"        style "spinbutton"
@@ -2329,6 +2511,11 @@ class "GtkSeparatorMenuItem" style "separator_menu_item"
 class "GtkScrolledWindow"    style "scrolled_window"
 class "GtkFrame"             style "frame"
 class "GtkToolbar"           style "toolbar"
+class "GtkCalendar"          style "calendar"
+
+# Fixes insensitive text shadows
+widget_class "*<GtkLabel>"    style "text"
+widget_class "*<GtkCellView>" style "text"
 
 widget_class "*<GtkButton>*<GtkLabel>"               style "button_label"
 widget_class "*<GtkComboBox>*<GtkButton>*<GtkLabel>" style "misc_button_label"
@@ -2337,18 +2524,23 @@ widget_class "*<GtkFontButton>*<GtkLabel>"           style "misc_button_label"
 widget_class "*<GtkSpinButton>*<GtkLabel>"           style "misc_button_label"
 widget_class "*<GtkCheckButton>*<GtkLabel>"          style "misc_button_label"
 
-widget_class "*<GtkMenuBar>*"                    style "menubar"
-widget_class "*<GtkMenu>*"                       style "menu"
-widget_class "*<GtkMenuItem>*"                   style "menu_item"
-widget_class "*<GtkMenuBar>.<GtkMenuItem>*"      style "menubar_item"
-widget_class "*<GtkMenu>*<GtkSeparatorMenuItem>" style "separator_menu_item"
+widget_class "*<GtkMenuBar>*"                         style "menubar"
+widget_class "*<GtkMenu>"                             style "menu_frame"
+widget_class "*<GtkMenu>*"                            style "menu"
+widget_class "*<GtkMenuItem>*"                        style "menu_item"
+widget_class "*<GtkMenuItem>*<GtkLabel>"              style "menu_item_label"
+widget_class "*<GtkMenuBar>.<GtkMenuItem>*"           style "menubar_item"
+widget_class "*<GtkMenuBar>.<GtkMenuItem>*<GtkLabel>" style "menubar_item_label"
+widget_class "*<GtkMenu>*<GtkSeparatorMenuItem>"      style "separator_menu_item"
 
 widget_class "*<GtkComboBox>*<GtkButton>"      style "combobox_button"
 widget_class "*<GtkComboBoxEntry>*<GtkEntry>"  style "combobox_entry"
 widget_class "*<GtkComboBoxEntry>*<GtkButton>" style "combobox_entry_button"
 widget_class "*<GtkCombo>*<GtkEntry>"          style "combobox_entry"
 widget_class "*<GtkCombo>*<GtkButton>"         style "combobox_entry_button"
-widget_class "*<GtkCombo>*<GtkButton>"         style "combo_entry_button"
+
+# A hack for inline-progress widget inside the GtkTreeView
+widget_class "*<GtkTreeView>"                                   style "inline_progress"
 
 widget_class "*HandleBox"                                       style "handlebox"
 widget_class "*<GtkTreeView>*<GtkButton>*"                      style "treeview_header"
@@ -2380,11 +2572,15 @@ widget_class "*<GtkPathBar>*<GtkButton>*<GtkLabel>" style "location_button_label
 
 # Entries in notebooks draw with notebook's base color, but not if there's
 # something else in the middle that draws gray again
-widget_class "*<GtkNotebook>*<GtkEntry>"                          style "notebook_entry"
-widget_class "*<GtkNotebook>*<GtkEventBox>*<GtkEntry>"            style "entry"
+widget_class "*<GtkNotebook>*<GtkEntry>"               style "notebook_entry"
+widget_class "*<GtkNotebook>*<GtkEventBox>*<GtkEntry>" style "entry"
 
 widget_class "*<GtkNotebook>*<GtkComboBoxEntry>*<GtkEntry>"               style "notebook_combobox_entry"
 widget_class "*<GtkNotebook>*<GtkEventBox>*<GtkComboBoxEntry>*<GtkEntry>" style "combobox_entry"
+
+# We use this weird selector to target an offscreen entry as created
+# by Chrome/Chromium to derive the style for its toolbar
+widget_class "<GtkEntry>" style "standalone_entry"
 
 # We also need to avoid changing fg color for the inactive notebook tab labels
 widget_class "*<GtkNotebook>.<GtkLabel>"                      style "notebook_tab_label"
@@ -2393,9 +2589,3 @@ widget_class "*<GtkNotebook>.<GtkWidget>.<GtkBox>.<GtkLabel>" style "notebook_ta
 
 # GTK tooltips
 widget "gtk-tooltip*" style "tooltips"
-
-# Fixes insensitive text shadows
-widget_class "*<GtkLabel>"                     style "text"
-widget_class "*<GtkComboBox>*<GtkCellLayout>"  style "text"
-widget_class "*<GtkNotebook>*<GtkLabel>"       style "text"
-widget_class "*<GtkNotebook>*<GtkCellLayout>"  style "text"

@@ -8,36 +8,28 @@
     background-image: -gtk-gradient(radial,
                                     center center, 0,
                                     center center, 0.001,
-                                    to(gtkalpha($inverted_fg_color, 0.2)),
+                                    to(gtkalpha($inverted_fg_color, 0.25)),
                                     to(transparent)),
                       linear-gradient(to bottom,
-                                      gtkalpha($inverted_fg_color, 0.2));
+                                      gtkalpha($inverted_fg_color, 0.12));
   }
   to {
     background-image: -gtk-gradient(radial,
                                     center center, 0,
                                     center center, 0.4,
-                                    to(gtkalpha($inverted_fg_color, 0.2)),
+                                    to(gtkalpha($inverted_fg_color, 0.25)),
                                     to(transparent)),
                       linear-gradient(to bottom,
-                                      gtkalpha($inverted_fg_color, 0.2));
+                                      gtkalpha($inverted_fg_color, 0.12));
   }
 }
-
-// orientation
-$orientation: ((top, bottom),
-               (bottom, top));
-
-$full_orientation: ((top, bottom),
-                    (bottom, top),
-                    (left, right),
-                    (right, left));
 
 // main container
 .budgie-container { background-color: transparent; }
 
 // panel styling
 .budgie-panel {
+  // solid-mode
   // always use dark-color of dark variant
   background-color: $panel_bg_color;
   color: $inverted_fg_color;
@@ -46,21 +38,28 @@ $full_orientation: ((top, bottom),
   // used to indicate unread notifications
   .alert { color: $suggested_color; }
 
-  // do no make un-clickable gaps
-  > GtkBox:first-child {
-    margin: -2px 0 -2px -2px;
-    &:dir(rtl) { margin: -2px -2px -2px 0; }
-  }
+  // transparent-mode
+  &.transparent {
+    background-color: transparent;
 
-  > GtkBox:nth-child(2) { margin: -2px 0 -2px 0; }
+    GtkBox {
+      &.start-region,
+      &.center-region,
+      &.end-region { // draw shadows by default
+        // FIXME: NaTray puts widgets as "widgets",
+        // so we can not render icons-shadows anyhow...
+        GtkImage { icon-shadow: $z-depth-1; }
 
-  > GtkBox:last-child {
-    margin: -2px -2px -2px 0;
-    &:dir(rtl) { margin: -2px 0 -2px -2px; }
+        .label { text-shadow: $z-depth-1; }
+      }
+    }
   }
 }
 
-@each $along_side, $opp_side in $full_orientation {
+@each $along_side, $opp_side in (top, bottom),
+                                (bottom, top),
+                                (left, right),
+                                (right, left) {
   // panel shadow styling
   .#{$along_side} .shadow-block {
     background-color: transparent;
@@ -87,7 +86,7 @@ $full_orientation: ((top, bottom),
     box-shadow: none;
 
     .label,
-    GtkImage { opacity: 0.75; }
+    GtkImage { opacity: 0.87; }
 
     &:hover,
     &:active,
@@ -102,8 +101,9 @@ $full_orientation: ((top, bottom),
 
 // icon tasklist styling
 .budgie-panel {
-  .launcher {
-    border: 2px solid transparent;
+  .flat.launcher {
+    padding: 0;
+    border-radius: 0;
     background-image: -gtk-gradient(radial,
                                     center center, 0,
                                     center center, 0.4,
@@ -121,12 +121,16 @@ $full_orientation: ((top, bottom),
                          box-shadow;
     transition-duration: 0.2s;
 
-    > GtkImage { opacity: 0.5; }
+    > GtkImage {
+      opacity: 0.87;
+      transition: opacity 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  background-image 0s;
+    }
 
     &:hover {
       -gtk-image-effect: highlight;
 
-      > GtkImage { opacity: 0.75; }
+      > GtkImage { opacity: 1.0; }
     }
     &:active {
       transition-duration: 0s;
@@ -151,38 +155,45 @@ $full_orientation: ((top, bottom),
 }
 
 // draw underscores
-@each $along_side, $opp_side in $orientation {
+@each $along_side, $_line in (top, 0 2px),
+                             (bottom, 0 -2px),
+                             (left, 2px 0),
+                             (right, -2px 0) {
   .#{$along_side} .budgie-panel {
     WnckTasklist .button,
-    .launcher {
-      border: 2px solid transparent;
+    .flat.launcher {
       &:hover {
-        border-#{$along_side}: 2px solid gtkalpha($inverted_fg_color, 0.4);
+        box-shadow: inset #{$_line} gtkalpha($inverted_fg_color, 0.4);
       }
       &:active,
       &:checked {
-        border-#{$along_side}: 2px solid $selected_bg_color;
+        box-shadow: inset #{$_line} $selected_bg_color;
       }
     }
   }
 }
 
 // draw underscores and dots
-@each $along_side, $_dot in (top, top),
-                            (bottom, bottom) {
+@each $along_side, $_line in (top, 0 2px),
+                             (bottom, 0 -2px) {
   .#{$along_side} .budgie-panel {
     .unpinned .launcher,
     .pinned .launcher.running {
-      border: 2px solid transparent;
-      // FIXME: Upstream deformed aspect-ratio to 1:1.1
-      border-image: -gtk-scaled(url("assets/running-dot-#{$_dot}.png"),
-                                url("assets/running-dot-#{$_dot}@2.png"))
-                    2.0 1.818 / 2.0px 1.818px;
+      > GtkImage {
+        background-image: linear-gradient(to bottom, $selected_bg_color);
+        background-position: #{$along_side} center;
+        background-size: 2px 2px;
+        background-repeat: no-repeat;
+        transition: opacity 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                    background-image 0s;
+      }
+
       &:hover,
       &:active,
       &:checked {
-        border-#{$along_side}: 2px solid $selected_bg_color;
-        border-image: none;
+        box-shadow: inset #{$_line} $selected_bg_color;
+
+        > GtkImage { background-image: none; }
       }
     }
   }
@@ -192,7 +203,15 @@ $full_orientation: ((top, bottom),
 .budgie-panel ShowDesktopApplet {
   > .button.flat {
     // use non-scaling units
-    padding: 4px 10px;
+    @each $position, $_spacing in (top, 0 6px),
+                                  (bottom, 0 6px),
+                                  (left, 3px 0),
+                                  (right, 3px 0) {
+      .#{$position}.budgie-container & {
+        padding: #{$_spacing};
+      }
+    }
+
     border-radius: 0;
     outline-color: transparent;
     color: $inverted_fg_color;
@@ -237,44 +256,51 @@ $full_orientation: ((top, bottom),
   // add slight lateral spacing for symbolic icons
   // FIXME: Paper icon-pack has thin 'battery' and 'bluetooth' symbolic icon
   // battery
-  PowerIndicator GtkImage { padding: 0 2px 0; }
+  PowerIndicator GtkImage {
+    .top.budgie-container &,
+    .bottom.budgie-container & { padding: 0 2px 0; }
+  }
   // bluetooth
   BluetoothIndicator GtkImage { // negative margin doesn't work
-    &:dir(ltr) { padding-right: 2px; }
-    &:dir(rtl) { padding-left: 2px; }
+    .top.budgie-container &,
+    .bottom.budgie-container & {
+      &:dir(ltr) { padding-right: 2px; }
+      &:dir(rtl) { padding-left: 2px; }
+    }
+  }
+}
+
+// budgie specific popover widgets
+GtkWindow.budgie-popover:not(.csd) {
+  &.background {
+    @extend .popover;
+    padding: 0; // unset padding
+    background-clip: border-box;
+    // FIXME: we can't expose depth-3
+    &, &:backdrop { box-shadow: $z-depth-2; }
+  }
+
+  .frame.container {
+    padding: 2px 0 0;
+    border-style: none; // hide container borders
+    background-color: $secondary_base_color;
   }
 }
 
 // main menu styling
-.budgie-panel BudgieMenuApplet {
+.budgie-panel {
   .button.flat.budgie-menu-launcher {
     padding: 0;
     border: 0 none transparent;
     border-radius: 0;
     outline-color: transparent;
+    color: $inverted_fg_color;
     &:hover,
     &:active,
     &:checked {
       background-image: none;
       background-color: transparent;
-    }
-
-    GtkImage {
-      // override stock icon with specific one
-      background-image: url("assets/show-apps.svg");
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: contain;
-      color: transparent;
-    }
-
-    &:hover,
-    &:active {
-      GtkImage { background-image: url("assets/show-apps-hover.svg"); }
-    }
-    &:checked,
-    &:checked:hover {
-      GtkImage { background-image: url("assets/show-apps-checked.svg"); }
+      color: $selected_fg_color;
     }
   }
 }
@@ -282,6 +308,17 @@ $full_orientation: ((top, bottom),
 .budgie-menu {
   border-radius: 2px;
   background-color: $secondary_base_color;
+
+  &.background {
+    border-style: solid none none; // remove side/bottom borders
+
+    &,
+    .frame.container {
+      padding: 2px 0 0; // remove side/bottom padding
+
+      .bottom.budgie-container & { padding: 2px 0 2px; } // revive bottom padding
+    }
+  }
 
   GtkScrolledWindow,
   .list,
@@ -294,11 +331,16 @@ $full_orientation: ((top, bottom),
 
   .list-row { // reset background
     &, &.activatable {
+      padding: 0;
       background-image: none;
       background-color: $secondary_base_color;
       color: $secondary_fg_color;
       transition: none;
     }
+
+    // FIXME: enlarge vertical spacing with padding of icons
+    GtkImage { padding: 0.6em 0; }
+
     &:hover,
     &.activatable:hover,
     &:selected,
@@ -309,14 +351,29 @@ $full_orientation: ((top, bottom),
       color: $secondary_fg_color;
       transition: none;
     }
+
+    .button.flat {
+      border-radius: 0; // remove roundness
+      outline-radius: 0;
+
+      > GtkBox > .label { // tweak base-line
+        padding-bottom: 0.1em;
+      }
+    }
   }
 
-  .categories .category-button { // left-paned elements of GtkPopover
+  // left-paned elements of GtkPopover
+  .categories .category-button,
+  .categories GtkRadioButton.flat.category-button {
+    border-radius: 0; // remove roundness
     &:checked {
       background-image: none;
       background-color: transparent;
       color: $selected_bg_color;
-      &:hover { background-color: gtkopacity($selected_bg_color, 0.1); }
+      &:hover {
+        background-color: $track_color;
+        color: $selected_bg_color;
+      }
       &:insensitive {
         color: gtkopacity($selected_bg_color, 0.4);
 
@@ -325,7 +382,7 @@ $full_orientation: ((top, bottom),
     }
 
     .label { // tweak vertical spacing and font weight
-      padding: 0.5em 0 0.6em;
+      padding: 0.4em 0 0.5em;
       font-weight: 500;
     }
   }
@@ -380,70 +437,72 @@ $full_orientation: ((top, bottom),
         }
       }
     }
+  }
 
-    // top-row (user-name and avatar)
-    @at-root .user-menu > GtkBox.vertical .list-row.activatable:first-child {
-      padding-bottom: 1em; // fix truncated drop-shadow
-      outline-offset: 0;
-      outline-width: 0;
+  // top-row (user-name and avatar)
+  > GtkBox.vertical .list-row.activatable:first-child,
+  .frame.container > GtkBox.vertical .list-row.activatable:first-child {
+    padding-bottom: 1em; // fix truncated drop-shadow
+    outline-offset: 0;
+    outline-width: 0;
 
-      .indicator-item {
+    .indicator-item {
+      background-color: $suggested_color;
+      box-shadow: $z-depth-1,
+                  inset 0 1px $highlight_color;
+      transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transition-property: box-shadow;
+      transition-duration: 0.2s;
+
+      &:dir(ltr) { // mask avatar's background
+        padding-left: 7px; // non-scaling unit
+        background-image: linear-gradient(to right, $borders_color);
+        background-position: left center;
+        background-repeat: no-repeat;
+        background-size: 38px auto; // non-scaling unit
+      }
+      &:dir(rtl) {
+        padding-right: 7px;
+        background-image: linear-gradient(to left, $borders_color);
+        background-position: right center;
+        background-repeat: no-repeat;
+        background-size: 38px auto;
+      }
+
+      .label {
+        color: $secondary_selected_fg_color;
+
+        &:dir(ltr) { padding-left: 0.6em; }
+        &:dir(rtl) { padding-right: 0.6em; }
+      }
+
+      GtkImage {
+        color: $secondary_selected_fg_color;
+
+        &:first-child { // avatar image
+          padding-top: 0.4em;
+          opacity: 0.9;
+        }
+      }
+
+      &:hover {
         background-color: $suggested_color;
-        box-shadow: $z-depth-1,
+        box-shadow: $z-depth-2,
                     inset 0 1px $highlight_color;
         transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
         transition-property: box-shadow;
         transition-duration: 0.2s;
 
-        &:dir(ltr) { // mask avatar's background
-          padding-left: 7px; // non-scaling unit
-          background-image: linear-gradient(to right, $borders_color);
-          background-position: left center;
-          background-repeat: no-repeat;
-          background-size: 38px auto; // non-scaling unit
-        }
-        &:dir(rtl) {
-          padding-right: 7px;
-          background-image: linear-gradient(to left, $borders_color);
-          background-position: right center;
-          background-repeat: no-repeat;
-          background-size: 38px auto;
-        }
-
-        .label {
-          color: $secondary_selected_fg_color;
-
-          &:dir(ltr) { padding-left: 0.6em; }
-          &:dir(rtl) { padding-right: 0.6em; }
-        }
+        .label { color: $selected_fg_color; }
 
         GtkImage {
-          color: $secondary_selected_fg_color;
+          color: $selected_fg_color;
 
-          &:first-child { // avatar image
-            padding-top: 0.4em;
-            opacity: 0.9;
-          }
+          &:first-child { opacity: 1.0; }
         }
-
-        &:hover {
-          box-shadow: $z-depth-2,
-                      inset 0 1px $highlight_color;
-          transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-          transition-property: box-shadow;
-          transition-duration: 0.2s;
-
-          .label { color: $selected_fg_color; }
-
-          GtkImage {
-            color: $selected_fg_color;
-
-            &:first-child { opacity: 1.0; }
-          }
-        }
-
-        .label { font-weight: 700; }
       }
+
+      .label { font-weight: 700; }
     }
   }
 }
@@ -478,7 +537,8 @@ $full_orientation: ((top, bottom),
     &.top { // always use dark variant
       background-color: $inverted_dark_color;
       color: $inverted_fg_color;
-      box-shadow: $z-depth-2;
+      box-shadow: if($variant == 'light', $header-shadow-light,
+                                          $header-shadow-dark);
 
       .button.image-button,
       .button.text-button {
@@ -492,6 +552,11 @@ $full_orientation: ((top, bottom),
       > GtkImage { // gear icon in settings-view
         &:dir(ltr) { padding-left: 4px; }
         &:dir(rtl) { padding-right: 4px; }
+      }
+
+      .linked.stack-switcher > .button.text-button {
+        // show underlines for :checked only
+        &:not(:checked) { border-image: none; }
       }
     }
 
@@ -569,7 +634,7 @@ $full_orientation: ((top, bottom),
     &:hover { color: $fg_color; }
     &:selected {
       color: $selected_bg_color;
-      &:hover { background-color: gtkopacity($selected_bg_color, 0.1); }
+      &:hover { background-color: $track_color; }
     }
 
     .separator { color: gtkopacity($insensitive_fg_color, 0.55); }
@@ -614,7 +679,7 @@ $full_orientation: ((top, bottom),
       padding: 0.5em;
       border-radius: 100px;
       outline-radius: 100px;
-      color: gtkopacity($destructive_color, 0.75);
+      color: gtkopacity($destructive_color, 0.87);
       &:hover,
       &:active,
       &:checked { color: $destructive_color; }
@@ -822,19 +887,89 @@ $full_orientation: ((top, bottom),
 }
 
 // workspace-switcher applet
-.start-region,
-.center-region,
-.end-region {
-  .top & {
-    WnckPager{
-      &:selected { box-shadow: inset 0 2px $selected_bg_color; }
+@each $position, $_line in (top, 0 2px), // legacy
+                           (bottom, 0 -2px),
+                           (left, 2px 0),
+                           (right, -2px 0) {
+  .#{$position}.budgie-container wnck-pager {
+    &:hover { box-shadow: inset #{$_line} gtkalpha($inverted_fg_color, 0.4); }
+    &:selected { box-shadow: inset #{$_line} $selected_bg_color; }
+  }
+}
+
+GtkWidget > GtkBox.workspace-switcher {
+  // main container
+  > GtkBox.workspace-layout {
+    GtkWidget.workspace-item {
+      @each $position, $_size in (top, 98% 2px),
+                                 (bottom, 98% 2px),
+                                 (left, 2px 98%),
+                                 (right, 2px 98%) {
+        .#{$position}.budgie-container & {
+          background-image: linear-gradient(to bottom,
+                                            gtkopacity($inverted_fg_color, 0.4));
+          background-position: #{$position} center;
+          background-repeat: no-repeat;
+          background-size: #{$_size};
+          transition-duration: 0s; // for underline-indicators
+
+          &.current-workspace {
+            background-image: linear-gradient(to bottom, $selected_bg_color);
+          }
+        }
+      }
+
+      .button.workspace-icon-button {
+        padding: 4px;
+        border-radius: 2px;
+
+        > gtkImage { opacity: 0.54; }
+
+        &:hover,
+        &:active {
+          -gtk-image-effect: highlight;
+
+          > GtkImage { opacity: 0.87; }
+        }
+      }
+
+      // counter
+      .label.workspace-more-label {
+        font-weight: 700;
+        opacity: 0.54;
+      }
+
+      &.current-workspace {
+        .button.workspace-icon-button {
+          > GtkImage { opacity: 1.0; }
+
+          &:hover,
+          &:active { -gtk-image-effect: highlight; }
+        }
+
+        .label.workspace-more-label { opacity: 1.0; }
+      }
     }
   }
 
-  .bottom & {
-    WnckPager {
-      &:selected { box-shadow: inset 0 -2px $selected_bg_color; }
+  // 'plus' button
+  .button.image-button.workspace-add-button { // expanded?
+    @extend %button_flat_normal;
+    padding: 4px;
+    border-radius: 0;
+    color: $inverted_secondary_accent_label_color;
+    background-color: transparent;
+    &:hover {
+      @extend %button_flat_hover;
+      background-color: transparent;
+      color: $inverted_accent_label_color;
     }
+    &:active {
+      @extend %button_flat_active;
+      background-color: transparent;
+      color: $inverted_accent_label_color;
+    }
+    &:insensitive { @include button(flat-insensitive); }
   }
 }
 
@@ -874,7 +1009,7 @@ $full_orientation: ((top, bottom),
   GtkProgressBar { // mimic level-bar
     &.trough {
       color: $inverted_fg_color;
-      background-color: $track_color;
+      background-color: $outline_track_color;
     }
   }
 
@@ -928,7 +1063,7 @@ $full_orientation: ((top, bottom),
     background-color: transparent;
     &:hover,
     &:active {
-      background-color: gtkopacity($accent_color, 0.1);
+      background-color: gtkopacity($accent_color, 0.12);
       color: $inverted_accent_label_color;
     }
     &:selected { // use the same values with Gnome-Shell
@@ -936,7 +1071,7 @@ $full_orientation: ((top, bottom),
       color: $inverted_accent_label_color;
       -gtk-image-effect: highlight;
       &:insensitive {
-        background-color: gtkopacity($inverted_fg_color, 0.1);
+        background-color: gtkopacity($inverted_fg_color, 0.12);
         -gtk-image-effect: dim;
 
         &, .label { color: $insensitive_inverted_fg_color; }
@@ -1295,7 +1430,7 @@ UnityPanelWidget,
       border-image: -gtk-gradient(radial,
                                   center bottom, 0,
                                   center bottom, 0.5,
-                                  to($track_color),
+                                  to($outline_track_color),
                                   to(transparent))
                                   0 0 1 / 0 0 1px;
       color: $inverted_fg_color;
@@ -1315,7 +1450,7 @@ UnityPanelWidget,
         border-image: -gtk-gradient(radial,
                                     center bottom, 0,
                                     center bottom, 0.5,
-                                    to($track_color),
+                                    to($outline_track_color),
                                     to(transparent))
                                     0 0 1 / 0 0 1px;
         color: $insensitive_inverted_fg_color;
@@ -1345,6 +1480,19 @@ UnityPanelWidget,
 
   #buttonbox_frame {
     padding-top: 8px; // reserve gap between infobar and buttonbox
+  }
+
+  // non-CSD context menus
+  GtkWindow.background.popup > .menu {
+    margin: unset;
+    padding: 1px;
+    border-radius: 0;
+    border-width: 1px;
+    border-style: solid;
+    border-color: $menu_highlight_color
+                  $solid_light_borders_color
+                  $solid_light_borders_color;
+    background-clip: border-box;
   }
 }
 
@@ -1395,6 +1543,12 @@ GtkStack .button.profile-button {
 
 .nemo-desktop.nemo-canvas-item {
   @extend .nautilus-desktop.nautilus-canvas-item;
+}
+
+.nemo {
+  &-canvas-item { @extend .nautilus-canvas-item; }
+
+  &-list-dim-label { @extend .nautilus-list-dim-label; }
 }
 
 NemoWindow {
@@ -1481,7 +1635,7 @@ NemoWindow {
       border-image: -gtk-gradient(radial,
                                   center bottom, 0,
                                   center bottom, 0.001,
-                                  to($track_color),
+                                  to($outline_track_color),
                                   to(transparent))
                                   0 0 0 / 0 0 0px;
       background-color: transparent;
@@ -1583,7 +1737,7 @@ CcShellCategoryView { // stop using $base_color
       color: $selected_fg_color;
       background-color: transparent;
       background-image: none;
-      box-shadow: inset 0 -2px $track_color;
+      box-shadow: inset 0 -2px $outline_track_color;
       transition: none;
     }
     &:active,
@@ -1598,7 +1752,7 @@ CcShellCategoryView { // stop using $base_color
       animation: none;
     }
     &:active {
-      &, &:hover { background-color: gtkopacity($inverted_fg_color, 0.1); }
+      &, &:hover { background-color: gtkopacity($inverted_fg_color, 0.12); }
     }
   }
 

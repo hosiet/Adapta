@@ -10,24 +10,27 @@ Before using Adapta
 
 Adapta strongly depends on Material Design resources, especially its **fonts**.
 
- 1. [**Noto Sans**](https://fonts.google.com/specimen/Noto+Sans)
+ 1. [**Roboto**](https://fonts.google.com/specimen/Roboto)
+   - Very famous as the default truetype font in Android (English ver.).
+   - Multilingual support is not good.
+   - Weight used in Adapta: 300, 400, 500, 700
+
+ 2. [**Noto Sans**](https://fonts.google.com/specimen/Noto+Sans)
    - Noto (NO TOfu) sans-serif truetype/opentype font covers a lot of languages.
    - Developed by Monotype and Adobe.
    - Weight used in Adapta: 400, (500), 700
 
- 2. [**Roboto**](https://fonts.google.com/specimen/Roboto)
-   - Very famous as the default truetype font in Android (English ver.).
-   - Multilingual support is not good.
-   - Weight used in Adapta: 400, 500, 700
+| |Primary|Fallback|
+|:-----:|:-----:|:-----:|
+|Gnome-Shell >= 3.26|**Roboto**|Sans-serif|
+|Gnome-Shell =< 3.24|**NotoSans**|Sans-serif|
+|Cinnamon           |**NotoSans**|Sans-serif|
 
 > **Note:**
 >
 > * Roboto is very nice with Adapta, but in some locales, it causes Tofu.
 > * NotoSans may work well in vairous locales, but NotoSans lacks 500 (Medium) weight. So elements defined with 500 will be drawn with 400 automatically.
 > * NotoSans CJK supports 500 weight.
-
-Adapta uses **NotoSans** as the primary font-family in Gnome-Shell and Cinnamon (Cantarell is for fallback).
-In some distributions, users may need to install `fonts-noto-hinted`.
 
 Adapta is designed with nominal **13px (or 14px)** Roboto font.
 In Gnome, "window-scaling-factor = 1.0" means `-gtk-dpi = 96`, it also means:
@@ -109,17 +112,15 @@ Unsupported Gtk+ Based Desktop(s)
 
 Installation from Package(s)
 ----------------------------
- * AUR: https://aur.archlinux.org/packages/adapta-gtk-theme/
+ * Arch Linux (community): https://www.archlinux.org/packages/community/any/adapta-gtk-theme/
 
  * Copr: https://copr.fedorainfracloud.org/coprs/heikoada/gtk-themes/
 
- * OBS (openSUSE Tumbleweed): https://build.opensuse.org/package/show/home:Ronis_BR/adapta-gtk-theme
+ * openSUSE (Tumbleweed): package can be found in official repositories
 
  * PPA: https://launchpad.net/~tista/+archive/ubuntu/adapta
 
- > **Note:**
- >
- >   * Solus OS has an eopkg (ypkg) in main repository.
+ * Solus OS:  package can be found in official repositories
 
 Installation from Git Source
 ----------------------------
@@ -141,29 +142,26 @@ Installation from Git Source
  * inkscape                                  >= 0.91
  * libgdk-pixbuf2.0-dev (gdk-pixbuf2-devel)  >= 2.32.2
  * libglib2.0-dev (glib2-devel)              >= 2.48.0
- * librsvg2-dev (librsvg2-devel)             >= 2.40.13
  * libsass0 (libsass)                        >= 3.3
  * libxml2-utils (libxml2)
  * pkg-config (pkgconfig)
  * sassc                                     >= 3.3
 
- * gnome-shell                               >= 3.18.3 (if --enable-gnome)
  * parallel                                  (if --enable-parallel)
  ```
 
  > **Note:**
  >
- >   * In OpenSUSE, add 3 extra dependencies:
+ >   * In OpenSUSE, add an extra dependency:
  >
  >     ```
  >     gdk-pixbuf-devel        >= 2.32.2
- >     gdk-pixbuf-loader-rsvg  >= 2.40.13
- >     librsvg-devel           >= 2.40.13
  >     ```
  >
  >   * Adapta employs **SassC** wrapper of `libsass` to generate CSS stylesheets.
  >   * Adapta uses `inkscape` to generate installable PNG files.
  >   * Adapta uses `glib-compile-resources` to compile the gresource files for Gtk+ and Gnome-Shell.
+ >   * `glib-2.0 >= 2.53`, Gnome-Shell 3.26 theming is used if `--enable-gnome`.
 
 3. Build and install system-wide:
 
@@ -220,11 +218,14 @@ Installation from Git Source
  --enable-gtk_next      enable Gtk+ 4.0 support (type: bool)
  ```
 
-7. To change the default 5 **Key-Colors**, pass these options:
+ > **Note:**
+ >
+ >   * Development for Gtk+ 3.18.x theming is over.
+
+7. To change the default 4 **Key-Colors**, pass these options:
 
  ```
  --with-selection_color        Primary color for 'selected-items' (Default: #00BCD4 = Cyan500, type: string)
- --with-second_selection_color Primary color for 'select' effects (Default: #4DD0E1 = Cyan300, type: string)
  --with-accent_color           Secondary color for notifications and OSDs (Default: #4DB6AC = Teal300, type: string)
  --with-suggestion_color       Secondary color for 'suggested' buttons (Default: #009688 = Teal500, type: string)
  --with-destruction_color      Tertiary color for 'destructive' buttons (Default: #FF5252 = RedA200, type: string)
@@ -237,28 +238,34 @@ Installation from Git Source
  >   * The Material Design Color Palette can be found [here](https://www.google.com/design/spec/style/color.html#color-color-palette).
  >   * Example: If you would like to use 'Teal500' as selection_color, use this:
  >
- >     ```./autogen.sh --with-selection_color=#009688 --with-second_selection_color=#4DB6AC```
+ >     ```./autogen.sh --with-selection_color=#009688```
  >
  >     This switchese the theme to almost Teal key colors.
  >   * Basically `selection_color` and `suggestion_color` should use `500` colors,
- >     and `second_selection_color` and `accent_color` should use `300` colors.
- >   * While doing `make`, Adapta changes those 5 colors in all stylesheets and images,
+ >     and `accent_color` should use `300` colors.
+ >   * While doing `make`, Adapta changes those 4 colors in all stylesheets and images,
  >     and `make clean` cleans up all generated files from source directories.
  >   * This feature unfortunately is not supported in `Openbox-3` and `Telegram 1.0` theming.
 
 GtkSourceView/Gedit Color Scheme Support
----------------------------------------
+----------------------------------------
  A theme file `adapta.xml` is installed by default into `Adapta(-Nokto)/gedit` directory.
  See details in [`README.md`](/extra/gedit/README.md).
 
  > **Note:**
  >
- >   * The color-scheme can be used in Gnome-Builder and Gedit if installed to `~/.local/share/gtksourceview-3.0/styles` directory.
+ >   * The color-scheme can be used in Gnome-Builder, Gnome-Sushi, Meld and Gedit if installed to `~/.local/share/gtksourceview-3.0/styles` directory.
  >   * Currently only dark-variant is supported.
+
+Visual Studio Code (VS Code) Theme Support
+------------------------------------------
+ [**Visual Studio Marketplace**](https://marketplace.visualstudio.com/items?itemName=SolarLiner.linux-themes)
+
+ Author: SolarLiner
 
 Extra Browser Support
 ---------------------
- To try experimental browser specific theming, pass this option:
+ To try legacy Chrome(ium) specific theming (`< 59.0.30xx`), pass this option:
 
  ```
  --enable-chrome         enable Chrome(ium) support (type: bool)
@@ -268,8 +275,8 @@ Extra Browser Support
 
  > **Note:**
  >
- >   * Currently only Chrome(ium) theming is supported.
  >   * Chrome(ium) 59.0.30xx or newer, theming is pulled from Gtk+ 3.x directly.
+ >     So `Settings > Appearance > Themes` should be `GTK+`.
  >
  >   * Vivaldi can make custom themes via settings like these:
  >     ```
@@ -323,14 +330,12 @@ Extra Telegram Support
 
 Work in Progress
 ----------------
+* Performance tuning
 * Conversion to Gtk+ 4.0
 
 TODO
 ----
 * Prepare for Meson build system (priority: high)
-* Prepare for FlatPak packaging (priority: mid)
-* Prepare for Steam theming (priority: Low)
-* Add Firefox specific theming (priority: undecided)
 
 Public License
 --------------
