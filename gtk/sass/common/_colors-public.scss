@@ -97,7 +97,8 @@
 // * used in wm/metacity-1/metacity-theme-3.xml
 //
 
-@define-color theme_unfocused_inverted_fg_color #{"" + $unfocused_inverted_fg_color};
+@define-color theme_unfocused_inverted_fg_color #{"" +
+              $unfocused_inverted_fg_color};
 
 
 //
@@ -108,11 +109,12 @@
 
 
 //
-// Text inverted color for entries, views and content in general on backdrop windows
-// * used in wm/metacity-1/metacity-theme-3.xml
+// Text inverted color for entries, views and content in general on backdrop
+// windows used in wm/metacity-1/metacity-theme-3.xml
 //
 
-@define-color theme_unfocused_inverted_text_color #{"" + $insensitive_inverted_fg_color};
+@define-color theme_unfocused_inverted_text_color #{"" +
+              $insensitive_inverted_fg_color};
 
 
 //
@@ -195,4 +197,25 @@
 //
 
 @define-color content_view_bg #{"" + $base_color};
+
+
+//
+// Budgie-desktop specific indicator colours
+//
+
+// unfocused window 'dot(s)'
+@define-color budgie_tasklist_indicator_color #{"" +
+              $selected_bg_color};
+// focused window 'line'
+@define-color budgie_tasklist_indicator_color_active #{"" +
+              $selected_bg_color};
+// group-ed and unfocused window 'line(s)'
+@define-color budgie_tasklist_indicator_color_active_window #{"" +
+              mix($selected_bg_color, $panel_bg_color, 54%)};
+// attention 'dot'
+// FIXME: we can't fill whole widget backgrounds with our suggestion colour
+//        because of lacking specific style-class on 'needs_attention' state,
+//        so use warning orange dot instead.
+@define-color budgie_tasklist_indicator_color_attention #{"" +
+              $warning_color};
 

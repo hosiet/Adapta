@@ -19,19 +19,13 @@
 }
 
 $font-family: Noto Sans, Sans-Serif;
-$mono-font-family: Noto Mono, Monospace;
+$font-family-for-ornament: Sans-Serif;
 
 stage {
   @include fontscaling($ref_size);
   font-family: $font-family;
-  font-weight: 400;
   color: $fg_color;
 }
-
-
-// /***********
-//  * Widgets *
-//  ***********/
 
 
 // /***********
@@ -40,7 +34,7 @@ stage {
 
 .button {
   @include button(flat-normal);
-  padding: if($eta == 'false', 7px 16px 8px, 5px 12px 6px);
+  padding: if($eta == false, 7px 16px 8px, 5px 12px 6px);
   border-radius: 2px;
   border-width: 0;
   font-weight: 500;
@@ -51,7 +45,7 @@ stage {
 }
 
 .modal-dialog-linked-button {
-  padding: if($eta == 'false', 9px 16px 10px, 6px 12px 7px);
+  padding: if($eta == false, 9px 16px 10px, 6px 12px 7px);
   border: none;
   color: $inverted_secondary_accent_label_color;
   background-color: transparent;
@@ -94,9 +88,9 @@ stage {
 
 StEntry {
   @include entry(normal);
-  min-height: if($eta == 'false', 1em + 0.7em + 0.8em,
-                                  1em + 0.5em + 0.6em);
-  padding: if($eta == 'false', 0 0.8em, 0 0.6em);
+  min-height: if($eta == false, 1em + 0.7em + 0.8em,
+                                1em + 0.5em + 0.6em);
+  padding: if($eta == false, 0 0.8em, 0 0.6em);
   border-radius: 0;
   border-width: 0;
   color: $osd_fg_color;
@@ -129,8 +123,8 @@ StScrollBar {
   padding: 0;
 
   StScrollView & {
-    min-width: if($eta == 'false', 0.45em, 0.3em);
-    min-height: if($eta == 'false', 0.45em, 0.3em);
+    min-width: if($eta == false, 0.45em, 0.3em);
+    min-height: if($eta == false, 0.45em, 0.3em);
   }
 
   StBin#trough {
@@ -220,14 +214,14 @@ StScrollBar {
 
 .shell-link {
   border-radius: 2px;
-  color: $link_color;
+  color: $link_label_color;
   &:hover {
-    color: $link_color;
-    background-color: shellopacity($link_color, 0.12);
+    color: $link_label_color;
+    background-color: shellopacity($link_label_color, 0.12);
   }
   &:active {
-    color: $link_color;
-    background-color: shellopacity($link_color, 0.25);
+    color: $link_label_color;
+    background-color: shellopacity($link_label_color, 0.25);
   }
 }
 
@@ -249,26 +243,26 @@ StScrollBar {
   background-color: shellopacity($osd_bg_color, 0.9);
   box-shadow: $z-depth-4;
 
-  &-content-box { padding: if($eta == 'false', 24px, 20px); }
+  &-content-box { padding: if($eta == false, 24px, 20px); }
 
   .run-dialog {
     &-entry {
       width: 20em;
-      margin-bottom: if($eta == 'false', 6px, 4px);
+      margin-bottom: if($eta == false, 6px, 4px);
     }
 
     &-error-box {
       @include fontscaling($ref_size * 0.9);
-      padding-top: if($eta == 'false', 16px, 12px);
-      spacing: if($eta == 'false', 6px, 4px);
+      padding-top: if($eta == false, 16px, 12px);
+      spacing: if($eta == false, 6px, 4px);
       color: $error_color;
     }
 
-    &-button-box { padding-top: if($eta == 'false', 1em, 0.7em); }
+    &-button-box { padding-top: if($eta == false, 1em, 0.7em); }
 
     &-label {
       @include fontscaling($ref_size * 1.1);
-      padding-bottom: if($eta == 'false', 0.4em, 0.3em);
+      padding-bottom: if($eta == false, 0.4em, 0.3em);
       font-weight: 400;
       color: $osd_tertiary_fg_color;
     }
@@ -287,26 +281,26 @@ StScrollBar {
 //  **********************/
 
 .end-session-dialog {
-  spacing: if($eta == 'false', 42px, 30px);
+  spacing: if($eta == false, 42px, 30px);
   border: none;
 
-  &-list { padding-top: if($eta == 'false', 20px, 14px); }
+  &-list { padding-top: if($eta == false, 20px, 14px); }
 
   &-layout {
-    &:ltr { padding-left: if($eta == 'false', 17px, 12px); }
-    &:rtl { padding-right: if($eta == 'false', 17px, 12px); }
+    &:ltr { padding-left: if($eta == false, 17px, 12px); }
+    &:rtl { padding-right: if($eta == false, 17px, 12px); }
   }
 
   &-description {
     width: 28em;
-    padding-bottom: if($eta == 'false', 10px, 7px);
+    padding-bottom: if($eta == false, 10px, 7px);
     &:ltr { text-align: left; }
     &:rtl { text-align: right; }
   }
 
   &-warning {
     width: 28em;
-    padding-top: if($eta == 'false', 6px, 4px);
+    padding-top: if($eta == false, 6px, 4px);
     color: $warning_color;
     &:ltr { text-align: left; }
     &:rtl { text-align: right; }
@@ -327,14 +321,14 @@ StScrollBar {
   }
 
   &-inhibitor-layout {
-    spacing: if($eta == 'false', 16px, 12px);
-    max-height: if($eta == 'false', 200px, 180px);
-    padding-right: if($eta == 'false', 65px, 50px);
-    padding-left: if($eta == 'false', 65px, 50px);
+    spacing: if($eta == false, 16px, 12px);
+    max-height: if($eta == false, 200px, 180px);
+    padding-right: if($eta == false, 65px, 50px);
+    padding-left: if($eta == false, 65px, 50px);
   }
 
   &-session-list,
-  &-app-list { spacing: if($eta == 'false', 1em, 0.7em); }
+  &-app-list { spacing: if($eta == false, 1em, 0.7em); }
 
   &-list-header {
     font-weight: 700;
@@ -343,7 +337,7 @@ StScrollBar {
   }
 
   &-app-list-item,
-  &-session-list-item { spacing: if($eta == 'false', 1em, 0.7em); }
+  &-session-list-item { spacing: if($eta == false, 1em, 0.7em); }
 
   &-app-list-item-name,
   &-session-list-item-name { font-weight: 700; }
@@ -367,45 +361,45 @@ StScrollBar {
 
 .show-processes,
 .mount-question {
-  &-dialog { spacing: if($eta == 'false', 24px, 18px); }
+  &-dialog { spacing: if($eta == false, 24px, 18px); }
 
   &-dialog-subject {
-    padding-top: if($eta == 'false', 10px, 8px);
-    padding-bottom: if($eta == 'false', 6px, 5px);
-    &:ltr { padding-left: if($eta == 'false', 17px, 12px); }
-    &:rtl { padding-right: if($eta == 'false', 17px, 12px); }
+    padding-top: if($eta == false, 10px, 8px);
+    padding-bottom: if($eta == false, 6px, 5px);
+    &:ltr { padding-left: if($eta == false, 17px, 12px); }
+    &:rtl { padding-right: if($eta == false, 17px, 12px); }
   }
 
   &-dialog-description {
     width: 28em;
-    &:ltr { padding-left: if($eta == 'false', 17px, 12px); }
-    &:rtl { padding-right: if($eta == 'false', 17px, 12px); }
+    &:ltr { padding-left: if($eta == false, 17px, 12px); }
+    &:rtl { padding-right: if($eta == false, 17px, 12px); }
   }
 }
 
 .show-processes-dialog {
   &-app-list {
-    max-height: if($eta == 'false', 200px, 180px);
-    padding-top: if($eta == 'false', 24px, 18px);
+    max-height: if($eta == false, 200px, 180px);
+    padding-top: if($eta == false, 24px, 18px);
     &:ltr {
-      padding-left: if($eta == 'false', 49px, 37px);
-      padding-right: if($eta == 'false', 32px, 26px);
+      padding-left: if($eta == false, 49px, 37px);
+      padding-right: if($eta == false, 32px, 26px);
     }
     &:rtl {
-      padding-right: if($eta == 'false', 49px, 37px);
-      padding-left: if($eta == 'false', 32px, 26px);
+      padding-right: if($eta == false, 49px, 37px);
+      padding-left: if($eta == false, 32px, 26px);
     }
 
     &-item {
       color: $osd_secondary_fg_color;
       &:hover { color: $osd_fg_color; }
-      &:ltr { padding-right: if($eta == 'false', 1em, 0.7em); }
-      &:rtl { padding-left: if($eta == 'false', 1em, 0.7em); }
+      &:ltr { padding-right: if($eta == false, 1em, 0.7em); }
+      &:rtl { padding-left: if($eta == false, 1em, 0.7em); }
     }
 
     &-item-icon {
-      &:ltr { padding-right: if($eta == 'false', 17px, 12px); }
-      &:rtl { padding-left: if($eta == 'false', 17px, 12px); }
+      &:ltr { padding-right: if($eta == false, 17px, 12px); }
+      &:rtl { padding-left: if($eta == false, 17px, 12px); }
     }
 
     &-item-name { @include fontscaling($ref_size * 1.0); }
@@ -423,11 +417,11 @@ StScrollBar {
   border: none;
 
   &-main-layout {
-    spacing: if($eta == 'false', 24px, 18px);
-    padding: if($eta == 'false', 10px, 8px);
+    spacing: if($eta == false, 24px, 18px);
+    padding: if($eta == false, 10px, 8px);
   }
 
-  &-message-layout { spacing: if($eta == 'false', 16px, 12px); }
+  &-message-layout { spacing: if($eta == false, 16px, 12px); }
 
   &-headline {
     @include fontscaling($ref_size * 1.3);
@@ -442,12 +436,12 @@ StScrollBar {
 
   &-password-box {
     spacing: 1em;
-    padding-bottom: if($eta == 'false', 1em, 0.7em);
+    padding-bottom: if($eta == false, 1em, 0.7em);
   }
 
   &-error-label {
     @include fontscaling($ref_size * 1.0);
-    padding-bottom: if($eta == 'false', 8px, 6px);
+    padding-bottom: if($eta == false, 8px, 6px);
     color: $error_color;
   }
 
@@ -467,9 +461,9 @@ StScrollBar {
 
 .polkit-dialog {
   &-user-layout {
-    spacing: if($eta == 'false', 10px, 7px);
-    &:ltr { padding-left: if($eta == 'false', 10px, 7px); }
-    &:rtl { padding-right: if($eta == 'false', 10px, 7px); }
+    spacing: if($eta == false, 10px, 7px);
+    &:ltr { padding-left: if($eta == false, 10px, 7px); }
+    &:rtl { padding-right: if($eta == false, 10px, 7px); }
   }
 
   &-user-root-label { color: $warning_color; }
@@ -487,12 +481,12 @@ StScrollBar {
 //  * Audio Selection Dialog *
 //  **************************/
 
-.audio-device-selection-dialog { spacing: if($eta == 'false', 3em, 2.2em); }
+.audio-device-selection-dialog { spacing: if($eta == false, 3em, 2.2em); }
 
 .audio-selection {
   &-content {
-    padding: if($eta == 'false', 2.2em, 1.8em);
-    spacing: if($eta == 'false', 2em, 1.6em);
+    padding: if($eta == false, 2.2em, 1.8em);
+    spacing: if($eta == false, 2em, 1.6em);
   }
 
   &-title {
@@ -500,7 +494,7 @@ StScrollBar {
     text-align: center;
   }
 
-  &-box { spacing: if($eta == 'false', 2em, 1.6em); }
+  &-box { spacing: if($eta == false, 2em, 1.6em); }
 
   &-device {
     border: 1px solid $borders_color;
@@ -514,8 +508,8 @@ StScrollBar {
   }
 
   &-device-box {
-    padding: if($eta == 'false', 2em, 1.6em);
-    spacing: if($eta == 'false', 2em, 1.6em);
+    padding: if($eta == false, 2em, 1.6em);
+    spacing: if($eta == false, 2em, 1.6em);
   }
 
   &-device-icon { icon-size: 64px; }
@@ -527,16 +521,16 @@ StScrollBar {
 //  *****************/
 
 .access-dialog {
-  spacing: if($eta == 'false', 30px, 24px);
+  spacing: if($eta == false, 30px, 24px);
 
   &-main-layout {
-    padding: if($eta == 'false', 1em 1.6em 0, 0.7em 1.2em 0);
-    spacing: if($eta == 'false', 1em, 0.7em);
+    padding: if($eta == false, 1em 1.6em 0, 0.7em 1.2em 0);
+    spacing: if($eta == false, 1em, 0.7em);
   }
 
   &-content {
     max-width: 28em;
-    spacing: if($eta == 'false', 2em, 1.6em);
+    spacing: if($eta == false, 2em, 1.6em);
   }
 
   &-icon {
@@ -559,11 +553,11 @@ StScrollBar {
 //  **********************/
 
 .geolocation-dialog {
-  spacing: if($eta == 'false', 30px, 24px);
+  spacing: if($eta == false, 30px, 24px);
 
-  &-main-layout { spacing: if($eta == 'false', 1em, 0.7em); }
+  &-main-layout { spacing: if($eta == false, 1em, 0.7em); }
 
-  &-content { spacing: if($eta == 'false', 2em, 1.6em); }
+  &-content { spacing: if($eta == false, 2em, 1.6em); }
 
   &-icon { icon-size: 48px; }
 
@@ -591,6 +585,9 @@ StScrollBar {
 //  * Popovers/Menus *
 //  ******************/
 
+$default_spacing: if($eta == false, 8px, 6px);
+$extra_spacing: 2.5px;
+
 .popup-menu {
   min-width: 15em;
 
@@ -598,23 +595,37 @@ StScrollBar {
     border-bottom: 1px solid $borders_color;
     background-color: $secondary_dark_color;
     box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.12);
+
+    // sub-menu 'label-only' item indentations
+    .popup-menu-item > StLabel:first-child {
+      // .popup-menu-icon width + child spacing
+      // + avatar icon's extra spacing
+      &:ltr {
+        margin-left: 16px;
+        padding-left: $default_spacing * 2 + $extra_spacing;
+      }
+      &:rtl {
+        margin-right: 16px;
+        padding-right: $default_spacing * 2 + $extra_spacing;
+      }
+    }
   }
 
-  .popup-menu-content { padding: if($eta == 'false', 0.45em 0, 0.3em 0); }
+  .popup-menu-content { padding: if($eta == false, 0.3em 0, 0.21em 0); }
 
   .popup-menu-item {
-    spacing: if($eta == 'false', 8px, 6px);
+    spacing: $default_spacing;
     color: $secondary_fg_color;
     font-weight: 400;
     transition-duration: 0s;
 
     &:ltr {
-      padding: if($eta == 'false', 0.45em 1.75em 0.45em 0,
-                                   0.3em 1.2em 0.3em 0);
+      padding: if($eta == false, 0.45em 1.75em 0.45em 0,
+                                 0.3em 1.2em 0.3em 0);
     }
     &:rtl {
-      padding: if($eta == 'false', 0.45em 0 0.45em 1.75em,
-                                   0.3em 0 0.3em 1.2em);
+      padding: if($eta == false, 0.45em 0 0.45em 1.75em,
+                                 0.3em 0 0.3em 1.2em);
     }
 
     &:checked {
@@ -703,10 +714,14 @@ StScrollBar {
   &-icon { icon-size: 16px; }
 
   &-ornament {
-    width: 1.2em;
+    @include fontscaling($ref_size * 1.1);
+    width: 1.1em; // protect the region
     height: 0; // trick for minimum separator-menu-item height
+    padding-top: 1.3px; // not need to scale
     color: $selected_bg_color;
     text-align: right;
+    font-family: $font-family-for-ornament;
+    font-weight: 700;
   }
 }
 
@@ -759,9 +774,6 @@ StScrollBar {
 }
 
 // an avatar icon in menus
-$default_spacing: if($eta == 'false', 8px, 6px);
-$extra_spacing: 2.5px;
-
 .system-switch-user-submenu-icon {
   &.user-icon {
     icon-size: 16px + 4px;
@@ -774,69 +786,6 @@ $extra_spacing: 2.5px;
   }
 }
 
-// Volume-mixer extension
-.masterslider.smaller {
-  .masterlabel,
-  .slider {
-    min-width: 15em - (0.4em * 2);
-  }
-}
-
-
-// /*******************************
-//  * Applications Menu Extension *
-//  *******************************/
-
-.popup-menu {
-  // '.apps-menu' is the child boxLayout (right-pane)
-  StScrollView.apps-menu {
-    margin: 0 4px;
-    border-style: solid;
-    border-color: $borders_color;
-
-    &:ltr {
-      padding: if($eta == 'false', 0 0 0 12px, 0 0 0 8px);
-      border-left-width: 1px;
-    }
-    &:rtl {
-      padding: if($eta == 'false', 0 12px 0 0, 0 8px 0 0);
-      border-right-width: 1px;
-    }
-  }
-}
-
-
-// /**********************
-//  * Arc Menu Extension *
-//  **********************/
-
-.main-box {
-  background-color: $secondary_base_color;
-
-  .popup-menu {
-    &:ltr { padding-right: 4px; }
-    &:rtl { padding-left: 4px; }
-  }
-
-  // use tiny padding
-  .system-menu-action {
-    &,
-    &:focus,
-    &:hover,
-    &:active,
-    &:checked { padding: 10px; }
-  }
-
-  StScrollView.apps-menu { // left-pane
-    margin-bottom: if($eta == 'false', 6px, 4px);
-    padding: 0;
-    border-width: 1px;
-    background-color: $bg_color;
-
-    StIcon { icon-size: 16px; }
-  }
-}
-
 
 // /*******
 //  * OSD *
@@ -845,8 +794,8 @@ $extra_spacing: 2.5px;
 .osd-window {
   min-width: 64px;
   min-height: 64px;
-  margin: if($eta == 'false', 32px, 24px);
-  spacing: if($eta == 'false', 1em, 0.7em);
+  margin: if($eta == false, 32px, 24px);
+  spacing: if($eta == false, 1em, 0.7em);
   font-weight: 700;
   text-align: center;
 
@@ -872,13 +821,13 @@ $extra_spacing: 2.5px;
 
 .pad-osd {
   &-window {
-    padding: if($eta == 'false', 32px, 26px);
+    padding: if($eta == false, 32px, 26px);
     background-color: shellopacity($osd_bg_color, 0.9);
 
     .pad-osd-title {
-      &-box { spacing: if($eta == 'false', 12px, 10px); }
+      &-box { spacing: if($eta == false, 12px, 10px); }
 
-      &-menu-box { spacing: if($eta == 'false', 6px, 5px); }
+      &-menu-box { spacing: if($eta == false, 6px, 5px); }
     }
   }
 }
@@ -891,8 +840,8 @@ $extra_spacing: 2.5px;
 //  ****************/
 
 .switcher-popup {
-  padding: if($eta == 'false', 8px, 6px);
-  spacing: if($eta == 'false', 16px, 12px);
+  padding: if($eta == false, 8px, 6px);
+  spacing: if($eta == false, 16px, 12px);
 }
 
 .osd-window,
@@ -907,14 +856,14 @@ $extra_spacing: 2.5px;
     min-height: 13.3px * 2; // use 'px' unit
   }
 
-  &-item-container { spacing: if($eta == 'false', 8px, 6px); }
+  &-item-container { spacing: if($eta == false, 8px, 6px); }
 
   .item-box {
-    padding: if($eta == 'false', 8px, 6px);
+    padding: if($eta == false, 8px, 6px);
     border-radius: 2px;
 
     &:outlined {
-      padding: if($eta == 'false', 6px, 4px);
+      padding: if($eta == false, 6px, 4px);
       border: 2px solid $osd_outline_fill_color;
     }
     &:selected {
@@ -928,7 +877,7 @@ $extra_spacing: 2.5px;
     spacing: 4px;
   }
 
-  .thumbnail { width: if($eta == 'false', 256px, 192px); }
+  .thumbnail { width: if($eta == false, 256px, 192px); }
 
   .separator {
     width: 1px;
@@ -945,9 +894,9 @@ $extra_spacing: 2.5px;
 }
 
 .input-source-switcher-symbol {
-  @include fontscaling($ref_size * if($eta == 'false', 3.0, 2.4));
-  width: if($eta == 'false', 96px, 72px);
-  height: if($eta == 'false', 96px, 72px);
+  @include fontscaling($ref_size * if($eta == false, 3.0, 2.4));
+  width: if($eta == false, 96px, 72px);
+  height: if($eta == false, 96px, 72px);
 }
 
 
@@ -968,19 +917,19 @@ $extra_spacing: 2.5px;
 
 .workspace-switcher {
   padding: 0;
-  spacing: if($eta == 'false', 8px, 6px);
+  spacing: if($eta == false, 8px, 6px);
   border: 0;
   border-radius: 0;
   background: transparent;
 
-  &-group { padding: if($eta == 'false', 12px, 8px); }
+  &-group { padding: if($eta == false, 12px, 8px); }
 
   &-container { @extend %osd-panel; }
 }
 
 .ws-switcher {
   &-active-up {
-    height: if($eta == 'false', 50px, 36px);
+    height: if($eta == false, 50px, 36px);
     background-color: $accent_fill_color;
     background-image: url("assets/go-up.svg");
     background-size: 24px;
@@ -988,7 +937,7 @@ $extra_spacing: 2.5px;
   }
 
   &-active-down {
-    height: if($eta == 'false', 50px, 36px);
+    height: if($eta == false, 50px, 36px);
     background-color: $accent_fill_color;
     background-image: url("assets/go-down.svg");
     background-size: 24px;
@@ -996,7 +945,7 @@ $extra_spacing: 2.5px;
   }
 
   &-box {
-    height: if($eta == 'false', 50px, 36px);
+    height: if($eta == false, 50px, 36px);
     border: 2px solid $osd_outline_fill_color;
     border-radius: 2px;
     background: transparent;
@@ -1006,7 +955,7 @@ $extra_spacing: 2.5px;
 %osd-panel {
   // the value of bottom-padding is shared with '.switcher-arrow' size,
   // so do not reduce to < 12px (StDrawingArea)
-  padding: if($eta == 'false', 16px, 12px);
+  padding: if($eta == false, 16px, 12px);
   border-radius: 2px;
   border: none;
   color: $osd_fg_color;
@@ -1036,11 +985,11 @@ $extra_spacing: 2.5px;
 
 #panel {
   // default height
-  min-height: if($eta == 'false', 30px,  // = 2.25em
-                                  25px); // = 1.875em
+  min-height: if($eta == false, 30px,  // = 2.25em
+                                25px); // = 1.875em
   // special height for upscaled via font-scaling-factor
   // this should be always smaller than min-height if f-s-f < 1.0
-  height: if($eta == 'false', 2.1em, 1.8em);
+  height: if($eta == false, 2.1em, 1.8em);
   background-color: $panel_bg_color;
   font-weight: 700;
   transition-timing-function: $slope_slow;
@@ -1071,7 +1020,7 @@ $extra_spacing: 2.5px;
     &:hover,
     &:focus {
       background-color: $panel_hidden_fill_color;
-      box-shadow: inset 0 2px $osd_fill_color;
+      box-shadow: inset 0 2px $osd_outline_fill_color;
     }
     &:active,
     &:overview {
@@ -1088,12 +1037,14 @@ $extra_spacing: 2.5px;
       -panel-corner-border-color: transparent;
     }
 
-    StLabel { padding: if($eta == 'false', 0 4px 1px, 0 2px 1px); }
+    StLabel { padding: if($eta == false, 0 4px 1px, 0 2px 1px); }
+
+    StIcon { margin-top: 1px; } // reset base-line
   }
 
   .panel-button {
-    -natural-hpadding: if($eta == 'false', 10px, 6px);
-    -minimum-hpadding: if($eta == 'false', 10px, 6px);
+    -natural-hpadding: if($eta == false, 10px, 6px);
+    -minimum-hpadding: if($eta == false, 10px, 6px);
     color: $osd_fg_color;
     font-weight: 700;
     // FIXME: once these buttons are placed in panel-corners,
@@ -1103,13 +1054,13 @@ $extra_spacing: 2.5px;
 
     .app-menu-icon { // dimensions of the icon are hardcoded
       -st-icon-style: symbolic;
-      padding: if($eta == 'false', 0 5px, 0 2px);
+      padding: if($eta == false, 0 5px, 0 2px);
     }
 
     &:hover {
       color: $selected_fg_color;
       background-color: $panel_hidden_fill_color;
-      box-shadow: inset 0 2px $osd_fill_color;
+      box-shadow: inset 0 2px $osd_outline_fill_color;
     }
     &:active,
     &:focus,
@@ -1126,10 +1077,12 @@ $extra_spacing: 2.5px;
 
     .system-status-icon {
       icon-size: 16px;
-      padding: if($eta == 'false', 0 5px, 0 3px);
+      padding: if($eta == false, 0 5px, 0 3px);
     }
 
-    StLabel { padding: if($eta == 'false', 0 4px 1px, 0 2px 1px); }
+    StLabel { padding: if($eta == false, 0 4px 1px, 0 2px 1px); }
+
+    StIcon { margin-top: 1px; } // reset base-line
 
     &,
     &:hover,
@@ -1161,17 +1114,17 @@ $extra_spacing: 2.5px;
 //  ********************/
 
 #calendarArea {
-  padding: if($eta == 'false', 0.75em 1.0em,
-                               0.5em 0.7em);
+  padding: if($eta == false, 0.75em 1.0em,
+                             0.5em 0.7em);
 }
 
-.calendar { margin-bottom: if($eta == 'false', 1em, 0.7em); }
+.calendar { margin-bottom: if($eta == false, 1em, 0.7em); }
 
 .calendar,
 .datemenu-today-button,
 .datemenu-displays-box,
 .message-list-sections {
-  margin: if($eta == 'false', 0 1.5em, 0 1em);
+  margin: if($eta == false, 0 1.5em, 0 1em);
 }
 
 .datemenu { // optimize spacing
@@ -1179,7 +1132,7 @@ $extra_spacing: 2.5px;
 
   &-displays-section { padding-bottom: 0; }
 
-  &-displays-box { spacing: if($eta == 'false', 1em, 0.7em); }
+  &-displays-box { spacing: if($eta == false, 1em, 0.7em); }
 }
 
 // pane-separator between messages and calendar
@@ -1353,10 +1306,10 @@ $extra_spacing: 2.5px;
 
   &-with-events {
     background-image: none;
-    color: $link_color;
+    color: $link_label_color;
     font-weight: 700;
     text-decoration: underline;
-    &:hover { background-color: shellopacity($link_color, 0.2); }
+    &:hover { background-color: shellopacity($link_label_color, 0.2); }
     &:active,
     &:selected {
       &, &:hover {
@@ -1396,14 +1349,20 @@ $extra_spacing: 2.5px;
 }
 
 .calendar-other-month-day {
-  color: $tertiary_fg_color;
+  color: shellopacity($tertiary_fg_color, 0.55);
   &:hover,
-  &:focus { background-color: shellopacity($tertiary_fg_color, 0.12); }
+  &:focus {
+    color: $tertiary_fg_color;
+    background-color: shellopacity($tertiary_fg_color, 0.12);
+  }
 
   &.calendar-day-with-events {
-    color: shellopacity($link_color, 0.54);
+    color: shellopacity($link_label_color, 0.54 * 0.55);
     &:hover,
-    &:focus { background-color: shellopacity($link_color, 0.54 * 0.12); }
+    &:focus {
+      color: shellopacity($link_label_color, 0.54);
+      background-color: shellopacity($link_label_color, 0.54 * 0.12);
+    }
   }
 }
 
@@ -1413,10 +1372,10 @@ $extra_spacing: 2.5px;
 //  ****************/
 
 .message-list {
-  width: if($eta == 'false', 420px, 380px);
+  width: if($eta == false, 420px, 380px);
 
   &-clear-button.button { // 'Clear all' button
-    margin:  if($eta == 'false', 1.5em 1.5em 0, 1.2em 1.2em 0);
+    margin:  if($eta == false, 1.5em 1.5em 0, 1.2em 1.2em 0);
     color: $secondary_accent_label_color;
     background-color: transparent;
     font-weight: 700;
@@ -1433,7 +1392,7 @@ $extra_spacing: 2.5px;
     &:insensitive { @include button(flat-insensitive); }
   }
 
-  &-sections { spacing: if($eta == 'false', 1.5em, 1.2em); }
+  &-sections { spacing: if($eta == false, 1.5em, 1.2em); }
 
   &-section,
   &-section-list { spacing: 0.7em; }
@@ -1527,6 +1486,8 @@ $extra_spacing: 2.5px;
     &:rtl { margin: 4px - 2px 6px 0 0; }
 
     > StIcon {
+      min-width: 16px;  // for an indentation of .message-content
+      min-height: 16px; // reserve StIcon region even if StIcon was null
       color: $osd_fg_color;
       icon-size: 16px;
       -st-icon-style: symbolic;
@@ -1611,13 +1572,13 @@ $extra_spacing: 2.5px;
 
 .media-message-cover-icon {
   // use 'important' flag to overrride .message-icon-bin > StIcon size
-  icon-size: if($eta == 'false', 48px, 36px) !important;
+  icon-size: if($eta == false, 48px, 36px) !important;
   // subtruct .message-content's 'close' button padding
   margin-bottom: 4px - 2px;
 
   &.fallback {
-    icon-size: if($eta == 'false', 24px, 16px) !important;
-    padding: if($eta == 'false', 12px, 10px);
+    icon-size: if($eta == false, 24px, 16px) !important;
+    padding: if($eta == false, 12px, 10px);
     border: none;
     border-radius: 2px;
     color: $osd_tertiary_fg_color;
@@ -1645,13 +1606,12 @@ $extra_spacing: 2.5px;
 
 #appMenu {
   spinner-image: url("process-working.svg");
-  padding: if($eta == 'false', 0 10px, 0 6px);
+  padding: if($eta == false, 0 10px, 0 6px);
 
-  StLabel { padding: if($eta == 'false', 0 4px 1px, 0 2px 1px); }
-
-  StIcon { // override StLabel base-line shifter
-    padding-top: 1px;
-    padding-bottom: 0;
+  // LR padding and make more gap between label and spinner
+  StLabel {
+    &:ltr { padding: if($eta == false, 0 10px 0 3px, 0 6px 0 2px); }
+    &:rtl { padding: if($eta == false, 0 3px 0 10px, 0 2px 0 6px); }
   }
 
   .label-shadow { color: transparent; }
@@ -1660,17 +1620,17 @@ $extra_spacing: 2.5px;
 .aggregate-menu {
   min-width: 24em;
 
-  .popup-menu-icon { padding: if($eta == 'false', 0 6px, 0 4px); }
+  .popup-menu-icon { padding: if($eta == false, 0 6px, 0 4px); }
 }
 
 .system-menu-action {
-  padding: if($eta == 'false', 16px, 10px);
+  padding: if($eta == false, 16px, 10px);
   border-radius: 100px;
   border: none;
   color: $secondary_accent_label_color;
   &:hover,
   &:focus {
-    padding: if($eta == 'false', 16px, 10px);
+    padding: if($eta == false, 16px, 10px);
     border: none;
     background-color: $accent_semi_fill_color;
     color: $accent_label_color;
@@ -1681,59 +1641,6 @@ $extra_spacing: 2.5px;
   }
 
   > StIcon { icon-size: 16px; }
-}
-
-
-// /*************************
-//  * OpenWeather Extension *
-//  *************************/
-
-// FIXME: Why devs use 'system-menu-action' class? wrong place...
-.openweather-button,
-.openweather-menu-button-container,
-.openweather-button-box,
-.openweather-provider {
-  color: $secondary_fg_color;
-  &:hover {
-    color: $fg_color;
-    background-color: $semi_fill_color;
-
-    > StIcon { color: $fg_color; }
-  }
-  &:active,
-  &:focus {
-    color: $fg_color;
-    background-color: $fill_color;
-
-    > StIcon { color: $fg_color; }
-  }
-
-  > StIcon,
-  > StLabel { color: $secondary_fg_color; }
-}
-
-.openweather-current {
-  &-icon,
-  &-summary,
-  &-summarybox { color: $fg_color; }
-
-  &-databox-values { color: $tertiary_fg_color; }
-
-  &-databox-captions { color: $tertiary_fg_color; }
-}
-
-.openweather-forecast {
-  &-icon,
-  &-summary { color: $secondary_fg_color; }
-
-  &-day,
-  &-temperature { color: $tertiary_fg_color; }
-}
-
-.openweather-sunrise-icon,
-.openweather-sunset-icon,
-.openweather-build-icon {
-  color: $secondary_fg_color;
 }
 
 
@@ -1780,12 +1687,12 @@ $extra_spacing: 2.5px;
   min-width: 34em;
 
   &-content {
-    spacing: if($eta == 'false', 20px, 16px);
-    padding: if($eta == 'false', 24px, 18px);
+    spacing: if($eta == false, 20px, 16px);
+    padding: if($eta == false, 24px, 18px);
   }
 
   &-header-hbox {
-    spacing: if($eta == 'false', 10px, 7px);
+    spacing: if($eta == false, 10px, 7px);
     // dimming for subtitle
     color: $osd_tertiary_fg_color;
   }
@@ -1803,7 +1710,7 @@ $extra_spacing: 2.5px;
 
   &-airplane {
     &-box {
-      spacing: if($eta == 'false', 12px, 9px);
+      spacing: if($eta == false, 12px, 9px);
 
       .button {
         color: $inverted_secondary_accent_label_color;
@@ -1834,8 +1741,8 @@ $extra_spacing: 2.5px;
 
   &-item {
     @include fontscaling($ref_size * 1.0);
-    spacing: if($eta == 'false', 20px, 16px);
-    padding: if($eta == 'false', 12px, 8px);
+    spacing: if($eta == false, 20px, 16px);
+    padding: if($eta == false, 12px, 8px);
     color: $osd_fg_color;
     &:selected {
       background-color: $selected_bg_color;
@@ -1851,7 +1758,7 @@ $extra_spacing: 2.5px;
 .no-networks {
   &-label { color: $osd_tertiary_fg_color; }
 
-  &-box { spacing: if($eta == 'false', 12px, 8px); }
+  &-box { spacing: if($eta == false, 12px, 8px); }
 }
 
 
@@ -1860,19 +1767,19 @@ $extra_spacing: 2.5px;
 //  ************/
 
 #overview {
-  spacing: if($eta == 'false', 24px, 18px);
+  spacing: if($eta == false, 24px, 18px);
 
-  &-controls { padding-bottom: if($eta == 'false', 32px, 26px); }
+  &-controls { padding-bottom: if($eta == false, 32px, 26px); }
 }
 
 .window-picker { // container around window thumbnails
-  -horizontal-spacing: if($eta == 'false', 32px, 26px);
-  -vertical-spacing: if($eta == 'false', 32px, 26px);
-  padding-left: if($eta == 'false', 32px, 26px);
-  padding-right: if($eta == 'false', 32px, 26px);
-  padding-bottom: if($eta == 'false', 48px, 36px);
+  -horizontal-spacing: if($eta == false, 32px, 26px);
+  -vertical-spacing: if($eta == false, 32px, 26px);
+  padding-left: if($eta == false, 32px, 26px);
+  padding-right: if($eta == false, 32px, 26px);
+  padding-bottom: if($eta == false, 48px, 36px);
 
-  &.external-monitor { padding: if($eta == 'false', 32px, 26px); }
+  &.external-monitor { padding: if($eta == false, 32px, 26px); }
 }
 
 .window-clone-border {
@@ -1885,12 +1792,12 @@ $extra_spacing: 2.5px;
 }
 
 .window-caption {
-  spacing: if($eta == 'false', 25px, 19px);
-  padding: if($eta == 'false', 0.3em 0.9em 0.4em, 0.2em 0.6em 0.3em);
+  spacing: if($eta == false, 25px, 19px);
+  padding: if($eta == false, 0.3em 0.9em 0.4em, 0.2em 0.6em 0.3em);
   border-radius: 2px;
   color: $osd_fg_color;
   background-color: shellopacity($osd_bg_color, 0.9);
-  -shell-caption-spacing: if($eta == 'false', 12px, 8px);
+  -shell-caption-spacing: if($eta == false, 12px, 8px);
   box-shadow: $z-depth-1;
   &:hover {
     color: $osd_fg_color;
@@ -1901,12 +1808,12 @@ $extra_spacing: 2.5px;
 
 // Search entry
 .search-entry { // use raised entry-box styling
-  width: if($eta == 'false', 400px, 340px);
-  padding: if($eta == 'false', 0.4em 0.8em, 0.3em 0.6em);
+  width: if($eta == false, 400px, 340px);
+  padding: if($eta == false, 0.4em 0.8em, 0.3em 0.6em);
   border-radius: 100px;
   border-top: 1px solid transparent;
   color: $tertiary_fg_color;
-  background-color: if($nokto == 'false', shellopacity($base_color, 0.54),
+  background-color: if($nokto == false, shellopacity($base_color, 0.54),
                                           shellopacity($panel_bg_color, 0.54));
   box-shadow: $empty_shadow;
   font-weight: 400;
@@ -1919,11 +1826,11 @@ $extra_spacing: 2.5px;
 
   &:hover,
   &:focus {
-    border-top: 1px solid if($nokto == 'false',
+    border-top: 1px solid if($nokto == false,
                              $borders_highlight,
                              shellopacity($borders_highlight, 0.54));
     color: $fg_color;
-    background-color: if($nokto == 'false', $base_color, $panel_bg_color);
+    background-color: if($nokto == false, $base_color, $panel_bg_color);
     box-shadow: $z-depth-2;
   }
 
@@ -1944,21 +1851,21 @@ $provider_icon_size: 32px;
 #searchResultsBin { max-width: 1000px; }
 
 #searchResultsContent {
-  spacing: if($eta == 'false', $provider_icon_size / 2,
-                               $provider_icon_size / 4);
-  padding: if($eta == 'false', $provider_icon_size / 2,
-                               $provider_icon_size / 4);
+  spacing: if($eta == false, $provider_icon_size / 2,
+                             $provider_icon_size / 4);
+  padding: if($eta == false, $provider_icon_size / 2,
+                             $provider_icon_size / 4);
 }
 
  // This should be equal to #searchResultsContent spacing
 .search-section {
-  spacing: if($eta == 'false', $provider_icon_size / 2,
-                               $provider_icon_size / 4);
+  spacing: if($eta == false, $provider_icon_size / 2,
+                             $provider_icon_size / 4);
 
   // This is the space between the provider icon and the results container
   &-content {
-    spacing: if($eta == 'false', $provider_icon_size / 2,
-                                 $provider_icon_size / 4);
+    spacing: if($eta == false, $provider_icon_size / 2,
+                               $provider_icon_size / 4);
   }
 
   &-separator {
@@ -1969,12 +1876,12 @@ $provider_icon_size: 32px;
     -gradient-start: $osd_outline_fill_color;
     -gradient-end: $osd_outline_fill_color;
     &:ltr {
-      margin-left: if($eta == 'false', $provider_icon_size * (2 + 0.5),
-                                       $provider_icon_size * (2 + 0.25));
+      margin-left: if($eta == false, $provider_icon_size * (2 + 0.5),
+                                     $provider_icon_size * (2 + 0.25));
     }
     &:rtl {
-      margin-right: if($eta == 'false', $provider_icon_size * (2 + 0.5),
-                                        $provider_icon_size * (2 + 0.25));
+      margin-right: if($eta == false, $provider_icon_size * (2 + 0.5),
+                                      $provider_icon_size * (2 + 0.25));
     }
   }
 }
@@ -2026,10 +1933,10 @@ $provider_icon_size: 32px;
     }
 
     &-content {
-      spacing: if($eta == 'false', $provider_icon_size / 2,
-                                   $provider_icon_size / 4);
-      padding: if($eta == 'false', $provider_icon_size / 2,
-                                   $provider_icon_size / 4);
+      spacing: if($eta == false, $provider_icon_size / 2,
+                                 $provider_icon_size / 4);
+      padding: if($eta == false, $provider_icon_size / 2,
+                                 $provider_icon_size / 4);
       // concern the rows without 48px icons
       min-height: $provider_icon_size * (1.5 + 0.5);
     }
@@ -2049,7 +1956,7 @@ $provider_icon_size: 32px;
 
 .search-provider {
   &-icon {
-    margin: if($eta == 'false', $provider_icon_size / 4 0, 0);
+    margin: if($eta == false, $provider_icon_size / 4 0, 0);
     padding: $provider_icon_size / 2;
     border: none;
     border-radius: 100px;
@@ -2115,104 +2022,14 @@ $provider_icon_size: 32px;
 }
 
 .dash-label { // osd tooltip
-  padding: if($eta == 'false', 0.3em 0.9em 0.4em, 0.2em 0.6em 0.3em);
+  padding: if($eta == false, 7px 8px 8px,
+                             6px 7px 7px); // non-scalable unit instead
   border-radius: 2px;
   color: $osd_fg_color;
   background-color: shellopacity($osd_bg_color, 0.9);
   box-shadow: $z-depth-2;
   text-align: center;
   -x-offset: 8px;
-}
-
-// Add Dash to Dock Support
-#dashtodockContainer {
-  background: transparent;
-
-  #dash,
-  &:overview #dash,
-  &.extended #dash,
-  &.extended:overview #dash {
-    padding: 0;
-    border: none;
-    box-shadow: $empty_shadow;
-    transition-duration: $duration_long;
-  }
-
-  @each $_dock, $_radius in (top, 0 0 2px 2px),
-                            (bottom, 2px 2px 0 0),
-                            (left, 0 2px 2px 0),
-                            (right, 2px 0 0 2px) {
-    &.#{$_dock} #dash {
-      border-radius: #{$_radius};
-      background-color: $panel_fill_color;
-    }
-    &.#{$_dock}:overview #dash {
-      border-radius: #{$_radius};
-      background-color: $osd_semi_fill_color;
-    }
-    &.#{$_dock}.extended #dash {
-      border-radius: 0;
-      background-color: $panel_fill_color;
-    }
-    &.#{$_dock}.extended:overview #dash {
-      border-radius: 0;
-      background-color: $osd_semi_fill_color;
-    }
-  }
-
-  .app-well-app {
-    &-running-dot { background: transparent; }
-
-    .overview-icon {
-      padding: 9px;
-      background-size: contain;
-    }
-  }
-
-  .show-apps .overview-icon {
-    padding: 9px;
-  }
-
-  .dash-item-container { // actual parent container
-    background: transparent;
-
-    > StWidget { background-size: contain; }
-  }
-}
-
-// running-dot styling
-@each $_dock, $_dot, $_inv in (top, -top, -top),
-                              (bottom, -bottom, -bottom),
-                              (left, -left, -right),
-                              (right, -right, -left) {
-  #dashtodockContainer.#{$_dock},
-  #dashtodockContainer.extended.#{$_dock} {
-    @each $_num in 1, 2, 3, 4 {
-      &:ltr {
-        .dash-item-container > StWidget.running#{$_num} {
-          background-image: url("assets/dot/running#{$_num}#{$_dot}.svg");
-          &.focused {
-            background-image:
-              url("assets/dot/running#{$_num}#{$_dot}-focused.svg");
-          }
-        }
-      }
-      &:rtl {
-        .dash-item-container > StWidget.running#{$_num} {
-          background-image: url("assets/dot/running#{$_num}#{$_inv}.svg");
-          &.focused {
-            background-image:
-              url("assets/dot/running#{$_num}#{$_inv}-focused.svg");
-          }
-        }
-      }
-    }
-  }
-}
-
-// Add Simple Dock Support
-#dash:desktop {
-  background-color: $osd_bg_color;
 }
 
 // App Vault/Grid
@@ -2227,14 +2044,14 @@ $provider_icon_size: 32px;
 // .app-display { spacing: 20px; }
 
 .app-view-controls { // favorites | all toggle container
-  width: if($eta == 'false', 400px, 340px);
-  padding-bottom: if($eta == 'false', 24px, 18px);
+  width: if($eta == false, 400px, 340px);
+  padding-bottom: if($eta == false, 24px, 18px);
   background-color: $hidden_fill_color !important;
   box-shadow: inset 0 1px $osd_outline_fill_color;
 }
 
 .app-view-control { // favorties | all toggle button
-  padding: if($eta == 'false', 7px 32px 8px, 5px 32px 6px);
+  padding: if($eta == false, 7px 32px 8px, 5px 32px 6px);
   border-radius: 0;
   font-weight: 700;
   color: $osd_secondary_fg_color;
@@ -2267,11 +2084,17 @@ $provider_icon_size: 32px;
 .show-apps,
 .grid-search-result {
   .overview-icon {
-    @extend %icon_tile;
+    padding: 9px;
+    border: none;
+    border-radius: 2px;
     color: $osd_fg_color;
+    text-align: center;
     transition-duration: 0s;
 
-    StLabel { text-shadow: $z-depth-1; }
+    // FIXME: on some GPUs, text-shadow property strongly affects to rendering
+    // performance while transitioning #overview <-> .all-apps, so do not set
+    // label shadows.
+    StLabel { padding-top: 6px; } // for HiDPI
   }
 
   &:focus .overview-icon,
@@ -2281,9 +2104,7 @@ $provider_icon_size: 32px;
     background-color: $osd_semi_fill_color;
     background-image: none;
     color: $selected_fg_color;
-    transition-duration: 0s;
-
-    StLabel { text-shadow: $z-depth-2; }
+    transition-duration: $duration_short;
   }
 
   &:active .overview-icon {
@@ -2292,8 +2113,6 @@ $provider_icon_size: 32px;
     background-image: none;
     color: $selected_fg_color;
     transition-duration: $duration_medium;
-
-    StLabel { text-shadow: $z-depth-2; }
   }
 
   &:checked .overview-icon {
@@ -2301,9 +2120,7 @@ $provider_icon_size: 32px;
     background-color: $hidden_fill_color;
     color: $selected_fg_color;
     box-shadow: inset 0 -2px $osd_indicator_color;
-    transition-duration: $duration_long;
-
-    StLabel { text-shadow: $z-depth-1; }
+    transition-duration: 0s;
   }
 }
 
@@ -2319,7 +2136,7 @@ $provider_icon_size: 32px;
     &:hover .overview-icon,
     &:focus .overview-icon {
       background-color: $osd_semi_fill_color;
-      transition-duration: 0s;
+      transition-duration: $duration_short;
     }
 
     &:active .overview-icon {
@@ -2329,9 +2146,10 @@ $provider_icon_size: 32px;
 
     &:checked .overview-icon,
     &:checked:hover .overview-icon {
-      background-color: $hidden_fill_color;
+      background-color: shellopacity($osd_indicator_color, 0.12);
+      color: $osd_indicator_color;
       box-shadow: $empty_shadow;
-      transition-duration: $duration_long;
+      transition-duration: 0s;
     }
   }
 }
@@ -2343,41 +2161,11 @@ $provider_icon_size: 32px;
   background-color: $osd_indicator_color;
 }
 
-%icon_tile {
-  padding: 9px;
-  border: none;
-  border-radius: 2px;
-  color: $osd_fg_color;
-  transition-duration: $duration_medium;
-  text-align: center;
-
-  StLabel { padding-top: 6px; }
-}
-
 .show-apps {
-  .show-apps-icon {
-    border: none;
-    background-image: url("assets/show-apps.svg");
-    background-size: contain;
-    color: transparent;
-    transition-duration: $duration_long;
-    -st-background-image-shadow: $z-depth-1;
-  }
+  .show-apps-icon { border: none; }
 
-  &:hover .show-apps-icon,
-  &:active .show-apps-icon,
-  &:focus .show-apps-icon {
-    color: transparent;
-    background-image: url("assets/show-apps-hover.svg");
-    transition-duration: $duration_long;
-    -st-background-image-shadow: $z-depth-1;
-  }
-  &:checked .show-apps-icon {
-    color: transparent;
-    background-image: url("assets/show-apps-checked.svg");
-    transition-duration: $duration_long;
-    -st-background-image-shadow: $z-depth-2;
-  }
+  &:checked .show-apps-icon,
+  &:checked:hover .show-apps-icon { color: $osd_indicator_color; }
 }
 
 // Collections
@@ -2475,90 +2263,6 @@ $provider_icon_size: 32px;
 }
 
 
-// /***************************
-//  * Dash To Panel Extension *
-//  ***************************/
-
-@each $_position, $_line in (Top, 0 2px),
-                            (Bottom, 0 -2px) {
-  #panel.dashtopanelMainPanel.dashtopanel#{$_position} {
-    &:overview { box-shadow: inset #{$_line} $panel_bg_color; }
-
-    #panelLeft,
-    #panelCenter,
-    .panel-corner,
-    .panel-button {
-      &:hover {
-        box-shadow: inset #{$_line} $osd_outline_fill_color;
-      }
-      &:active,
-      &:focus,
-      &:checked,
-      &:overview {
-        box-shadow: inset #{$_line} $osd_indicator_color;
-      }
-    }
-
-    .app-well-app,
-    .show-apps {
-      .overview-icon { border-radius: 0; }
-
-      &:focus .overview-icon,
-      &:hover .overview-icon,
-      &:active .overview-icon {
-        border-radius: 0;
-        background-color: $hidden_fill_color;
-        box-shadow: inset #{$_line} $osd_outline_fill_color;
-      }
-      &:checked .overview-icon {
-        box-shadow: inset #{$_line} $osd_indicator_color;
-      }
-    }
-
-    #dashtopanelScrollview {
-      padding: 0;
-
-      .app-well-app,
-      .show-apps { // unset underlines
-        &:focus .overview-icon,
-        &:hover .overview-icon,
-        &:active .overview-icon {
-          background-color: $osd_semi_fill_color;
-          box-shadow: $empty_shadow;
-        }
-        &:checked .overview-icon {
-          background-color: $hidden_fill_color;
-          box-shadow: $empty_shadow;
-        }
-      }
-    }
-
-    .show-apps {
-      .show-apps-icon {
-        min-height: 24px;
-        background-image: url("assets/show-apps-panel.svg");
-        background-size: 32px 32px;
-        // FIXME: G-S can't recognize position property
-        // and may be aligned center automatically?
-        // background-position: center center;
-        transition-duration: 0s;
-        -st-background-image-shadow: none;
-      }
-
-      &:hover .show-apps-icon,
-      &:active .show-apps-icon,
-      &:focus .show-apps-icon {
-        background-image: url("assets/show-apps-panel-hover.svg");
-      }
-
-      &:checked .show-apps-icon {
-        background-image: url("assets/show-apps-panel-hover.svg");
-      }
-    }
-  }
-}
-
-
 // /*******************
 //  * Workspace Pager *
 //  *******************/
@@ -2628,23 +2332,12 @@ $provider_icon_size: 32px;
   color: $osd_tertiary_fg_color;
 }
 
-// Add Dash to Dock Support
-#workspacestodockContainer {
-  &,
-  &:overview,
-  &.fullheight:overview {
-    background-color: $panel_hidden_fill_color;
-
-    .workspace-thumbnails { background-color: transparent; }
-  }
-}
-
 
 // /********************************
 //  * Notifications & Message Tray *
 //  ********************************/
 
-.url-highlighter { link-color: $link_color; }
+.url-highlighter { link-color: $link_label_color; }
 
 // Banners
 .notification-banner {
@@ -2664,11 +2357,11 @@ $provider_icon_size: 32px;
   }
 
   .notification {
-    &-icon { padding: if($eta == 'false', 8px, 6px); }
+    &-icon { padding: if($eta == false, 8px, 6px); }
 
     &-content {
-      padding: if($eta == 'false', 8px, 6px);
-      spacing: if($eta == 'false', 8px, 6px);
+      padding: if($eta == false, 8px, 6px);
+      spacing: if($eta == false, 8px, 6px);
     }
 
     &-actions {
@@ -2695,7 +2388,7 @@ $provider_icon_size: 32px;
   }
 
   .notification-button {
-    padding: if($eta == 'false', 9px 4px 10px, 6px 3px 7px);
+    padding: if($eta == false, 9px 4px 10px, 6px 3px 7px);
     background-color: transparent;
     color: $inverted_secondary_accent_label_color;
     font-weight: 700;
@@ -2825,7 +2518,7 @@ $provider_icon_size: 32px;
 //  * Legacy Tray *
 //  ***************/
 
-$legacy_icon_size: if($eta == 'false', 24px, 16px);
+$legacy_icon_size: if($eta == false, 24px, 16px);
 
 .legacy-tray {
   padding: 0;
@@ -2883,15 +2576,15 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
 //  ************/
 
 // On-screen Keyboard
-#keyboard { background-color: shellopacity($panel_bg_color, 0.87); }
+#keyboard { background-color: shellopacity($panel_bg_color, 0.54); }
 
 .keyboard {
   &-layout {
-    spacing: if($eta == 'false', 12px, 8px);
-    padding: if($eta == 'false', 12px, 8px);
+    spacing: if($eta == false, 12px, 8px);
+    padding: if($eta == false, 12px, 8px);
   }
 
-  &-row { spacing: if($eta == 'false', 12px, 8px); }
+  &-row { spacing: if($eta == false, 12px, 8px); }
 
   &-key {
     @include fontscaling($ref_size * 2.0);
@@ -2934,7 +2627,7 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
     -arrow-border-color: transparent;
     -arrow-base: 0;
     -arrow-rise: 0;
-    -boxpointer-gap: if($eta == 'false', 12px, 8px);
+    -boxpointer-gap: if($eta == false, 12px, 8px);
     background-color: $suggested_color;
     color: $selected_fg_color;
     box-shadow: $z-depth-2;
@@ -3052,7 +2745,6 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
     color: $osd_fg_color;
     selection-background-color: $selected_bg_color;
     selected-color: $selected_fg_color;
-    font-family: $mono-font-family;
     transition-duration: 0s;
     &:hover { @include entry(hover, $fc: $osd_outline_fill_color); }
     &:focus { @include entry(focus, $fc: $osd_indicator_color); }
@@ -3124,11 +2816,14 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
   &-not-listed-button {
     // this class seems almost meaningless
     margin: 12px 0 0;
+
+    &:ltr { margin-right: 4px; }
+    &:rtl { margin-left: 4px; }
   }
 
   &-not-listed-label {
     @include fontscaling($ref_size * 0.9);
-    padding: 4px 4px 5px;
+    padding: 4px 0 5px;
     border-radius: 2px;
     color: $inverted_secondary_accent_label_color;
     font-weight: 700;
@@ -3152,7 +2847,6 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
 
   &-user-list {
     width: 23em;
-    padding: 4px;
     spacing: 12px;
 
     &:expanded .login-dialog-user-list-item {
@@ -3203,8 +2897,9 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
     color: $osd_secondary_fg_color;
     transition-duration: $duration_short;
 
-    &:ltr { padding-right: 1em; }
-    &:rtl { padding-left: 1em; }
+    // exclude timed-login-indicator
+    &:ltr .user-widget { padding-right: 1em; }
+    &:rtl .user-widget { padding-left: 1em; }
 
     &:focus {
       color: $osd_fg_color;
@@ -3225,13 +2920,13 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
     }
 
     .login-dialog-timed-login-indicator {
-      height: 2px;
-      margin: 2px 0 0 0;
-      background-color: $osd_fg_color;
+      height: 4px;
+      margin: 4px 0 0 0;
+      background-color: $secondary_accent_color;
     }
 
     &:focus .login-dialog-timed-login-indicator {
-      background-color: $osd_fg_color;
+      background-color: $accent_color;
     }
   }
 }
@@ -3246,8 +2941,8 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
 }
 
 .user-widget-label {
-  &:ltr { padding-left: 1.5em; }
-  &:rtl { padding-right: 1.5em; }
+  &:ltr { padding-left: 1em; }
+  &:rtl { padding-right: 1em; }
 }
 
 .login-dialog-prompt {
@@ -3393,7 +3088,7 @@ $tool_icon_size: 24px;
   box-shadow: $z-depth-4;
 
   > #Toolbar {
-    padding: if($eta == 'false', 0 8px, 0 6px);
+    padding: if($eta == false, 0 8px, 0 6px);
     border: none;
     border-radius: 0;
     background-color: $osd_bg_color;
@@ -3401,7 +3096,7 @@ $tool_icon_size: 24px;
 
     > StIcon { // 'color-picker' and 'trash'
       // base-line shift
-      padding: if($eta == 'false', 5px 4px 3px, 4px 3px 2px);
+      padding: if($eta == false, 5px 4px 3px, 4px 3px 2px);
     }
   }
 
@@ -3409,8 +3104,8 @@ $tool_icon_size: 24px;
 
   .notebook-tab {
     @include fontscaling($ref_size * 0.9);
-    min-height: $tool_icon_size + if($eta == 'false', 8px, 6px);
-    padding: if($eta == 'false', 0 8px * 2, 0 6px * 2);
+    min-height: $tool_icon_size + if($eta == false, 8px, 6px);
+    padding: if($eta == false, 0 8px * 2, 0 6px * 2);
     color: $osd_secondary_fg_color;
     font-family: $font-family; // stop using fixed-fonts
     font-weight: 700;
@@ -3461,8 +3156,8 @@ $tool_icon_size: 24px;
   }
 
   .shell-link {
-    color: $link_color;
-    &:hover { color: $link_color; }
+    color: $link_label_color;
+    &:hover { color: $link_label_color; }
   }
 }
 

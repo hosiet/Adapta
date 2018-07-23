@@ -12,17 +12,6 @@ gtk3_thumb_file = \
 gtk3_darkthumb_file = \
 	$(gtk3_assetdir)/thumbnail-dark.png
 
-gtk318dir   = $(srcdir)/gtk-3.18
-gtk318_file = \
-	$(gtk318dir)/gtk.css \
-	$(gtk318dir)/gtk-dark.css \
-	$(gtk318dir)/gtk.gresource
-
-gtk318noktodir   = $(srcdir)/gtk-3.18-nokto
-gtk318nokto_file = \
-	$(gtk318noktodir)/gtk.css \
-	$(gtk318noktodir)/gtk.gresource
-
 gtk320dir   = $(srcdir)/gtk-3.20
 gtk320_file = \
 	$(gtk320dir)/gtk.css \
@@ -67,6 +56,28 @@ gtk322noktoeta_file = \
 	$(gtk322noktoetadir)/gtk.css \
 	$(gtk322noktoetadir)/gtk.gresource
 
+gtk324dir   = $(srcdir)/gtk-3.24
+gtk324_file = \
+	$(gtk324dir)/gtk.css \
+	$(gtk324dir)/gtk-dark.css \
+	$(gtk324dir)/gtk.gresource
+
+gtk324etadir   = $(srcdir)/gtk-3.24-eta
+gtk324eta_file = \
+	$(gtk324etadir)/gtk.css \
+	$(gtk324etadir)/gtk-dark.css \
+	$(gtk324etadir)/gtk.gresource
+
+gtk324noktodir   = $(srcdir)/gtk-3.24-nokto
+gtk324nokto_file = \
+	$(gtk324noktodir)/gtk.css \
+	$(gtk324noktodir)/gtk.gresource
+
+gtk324noktoetadir   = $(srcdir)/gtk-3.24-nokto-eta
+gtk324noktoeta_file = \
+	$(gtk324noktoetadir)/gtk.css \
+	$(gtk324noktoetadir)/gtk.gresource
+
 gtk2dir   = $(srcdir)/gtk-2.0
 gtk2_file = \
 	$(gtk2dir)/3rd-party.rc \
@@ -109,6 +120,8 @@ gtk2_arrow_file = \
 gtk2_button_file = \
 	$(gtk2_assetdir)/Buttons/accent-flat-button-active.png \
 	$(gtk2_assetdir)/Buttons/accent-flat-button-hover.png \
+	$(gtk2_assetdir)/Buttons/buttonbox-flat-button-active.png \
+	$(gtk2_assetdir)/Buttons/buttonbox-flat-button-hover.png \
 	$(gtk2_assetdir)/Buttons/button-active.png \
 	$(gtk2_assetdir)/Buttons/button-hover.png \
 	$(gtk2_assetdir)/Buttons/button-insensitive.png \
@@ -293,6 +306,8 @@ gtk2_nokto_arrow_file = \
 gtk2_nokto_button_file = \
 	$(gtk2_assetdir)/Buttons/accent-flat-button-active.png \
 	$(gtk2_assetdir)/Buttons/accent-flat-button-hover.png \
+	$(gtk2_assetdir)/Buttons/buttonbox-flat-button-active-dark.png \
+	$(gtk2_assetdir)/Buttons/buttonbox-flat-button-hover-dark.png \
 	$(gtk2_assetdir)/Buttons/button-active-dark.png \
 	$(gtk2_assetdir)/Buttons/button-dark.png \
 	$(gtk2_assetdir)/Buttons/button-hover-dark.png \
@@ -473,7 +488,7 @@ indexeta_file       = $(srcdir)/index.theme-eta
 index_noktoeta_file = $(srcdir)/index.theme-nokto-eta
 
 sassc_option = -M -t compact
-parallel_option = -0 --no-notice --line-buffer --jobs 100%
+parallel_option = --null --no-notice --line-buffer --jobs 100%
 
 # *******************************************
 # * Generate CSS stylesheets and PNG images *
@@ -491,6 +506,10 @@ all:
 	$(MKDIR_P) $(srcdir)/gtk-3.22-eta && \
 	$(MKDIR_P) $(srcdir)/gtk-3.22-nokto && \
 	$(MKDIR_P) $(srcdir)/gtk-3.22-nokto-eta && \
+	$(MKDIR_P) $(srcdir)/gtk-3.24 && \
+	$(MKDIR_P) $(srcdir)/gtk-3.24-eta && \
+	$(MKDIR_P) $(srcdir)/gtk-3.24-nokto && \
+	$(MKDIR_P) $(srcdir)/gtk-3.24-nokto-eta && \
 	$(MKDIR_P) $(srcdir)/asset/assets-gtk2 && \
 	$(MKDIR_P) $(srcdir)/asset/assets-gtk2/Arrows && \
 	$(MKDIR_P) $(srcdir)/asset/assets-gtk2/Buttons && \
@@ -511,13 +530,6 @@ all:
 
 	cd $(srcdir)/gtk-2.0 && ./recolor-gtk2.sh
 
-if ENABLE_GTK_LEGACY
-	$(MKDIR_P) $(srcdir)/gtk-3.18
-	$(MKDIR_P) $(srcdir)/gtk-3.18-nokto
-	cd $(srcdir)/sass && $(SASSC) $(sassc_option) 3.18/gtk.scss ../gtk-3.18/gtk-contained.css
-	cd $(srcdir)/sass && $(SASSC) $(sassc_option) 3.18/gtk-dark.scss ../gtk-3.18/gtk-contained-dark.css
-	cp -Rv $(srcdir)/gtk-3.18/gtk-contained-dark.css $(srcdir)/gtk-3.18-nokto/gtk-contained-dark.css
-endif
 	cd $(srcdir)/sass && $(SASSC) $(sassc_option) 3.20/gtk.scss ../gtk-3.20/gtk-contained.css
 	cd $(srcdir)/sass && $(SASSC) $(sassc_option) 3.20/gtk-dark.scss ../gtk-3.20/gtk-contained-dark.css
 	cd $(srcdir)/sass && $(SASSC) $(sassc_option) 3.20/gtk-eta.scss ../gtk-3.20-eta/gtk-contained.css
@@ -526,10 +538,16 @@ endif
 	cd $(srcdir)/sass && $(SASSC) $(sassc_option) 3.22/gtk-dark.scss ../gtk-3.22/gtk-contained-dark.css
 	cd $(srcdir)/sass && $(SASSC) $(sassc_option) 3.22/gtk-eta.scss ../gtk-3.22-eta/gtk-contained.css
 	cd $(srcdir)/sass && $(SASSC) $(sassc_option) 3.22/gtk-dark-eta.scss ../gtk-3.22-eta/gtk-contained-dark.css
+	cd $(srcdir)/sass && $(SASSC) $(sassc_option) 3.24/gtk.scss ../gtk-3.24/gtk-contained.css
+	cd $(srcdir)/sass && $(SASSC) $(sassc_option) 3.24/gtk-dark.scss ../gtk-3.24/gtk-contained-dark.css
+	cd $(srcdir)/sass && $(SASSC) $(sassc_option) 3.24/gtk-eta.scss ../gtk-3.24-eta/gtk-contained.css
+	cd $(srcdir)/sass && $(SASSC) $(sassc_option) 3.24/gtk-dark-eta.scss ../gtk-3.24-eta/gtk-contained-dark.css
 	cp -Rv $(srcdir)/gtk-3.20/gtk-contained-dark.css $(srcdir)/gtk-3.20-nokto/gtk-contained-dark.css
 	cp -Rv $(srcdir)/gtk-3.20-eta/gtk-contained-dark.css $(srcdir)/gtk-3.20-nokto-eta/gtk-contained-dark.css
 	cp -Rv $(srcdir)/gtk-3.22/gtk-contained-dark.css $(srcdir)/gtk-3.22-nokto/gtk-contained-dark.css
 	cp -Rv $(srcdir)/gtk-3.22-eta/gtk-contained-dark.css $(srcdir)/gtk-3.22-nokto-eta/gtk-contained-dark.css
+	cp -Rv $(srcdir)/gtk-3.24/gtk-contained-dark.css $(srcdir)/gtk-3.24-nokto/gtk-contained-dark.css
+	cp -Rv $(srcdir)/gtk-3.24-eta/gtk-contained-dark.css $(srcdir)/gtk-3.24-nokto-eta/gtk-contained-dark.css
 
 if ENABLE_GTK_NEXT
 	$(MKDIR_P) $(srcdir)/gtk-4.0
@@ -575,8 +593,7 @@ if ENABLE_PARALLEL
 		render-assets-gtk3-slider.sh \
 		render-assets-gtk3-toggle.sh \
 		render-assets-gtk3-windowbutton.sh \
-		render-assets-gtk3-windowbutton-eta.sh \
-		clone-assets-gtk3.sh
+		render-assets-gtk3-windowbutton-eta.sh
 else
 	cd $(srcdir)/asset/assets-gtk2-scripts && \
 		./render-assets-gtk2.sh
@@ -584,11 +601,9 @@ else
 		./render-assets-gtk3.sh
 endif
 
-if ENABLE_GTK_LEGACY
-	cd $(srcdir)/sass && ./compile-gresource.sh 3.18
-endif
 	cd $(srcdir)/sass && ./compile-gresource.sh 3.20
 	cd $(srcdir)/sass && ./compile-gresource.sh 3.22
+	cd $(srcdir)/sass && ./compile-gresource.sh 3.24
 if ENABLE_GTK_NEXT
 	cd $(srcdir)/sass && ./compile-gresource.sh 4.0
 endif
@@ -608,23 +623,6 @@ install-data-local:
 	cp -Rv $(indexeta_file) $(adaptaetadir)/index.theme
 	cp -Rv $(index_noktoeta_file) $(noktoetadir)/index.theme
 
-if ENABLE_GTK_LEGACY
-	$(MKDIR_P) $(adaptadir)/gtk-3.0
-	cp -Rv $(gtk318_file) $(adaptadir)/gtk-3.0
-	cp -Rv $(gtk3_thumb_file) $(adaptadir)/gtk-3.0
-	$(MKDIR_P) $(noktodir)/gtk-3.0
-	cp -Rv $(gtk318nokto_file) $(noktodir)/gtk-3.0
-	cp -Rv $(gtk3_darkthumb_file) $(noktodir)/gtk-3.0/thumbnail.png
-
-	$(MKDIR_P) $(adaptadir)/gtk-3.20
-	cp -Rv $(gtk320_file) $(adaptadir)/gtk-3.20
-	$(MKDIR_P) $(adaptaetadir)/gtk-3.20
-	cp -Rv $(gtk320eta_file) $(adaptaetadir)/gtk-3.20
-	$(MKDIR_P) $(noktodir)/gtk-3.20
-	cp -Rv $(gtk320nokto_file) $(noktodir)/gtk-3.20
-	$(MKDIR_P) $(noktoetadir)/gtk-3.20
-	cp -Rv $(gtk320noktoeta_file) $(noktoetadir)/gtk-3.20
-else
 	$(MKDIR_P) $(adaptadir)/gtk-3.0
 	cp -Rv $(gtk320_file) $(adaptadir)/gtk-3.0
 	cp -Rv $(gtk3_thumb_file) $(adaptadir)/gtk-3.0
@@ -637,7 +635,7 @@ else
 	$(MKDIR_P) $(noktoetadir)/gtk-3.0
 	cp -Rv $(gtk320noktoeta_file) $(noktoetadir)/gtk-3.0
 	cp -Rv $(gtk3_darkthumb_file) $(noktoetadir)/gtk-3.0/thumbnail.png
-endif
+
 	$(MKDIR_P) $(adaptadir)/gtk-3.22
 	cp -Rv $(gtk322_file) $(adaptadir)/gtk-3.22
 	$(MKDIR_P) $(adaptaetadir)/gtk-3.22
@@ -646,6 +644,15 @@ endif
 	cp -Rv $(gtk322nokto_file) $(noktodir)/gtk-3.22
 	$(MKDIR_P) $(noktoetadir)/gtk-3.22
 	cp -Rv $(gtk322noktoeta_file) $(noktoetadir)/gtk-3.22
+
+	$(MKDIR_P) $(adaptadir)/gtk-3.24
+	cp -Rv $(gtk324_file) $(adaptadir)/gtk-3.24
+	$(MKDIR_P) $(adaptaetadir)/gtk-3.24
+	cp -Rv $(gtk324eta_file) $(adaptaetadir)/gtk-3.24
+	$(MKDIR_P) $(noktodir)/gtk-3.24
+	cp -Rv $(gtk324nokto_file) $(noktodir)/gtk-3.24
+	$(MKDIR_P) $(noktoetadir)/gtk-3.24
+	cp -Rv $(gtk324noktoeta_file) $(noktoetadir)/gtk-3.24
 
 	$(MKDIR_P) $(adaptadir)/gtk-2.0
 	$(MKDIR_P) $(adaptadir)/gtk-2.0/Arrows
@@ -800,57 +807,29 @@ endif
 # *******************
 
 uninstall-local:
-if ENABLE_GTK_LEGACY
-	test -e $(noktodir)/index.theme && rm -rfv $(noktodir)/index.theme
-	test -e $(noktodir)/gtk-3.0 && rm -rfv $(noktodir)/gtk-3.0
-	test -e $(noktodir)/gtk-3.20 && rm -rfv $(noktodir)/gtk-3.20
-	test -e $(noktodir)/gtk-3.22 && rm -rfv $(noktodir)/gtk-3.22
-	test -e $(noktodir)/gtk-2.0 && rm -rfv $(noktodir)/gtk-2.0
-else
 	test -e $(noktodir)/index.theme && rm -rfv $(noktodir)/index.theme
 	test -e $(noktodir)/gtk-3.0 && rm -rfv $(noktodir)/gtk-3.0
 	test -e $(noktodir)/gtk-3.22 && rm -rfv $(noktodir)/gtk-3.22
+	test -e $(noktodir)/gtk-3.24 && rm -rfv $(noktodir)/gtk-3.24
 	test -e $(noktodir)/gtk-2.0 && rm -rfv $(noktodir)/gtk-2.0
-endif
 
-if ENABLE_GTK_LEGACY
-	test -e $(adaptadir)/index.theme && rm -rfv $(adaptadir)/index.theme
-	test -e $(adaptadir)/gtk-3.0 && rm -rfv $(adaptadir)/gtk-3.0
-	test -e $(adaptadir)/gtk-3.20 && rm -rfv $(adaptadir)/gtk-3.20
-	test -e $(adaptadir)/gtk-3.22 && rm -rfv $(adaptadir)/gtk-3.22
-	test -e $(adaptadir)/gtk-2.0 && rm -rfv $(adaptadir)/gtk-2.0
-else
 	test -e $(adaptadir)/index.theme && rm -rfv $(adaptadir)/index.theme
 	test -e $(adaptadir)/gtk-3.0 && rm -rfv $(adaptadir)/gtk-3.0
 	test -e $(adaptadir)/gtk-3.22 && rm -rfv $(adaptadir)/gtk-3.22
+	test -e $(adaptadir)/gtk-3.24 && rm -rfv $(adaptadir)/gtk-3.24
 	test -e $(adaptadir)/gtk-2.0 && rm -rfv $(adaptadir)/gtk-2.0
-endif
 
-if ENABLE_GTK_LEGACY
-	test -e $(noktoetadir)/index.theme && rm -rfv $(noktoetadir)/index.theme
-	test -e $(noktoetadir)/gtk-3.0 && rm -rfv $(noktoetadir)/gtk-3.0
-	test -e $(noktoetadir)/gtk-3.20 && rm -rfv $(noktoetadir)/gtk-3.20
-	test -e $(noktoetadir)/gtk-3.22 && rm -rfv $(noktoetadir)/gtk-3.22
-	test -e $(noktoetadir)/gtk-2.0 && rm -rfv $(noktoetadir)/gtk-2.0
-else
 	test -e $(noktoetadir)/index.theme && rm -rfv $(noktoetadir)/index.theme
 	test -e $(noktoetadir)/gtk-3.0 && rm -rfv $(noktoetadir)/gtk-3.0
 	test -e $(noktoetadir)/gtk-3.22 && rm -rfv $(noktoetadir)/gtk-3.22
+	test -e $(noktoetadir)/gtk-3.24 && rm -rfv $(noktoetadir)/gtk-3.24
 	test -e $(noktoetadir)/gtk-2.0 && rm -rfv $(noktoetadir)/gtk-2.0
-endif
 
-if ENABLE_GTK_LEGACY
-	test -e $(adaptaetadir)/index.theme && rm -rfv $(adaptaetadir)/index.theme
-	test -e $(adaptaetadir)/gtk-3.0 && rm -rfv $(adaptaetadir)/gtk-3.0
-	test -e $(adaptaetadir)/gtk-3.20 && rm -rfv $(adaptaetadir)/gtk-3.20
-	test -e $(adaptaetadir)/gtk-3.22 && rm -rfv $(adaptaetadir)/gtk-3.22
-	test -e $(adaptaetadir)/gtk-2.0 && rm -rfv $(adaptaetadir)/gtk-2.0
-else
 	test -e $(adaptaetadir)/index.theme && rm -rfv $(adaptaetadir)/index.theme
 	test -e $(adaptaetadir)/gtk-3.0 && rm -rfv $(adaptaetadir)/gtk-3.0
 	test -e $(adaptaetadir)/gtk-3.22 && rm -rfv $(adaptaetadir)/gtk-3.22
+	test -e $(adaptaetadir)/gtk-3.24 && rm -rfv $(adaptaetadir)/gtk-3.24
 	test -e $(adaptaetadir)/gtk-2.0 && rm -rfv $(adaptaetadir)/gtk-2.0
-endif
 
 if ENABLE_GTK_NEXT
 	test -e $(noktodir)/gtk-4.0 && rm -rfv $(noktodir)/gtk-4.0
@@ -902,6 +881,22 @@ CLEANFILES = \
 	$(srcdir)/gtk-3.22-nokto-eta/gtk.css \
 	$(srcdir)/gtk-3.22-nokto-eta/gtk-contained-dark.css \
 	$(srcdir)/gtk-3.22-nokto-eta/gtk.gresource \
+	$(srcdir)/gtk-3.24/gtk.css \
+	$(srcdir)/gtk-3.24/gtk-dark.css \
+	$(srcdir)/gtk-3.24/gtk-contained.css \
+	$(srcdir)/gtk-3.24/gtk-contained-dark.css \
+	$(srcdir)/gtk-3.24/gtk.gresource \
+	$(srcdir)/gtk-3.24-eta/gtk.css \
+	$(srcdir)/gtk-3.24-eta/gtk-dark.css \
+	$(srcdir)/gtk-3.24-eta/gtk-contained.css \
+	$(srcdir)/gtk-3.24-eta/gtk-contained-dark.css \
+	$(srcdir)/gtk-3.24-eta/gtk.gresource \
+	$(srcdir)/gtk-3.24-nokto/gtk.css \
+	$(srcdir)/gtk-3.24-nokto/gtk-contained-dark.css \
+	$(srcdir)/gtk-3.24-nokto/gtk.gresource \
+	$(srcdir)/gtk-3.24-nokto-eta/gtk.css \
+	$(srcdir)/gtk-3.24-nokto-eta/gtk-contained-dark.css \
+	$(srcdir)/gtk-3.24-nokto-eta/gtk.gresource \
 	$(srcdir)/asset/assets-gtk2/*/*.svg \
 	$(srcdir)/asset/assets-gtk2/*/*.png \
 	$(srcdir)/asset/assets-gtk3/*.svg \
@@ -912,17 +907,6 @@ CLEANFILES = \
 	$(srcdir)/gtk-2.0/colors.rc \
 	$(srcdir)/gtk-2.0/colors-dark.rc \
 	$(srcdir)/xfce-notify-4.0/gtk.css
-if ENABLE_GTK_LEGACY
-CLEANFILES += \
-	$(srcdir)/gtk-3.18/gtk.css \
-	$(srcdir)/gtk-3.18/gtk-dark.css \
-	$(srcdir)/gtk-3.18/gtk-contained.css \
-	$(srcdir)/gtk-3.18/gtk-contained-dark.css \
-	$(srcdir)/gtk-3.18/gtk.gresource \
-	$(srcdir)/gtk-3.18-nokto/gtk.css \
-	$(srcdir)/gtk-3.18-nokto/gtk-contained-dark.css \
-	$(srcdir)/gtk-3.18-nokto/gtk.gresource
-endif
 if ENABLE_GTK_NEXT
 CLEANFILES += \
 	$(srcdir)/gtk-4.0/gtk.css \

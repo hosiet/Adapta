@@ -2,13 +2,17 @@
 //  * Gnome-Panel *
 //  ***************/
 
-panel-toplevel.background { background-color: $panel_bg_color; }
+panel-toplevel.background {
+  background-color: $panel_bg_color;
+
+  * { outline-width: 0; } // unset outlines
+}
 
 panel-applet,
 panel-plug,
 panel-toplevel > grid.horizontal > widget > widget {
   // Always use dark-color of dark variant
-  color: $inverted_secondary_fg_color;
+  color: $inverted_fg_color;
   background-color: $panel_bg_color;
   box-shadow: none;
 }
@@ -16,7 +20,7 @@ panel-toplevel > grid.horizontal > widget > widget {
 .gnome-panel-menu-bar,
 panel-applet > menubar,
 #clock-applet-button {
-  color: $inverted_secondary_fg_color;
+  color: $inverted_fg_color;
   background-color: transparent;
   box-shadow: none;
   font-weight: 700;
@@ -27,10 +31,10 @@ panel-applet menubar {
   > .gnome-panel-menu-item,
   > menuitem {
     padding: 0 rem(4px, $sw: 1.0);
-    color: $inverted_secondary_fg_color;
+    color: $inverted_fg_color;
     background-color: transparent;
     &:hover {
-      color: $inverted_fg_color;
+      color: $selected_fg_color;
       box-shadow: inset 0 -2px $selected_bg_color;
     }
   }
@@ -44,19 +48,26 @@ wnck-tasklist > button.toggle,
   padding: 0px rem(4px, $sw: 1.0);
   border: none;
   border-radius: 0;
-  color: $inverted_secondary_fg_color;
+  color: $inverted_fg_color;
   background-color: transparent;
   &:hover {
-    color: $inverted_fg_color;
+    color: $selected_fg_color;
     background-color: transparent;
     box-shadow: inset 0 -2px $outline_track_color;
   }
   &:checked,
   &:hover:checked,
   &:disabled:checked { // 'checked' = 'active'
-    color: $inverted_fg_color;
+    color: $selected_fg_color;
     background-color: transparent;
     box-shadow: inset 0 -2px $selected_bg_color;
+  }
+
+  .vertical & {
+    &:hover { box-shadow: inset 2px 0 $outline_track_color; }
+    &:checked,
+    &:hover:checked,
+    &:disabled:checked { box-shadow: inset 2px 0 $selected_bg_color; }
   }
 }
 
@@ -67,10 +78,19 @@ wnck-tasklist > button.toggle,
 }
 
 wnck-pager {
-  background: transparent;
-  color: $inverted_fg_color;
-  &:hover { box-shadow: inset 0 -2px $outline_track_color; }
-  &:selected { box-shadow: inset 0 -2px $selected_bg_color; }
+  background-color: transparent;
+  color: mix($inverted_fg_color, $panel_bg_color, 54%); // use opaque
+  box-shadow: inset 0 0 0 1px mix($inverted_fg_color, $panel_bg_color, 40%);
+  &:hover {
+    background-color: $track_color;
+    color: $inverted_fg_color;
+    box-shadow: inset 0 0 0 1px $outline_track_color;
+  }
+  &:selected {
+    background-color: gtkopacity($selected_bg_color, 0.2);
+    color: $inverted_fg_color;
+    box-shadow: inset 0 0 0 1px $selected_bg_color;
+  }
 }
 
 na-tray-applet {
@@ -84,9 +104,9 @@ gp-arrow-button {
   margin: 0 rem(2px);
   border: 1px solid transparent;
   background-image: none;
-  color: $inverted_secondary_fg_color;
+  color: $inverted_fg_color;
   &:hover,
-  &:active { color: $inverted_fg_color; }
+  &:active { color: $selected_fg_color; }
 }
 
 sn-button { padding: 0 rem(4px, $sw: 1.0); }
@@ -98,16 +118,9 @@ sn-button { padding: 0 rem(4px, $sw: 1.0); }
 
 // sidebar
 .tweak-categories {
+  @extend %sidebar_template;
   background-image: image($secondary_dark_color);
   color: $secondary_fg_color;
-  &:dir(ltr) {
-    box-shadow: if($variant == 'light', $sidebar-light-ltr,
-                                        $sidebar-dark-ltr);
-  }
-  &:dir(rtl) {
-    box-shadow: if($variant == 'light', $sidebar-light-rtl,
-                                        $sidebar-dark-rtl);
-  }
 
   separator.horizontal {
     min-height: 0;
@@ -188,7 +201,7 @@ list.tweak-group-startup {
       transition-duration: 0s; // child 'grid' already has
       &:hover {
         > grid {
-          background-image: image(gtkalpha($secondary_fg_color, 0.12));
+          background-image: image(gtkopacity($secondary_fg_color, 0.12));
           transition: background-image 0.1s $slope_slow;
         }
       }
@@ -252,37 +265,17 @@ list.tweak-group-startup {
   &.solid { border-radius: 0; }
 }
 
-#gf-bubble {
-  box.horizontal > button { // 'close' button
-    // upstream always calls gtk_image_new_from_icon_name with 'window-close'
-    // instead of 'window-close-symbolic', so draw background for dark icon
-    // foreground
-    min-width: $icon_size;
-    min-height: $icon_size;
-    padding: rem(6.7px);
-    border-radius: 100px;
-    -gtk-outline-radius: 100px;
-    color: $inverted_secondary_accent_label_color;
-    background-color: gtkopacity($accent_color, 0.25);
-    &:hover {
-      color: $inverted_accent_label_color;
-      background-color: gtkopacity($accent_color, 0.25);
-    }
-    &:active,
-    &:checked {
-      color: $inverted_accent_label_color;
-      background-color: gtkopacity($accent_color, 0.25);
-    }
-    &:disabled {
-      color: $insensitive_inverted_fg_color;
-      background-color: transparent;
-    }
-  }
-}
-
 #gf-label-window {
   font-size: rem(40px, $sw: 1.0);
   font-weight: 400;
+}
+
+#gf-bubble box.horizontal > button.flat { // OSD-style button
+  color: $inverted_secondary_accent_label_color;
+  font-weight: 700;
+  &:hover,
+  &:active { color: $inverted_accent_label_color; }
+  &:disabled { color: $insensitive_inverted_fg_color; }
 }
 
 // input-source switcher labels
@@ -370,7 +363,7 @@ list.tweak-group-startup {
   &:selected { text-shadow: none; }
 }
 
-.background.nautilus-window:not(.nautilus-desktop-window):not(.unity-csd) {
+.background.nautilus-window:not(.nautilus-desktop-window) {
   &:not(nautilus-desktop-window) {
     // enforce base-color backgrounds
     background-color: $base_color;
@@ -608,25 +601,9 @@ dialog.background.csd > box.dialog-vbox > grid.horizontal {
   }
 
   .folder-frame > scrolledwindow {
-    background-color: $secondary_dark_color;
+    @extend %sidebar_template;
 
-    &:dir(ltr) {
-      box-shadow: if($variant == 'light', $sidebar-light-ltr,
-                                          $sidebar-dark-ltr);
-    }
-    &:dir(rtl) {
-      box-shadow: if($variant == 'light', $sidebar-light-rtl,
-                                          $sidebar-dark-rtl);
-    }
-
-    treeview.view.sidebar {
-      &:selected {
-        &, &:focus {
-          background-color: transparent;
-          color: $selected_bg_color;
-        }
-      }
-    }
+    treeview.view.sidebar { @extend %sidebar_treeview; }
   }
 }
 
@@ -697,53 +674,37 @@ paned.vertical > overlay > scrolledwindow > overlay {
 // most of widget styling are hard-coded by ephy's stylesheet,
 // but we should force using dark foregrounds at least...
 
-%incognito_button {
-  &,
-  label,
-  image { color: $secondary_fixed_fg_color; }
-
-  &:hover,
-  &:active,
-  &:checked {
-    &,
-    label,
-    image { color: $fixed_fg_color; }
-  }
-  &:disabled,
-  &:checked:disabled {
-    &,
-    label,
-    image { color: $insensitive_fixed_fg_color; }
-  }
-}
-
 headerbar.titlebar.incognito-mode {
   entry {
-    color: $secondary_fixed_fg_color;
-    caret-color: $fixed_fg_color;
-
-    image {color: $secondary_fixed_fg_color; }
-
-    &:focus {
-      &, image { color: $fixed_fg_color; }
+    &, &:focus {
+      color: $fixed_fg_color;
+      caret-color: $fixed_fg_color;
     }
-    &:disabled {
-      &, image { color: $insensitive_fixed_fg_color; }
-    }
+    &:disabled { color: $insensitive_fixed_fg_color; }
   }
 
   button:not(.destructive-action):not(.suggested-action) {
-    &.image-button,
-    &.toggle.popup,
-    &.minimize,
-    &.maximize,
-    &.close { @extend %incognito_button; }
-  }
+    // these classes are specificity bump to override titlebuttons
+    &:not(.appmenu):not(.icon):not(:indeterminate) {
+      border-radius: 2px;
+      -gtk-outline-radius: 2px;
 
-  box.linked.raised > button {
-    &:not(.destructive-action):not(.suggested-action) {
-      &.image-button,
-      &.toggle.popup { @extend %incognito_button; }
+      &,
+      &:hover,
+      &:active,
+      &:checked {
+        * {
+          background-image: none;
+          color: $fixed_fg_color;
+        }
+      }
+      &:disabled,
+      &:checked:disabled {
+        * {
+          background-image: none;
+          color: $insensitive_fixed_fg_color;
+        }
+      }
     }
   }
 }
@@ -851,7 +812,7 @@ box > headerbar > label.polari-titlebar-separator {
 
 // add top-border to inline-toolbar
 .sidebar-paned .inline-toolbar.horizontal.sidebar-toolbar {
-  @if $variant == 'light' {
+  @if $variant == light {
     box-shadow: inset 0 1px $solid_light_borders_color,
                 inset 0 2px 2px rgba(0, 0, 0, 0.05),
                 inset -2px 0 2px -2px rgba(0, 0, 0, 0.03),
@@ -865,7 +826,7 @@ box > headerbar > label.polari-titlebar-separator {
   }
 
   &:dir(rtl) {
-    @if $variant == 'light' {
+    @if $variant == light {
       box-shadow: inset 0 1px $solid_light_borders_color,
                   inset 0 2px 2px rgba(0, 0, 0, 0.05),
                   inset 2px 0 2px -2px rgba(0, 0, 0, 0.03),
@@ -891,27 +852,11 @@ box > headerbar > label.polari-titlebar-separator {
 // tweak sidebar styling
 .sidebar-paned {
   scrolledwindow {
-    &:dir(ltr) {
-      box-shadow: if($variant == 'light', $sidebar-light-ltr,
-                                          $sidebar-dark-ltr);
-    }
-    &:dir(rtl) {
-      box-shadow: if($variant == 'light', $sidebar-light-rtl,
-                                          $sidebar-dark-rtl);
-    }
+    @extend %sidebar_template;
+    background-image: image($secondary_dark_color);
   }
 
-  treeview.view.sidebar {
-    background-color: if($variant == 'light', rgba(12, 18, 0, 0.01),
-                                              rgba(18, 22, 0, 0.04));
-    &:selected {
-      &, &:focus {
-        background-color: if($variant == 'light', rgba(12, 18, 0, 0.01),
-                                                  rgba(18, 22, 0, 0.04));
-        color: $selected_bg_color;
-      }
-    }
-  }
+  treeview.view.sidebar { @extend %sidebar_treeview; }
 }
 
 // tweak border and frame in alt-toolbar
@@ -950,7 +895,7 @@ $album_art: 54px;
 $min_circle: 24px;
 $toolitem_margin: ($album_art - $min_circle) * 0.5;
 
-window.background box.vertical > toolbar.primary-toolbar {
+window.background > box.vertical > toolbar.primary-toolbar {
   toolitem {
     &:first-child { // 'prev/play/next'
       .linked > button.image-button.raised {
@@ -1121,9 +1066,16 @@ window.background {
     padding: 3px;
     border-radius: 2px;
     border-width: 9px;
-    border-image: -gtk-scaled(url("assets/osd-shadow#{$asset_suffix}.png"),
-                              url("assets/osd-shadow#{$asset_suffix}@2.png"))
-                  10 / 10px stretch;
+    @if $variant == light {
+      border-image: -gtk-scaled(url("assets/osd-shadow.png"),
+                                url("assets/osd-shadow@2.png"))
+                    10 / 10px stretch;
+    }
+    @else {
+      border-image: -gtk-scaled(url("assets/osd-shadow-dark.png"),
+                                url("assets/osd-shadow-dark@2.png"))
+                    10 / 10px stretch;
+    }
     color: $inverted_fg_color;
     opacity: 0.9;
 
@@ -1150,7 +1102,7 @@ window.background {
   }
 
   notebook > header.top { // show drop-shadows
-    @if $variant==light {
+    @if $variant == light {
       box-shadow: inset 0 2px 2px -3px rgba(0, 0, 0, 0.29),
                   inset 0 5px 3px -5px rgba(0, 0, 0, 0.57),
                   inset 0 -1px $borders_color;
@@ -1163,7 +1115,7 @@ window.background {
 
     tab.reorderable-page {
       &:hover {
-        @if $variant==light {
+        @if $variant == light {
           box-shadow: inset 0 2px 2px -3px rgba(0, 0, 0, 0.29),
                       inset 0 5px 3px -5px rgba(0, 0, 0, 0.57),
                       inset 0 -1px $borders_color;
@@ -1175,7 +1127,7 @@ window.background {
         }
       }
       &:checked {
-        @if $variant==light {
+        @if $variant == light {
           box-shadow: -1px 0 2px rgba(0, 0, 0, 0.02),
                       -1px 0 4px rgba(0, 0, 0, 0.02),
                       1px 0 2px rgba(0, 0, 0, 0.02),
@@ -1233,8 +1185,8 @@ overlay > box.vertical > paned.horizontal > box.vertical {
     border-width: 1px 0 0;
     border-color: $borders_color;
     background-color: $secondary_dark_color;
-    box-shadow: if($variant == 'light', $inline-shadow-light,
-                                        $inline-shadow-dark);
+    box-shadow: if($variant == light, $inline-shadow-light,
+                                      $inline-shadow-dark);
   }
 }
 
@@ -1252,19 +1204,10 @@ overlay > box.vertical > paned.horizontal > box.vertical {
 
   // 'file-browser' pane
   > box.vertical > stack > grid.horizontal {
+    @extend %sidebar_template;
     padding: rem(2.7px);
-    background-color: $secondary_dark_color;
-    background-image: if($variant == 'light', $fake-shadow-light,
-                                              $fake-shadow-dark);
-
-    &:dir(ltr) {
-      box-shadow: if($variant == 'light', $sidebar-light-ltr,
-                                          $sidebar-dark-ltr);
-    }
-    &:dir(rtl) {
-      box-shadow: if($variant == 'light', $sidebar-light-rtl,
-                                          $sidebar-dark-rtl);
-    }
+    background-image: if($variant == light, $fake-shadow-light,
+                                            $fake-shadow-dark);
 
     > box.horizontal {  // header-part
       margin: rem(4px) 0;
@@ -1295,18 +1238,9 @@ overlay > box.vertical > paned.horizontal > box.vertical {
 }
 
 .gedit-document-panel { // 'documents' pane
-  background-color: $secondary_dark_color;
-  background-image: if($variant == 'light', $fake-shadow-light,
-                                            $fake-shadow-dark);
-
-  &:dir(ltr) {
-    box-shadow: if($variant == 'light', $sidebar-light-ltr,
-                                        $sidebar-dark-ltr);
-  }
-  &:dir(rtl) {
-    box-shadow: if($variant == 'light', $sidebar-light-rtl,
-                                        $sidebar-dark-rtl);
-  }
+  @extend %sidebar_template;
+  background-image: if($variant == light, $fake-shadow-light,
+                                          $fake-shadow-dark);
 
   row.activatable {
     color: $secondary_fg_color;
@@ -1320,7 +1254,7 @@ overlay > box.vertical > paned.horizontal > box.vertical {
       label { color: $selected_bg_color; }
 
       button {
-        color: gtkalpha($selected_bg_color, 0.87);
+        color: gtkopacity($selected_bg_color, 0.87);
         &:hover,
         &:active { color: $selected_bg_color; }
       }
@@ -1335,34 +1269,6 @@ overlay > box.vertical > paned.horizontal > box.vertical {
       border-radius: 100px;
       -gtk-outline-radius: 100px;
     }
-  }
-}
-
-// workaround for unity7
-.background:not(.csd):not(.ssd) overlay > box > paned.horizontal {
-  > headerbar {
-    &:not(:only-child) {
-      button.flat.toggle.popup:not(.image-button) { // left-pane header button
-        border-radius: 2px;
-        -gtk-outline-radius: 2px;
-
-        box > .title { color: $inverted_secondary_fg_color; }
-
-        &:hover,
-        &:active,
-        &:checked {
-          box > .title { color: $inverted_fg_color; }
-        }
-      }
-    }
-  }
-
-  separator { // hide un-controllable pane-separator
-    min-width: 0;
-    margin: 0 rem(-6px); // hidden gap in .wide class
-    padding: 0;
-    background: none;
-    background-image: none;
   }
 }
 
@@ -1475,8 +1381,8 @@ layouttabbar {
   padding: rem(5.3px);
   border-bottom: 1px solid $solid_light_borders_color;
   background-color: $secondary_dark_color;
-  background-image: if($variant == 'light', $fake-shadow-light,
-                                            $fake-shadow-dark);
+  background-image: if($variant == light, $fake-shadow-light,
+                                          $fake-shadow-dark);
 
   box.horizontal > button {
     &, &.popup.toggle {
@@ -1558,14 +1464,14 @@ layout {
   border-style: none solid none;
   border-color: $solid_light_borders_color;
   // draw vertically gradient pane-separators
-  @if $variant=='light' {
+  @if $variant == light {
     border-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.32),
                                              rgba(0, 0, 0, 0.21) 2px,
                                              rgba(0, 0, 0, 0.09) 4px,
                                              rgba(0, 0, 0, 0.09))
                   0 1 0 / 0 1px 0 stretch;
   }
-  @if $variant=='dark' {
+  @else {
     border-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.24),
                                              rgba(0, 0, 0, 0.16) 2px,
                                              rgba(0, 0, 0, 0.11) 4px,
@@ -1582,14 +1488,14 @@ layout {
 layoutgrid > paned.horizontal separator:not(.vertical),
 layoutgrid > paned.horizontal > paned.horizontal separator:not(.vertical) {
   // draw vertically gradient pane-separators
-  @if $variant=='light' {
+  @if $variant == light {
     border-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.32),
                                              rgba(0, 0, 0, 0.21) 2px,
                                              rgba(0, 0, 0, 0.09) 4px,
                                              rgba(0, 0, 0, 0.09))
                   0 1 0 / 0 1px 0 stretch;
   }
-  @if $variant=='dark' {
+  @else {
     border-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.24),
                                              rgba(0, 0, 0, 0.16) 2px,
                                              rgba(0, 0, 0, 0.11) 4px,
@@ -1602,37 +1508,36 @@ eggsearchbar box.search-bar {
   background-color: $secondary_dark_color;
 }
 
-tabstrip {
+%tabstrip {
   min-height: rem(34.7px);
   padding: rem(5.3px) rem(16px);
   border-bottom: 1px solid $solid_light_borders_color;
   background-color: $secondary_dark_color;
-  background-image: if($variant == 'light', $fake-shadow-light,
-                                            $fake-shadow-dark);
+  background-image: if($variant == light, $fake-shadow-light,
+                                          $fake-shadow-dark);
 
   // remove fake-shadow from bottom tabstrip
   layoutpane.bottom & { background-image: none; }
 }
 
-docktabstrip { @extend tabstrip; }
-
-tabstrip {
-  %tabstrip_tab,
-  tab {
-    color: $tertiary_fg_color;
-    font-weight: 700;
-    box-shadow: inset 0 -1px $outline_track_color;
-    &:hover {
-      color: $fg_color;
-      box-shadow: inset 0 -2px $outline_track_color;
-    }
-    &:checked {
-      color: $fg_color;
-      box-shadow: inset 0 -2px $selected_bg_color;
-    }
+%tabstrip_tab {
+  color: $tertiary_fg_color;
+  font-weight: 700;
+  box-shadow: inset 0 -1px $outline_track_color;
+  &:hover {
+    color: $fg_color;
+    box-shadow: inset 0 -2px $outline_track_color;
+  }
+  &:checked {
+    color: $fg_color;
+    box-shadow: inset 0 -2px $selected_bg_color;
   }
 }
 
+tabstrip,
+docktabstrip { @extend %tabstrip; }
+
+tabstrip tab,
 docktabstrip docktab { @extend  %tabstrip_tab; }
 
 dockstack > stack { // treeviews inside the left/right layoutpane
@@ -1646,8 +1551,8 @@ dockstack > stack { // treeviews inside the left/right layoutpane
 }
 
 greeter > box.vertical > stack > box.vertical > scrolledwindow {
-  background-image: if($variant == 'light', $fake-shadow-light,
-                                            $fake-shadow-dark);
+  background-image: if($variant == light, $fake-shadow-light,
+                                          $fake-shadow-dark);
 }
 
 // 'Select a Project' label
@@ -1693,28 +1598,28 @@ workbench.background > stack.titlebar > headerbar > stack {
     border-right-width: 0; // hide hard-coded ugly separator
     border-right-style: none;
     // FIXME: swapped left/right?
-    box-shadow: if($variant == 'light', $sub-header-shadow-light-rtl,
-                                        $sub-header-shadow-dark-rtl);
+    box-shadow: if($variant == light, $sub-header-shadow-light-rtl,
+                                      $sub-header-shadow-dark-rtl);
   }
   &:dir(rtl) {
     border-left-width: 0;
     border-left-style: none;
-    box-shadow: if($variant == 'light', $sub-header-shadow-light-ltr,
-                                        $sub-header-shadow-dark-ltr);
+    box-shadow: if($variant == light, $sub-header-shadow-light-ltr,
+                                      $sub-header-shadow-dark-ltr);
   }
 
   &.selection-mode {
     &:dir(ltr) {
       border-right-width: 0;
       border-right-style: none;
-      box-shadow: if($variant == 'light', $selected-header-shadow-light-rtl,
-                                          $selected-header-shadow-dark-rtl);
+      box-shadow: if($variant == light, $selected-header-shadow-light-rtl,
+                                        $selected-header-shadow-dark-rtl);
     }
     &:dir(rtl) {
       border-left-width: 0;
       border-left-style: none;
-      box-shadow: if($variant == 'light', $selected-header-shadow-light-ltr,
-                                          $selected-header-shadow-dark-ltr);
+      box-shadow: if($variant == light, $selected-header-shadow-light-ltr,
+                                        $selected-header-shadow-dark-ltr);
     }
   }
 }
@@ -1725,15 +1630,8 @@ window overlay > grid > frame > grid {
 
 // side-bar styling
 list.contacts-view {
+  @extend %sidebar_template;
   background-image: image($secondary_dark_color); // use -image instead
-  &:dir(ltr) {
-    box-shadow: if($variant == 'light', $sidebar-light-ltr,
-                                        $sidebar-dark-ltr);
-  }
-  &:dir(rtl) {
-    box-shadow: if($variant == 'light', $sidebar-light-rtl,
-                                        $sidebar-dark-rtl);
-  }
 
   row.activatable {
     color: $secondary_fg_color;
@@ -1762,18 +1660,6 @@ notebook > stack > grid.vertical > actionbar {
       border-radius: 2px;
       -gtk-outline-radius: 2px;
     }
-  }
-}
-
-
-// /**********
-//  * Baobab *
-//  **********/
-
-window > box.vertical > grid.vertical > stack > grid.horizontal {
-  stack > spinner { // shrink spinner height
-    min-height: $icon_size;
-    padding: 56px 0;
   }
 }
 
@@ -1846,18 +1732,9 @@ headerbar > button.flat.popup.title-menu-button.toggle {
 
 window.background > box.vertical > stack > box.horizontal {
   list.categories { // side-pane
+    @extend %sidebar_template;
     border: none;
-    background-color: $secondary_dark_color;
     color: $secondary_fg_color;
-
-    &:dir(ltr) {
-      box-shadow: if($variant == 'light', $sidebar-light-ltr,
-                                          $sidebar-dark-ltr);
-    }
-    &:dir(rtl) {
-      box-shadow: if($variant == 'light', $sidebar-light-rtl,
-                                          $sidebar-dark-rtl);
-    }
 
     row.activatable.category { // use side-bar styling
       // paddings in row were hard-coded with crazy large values...
@@ -1921,7 +1798,7 @@ window.background > widget > window.background > box.vertical {
 //  ******************/
 
 %ssd_notebook_shadow {
-  @if $variant==light {
+  @if $variant == light {
     box-shadow: inset 0 2px 2px -3px rgba(0, 0, 0, 0.29),
                 inset 0 5px 3px -5px rgba(0, 0, 0, 0.57),
                 inset 0 -1px $borders_color;
@@ -1934,7 +1811,7 @@ window.background > widget > window.background > box.vertical {
 
   tab.reorderable-page {
     &:hover {
-      @if $variant==light {
+      @if $variant == light {
         box-shadow: inset 0 2px 2px -3px rgba(0, 0, 0, 0.29),
                     inset 0 5px 3px -5px rgba(0, 0, 0, 0.57),
                     inset 0 -1px $borders_color;
@@ -1946,7 +1823,7 @@ window.background > widget > window.background > box.vertical {
       }
     }
     &:checked {
-      @if $variant==light {
+      @if $variant == light {
         box-shadow: -1px 0 2px rgba(0, 0, 0, 0.02),
                     -1px 0 4px rgba(0, 0, 0, 0.02),
                     1px 0 2px rgba(0, 0, 0, 0.02),
@@ -1993,6 +1870,11 @@ terminal-window {
       color: $insensitive_inverted_fg_color;
       box-shadow: none;
     }
+  }
+
+  vte-terminal,
+  notebook { // unset unneeded transitions
+    transition-duration: 0s;
   }
 
   notebook > header.top { // show drop-shadows
@@ -2051,14 +1933,6 @@ window stack > frame > frame > grid.horizontal {
     background: transparent;
     background-image: linear-gradient(to bottom,
                                       gtkopacity($dark_color, 0.9));
-  }
-}
-
-window > grid.vertical > stack > stack > grid.vertical {
-  // allocated 128px x 128px?
-  > spinner {
-    min-height: $icon_size;
-    padding: 56px 0;
   }
 }
 
@@ -2123,26 +1997,9 @@ window > popover > stack > grid > button {
 
 .background.csd > box.horizontal > frame > scrolledwindow {
   // side-bar styling
-  background-color: if($variant == 'light', rgba(12, 18, 0, 0.01),
-                                            rgba(18, 22, 0, 0.04));
+  @extend %sidebar_template;
 
-  &:dir(ltr) {
-    box-shadow: if($variant == 'light', $sidebar-light-ltr,
-                                        $sidebar-dark-ltr);
-  }
-  &:dir(rtl) {
-    box-shadow: if($variant == 'light', $sidebar-light-rtl,
-                                        $sidebar-dark-rtl);
-  }
-
-  treeview.view {
-    background-color: transparent;
-    font-weight: 500;
-    &:selected {
-      background-color: transparent;
-      color: $selected_bg_color;
-    }
-  }
+  treeview.view { @extend %sidebar_treeview; }
 }
 
 
@@ -2153,26 +2010,9 @@ window > popover > stack > grid > button {
 .background.csd > box.vertical > paned.horizontal > scrolledwindow,
 .background.solid-csd > box.vertical > paned.horizontal > scrolledwindow {
   // side-bar styling
-  background-color: if($variant == 'light', rgba(12, 18, 0, 0.01),
-                                            rgba(18, 22, 0, 0.04));
+  @extend %sidebar_template;
 
-  &:dir(ltr) {
-    box-shadow: if($variant == 'light', $sidebar-light-ltr,
-                                        $sidebar-dark-ltr);
-  }
-  &:dir(rtl) {
-    box-shadow: if($variant == 'light', $sidebar-light-rtl,
-                                        $sidebar-dark-rtl);
-  }
-
-  treeview.view {
-    background-color: transparent;
-    font-weight: 500;
-    &:selected {
-      background-color: transparent;
-      color: $selected_bg_color;
-    }
-  }
+  treeview.view { @extend %sidebar_treeview; }
 }
 
 
@@ -2196,8 +2036,8 @@ window > popover > stack > grid > button {
 window.background > box.vertical {
   > box.horizontal #main-toolbar { // main toolbar styling
     border-bottom: 1px solid $borders_color;
-    box-shadow: if($variant == 'light', $toolbar-shadow-light,
-                                        $toolbar-shadow-dark);
+    box-shadow: if($variant == light, $toolbar-shadow-light,
+                                      $toolbar-shadow-dark);
   }
 
   paned.horizontal > widget > notebook.switcher-visible { // side-pane styling
@@ -2267,8 +2107,8 @@ window.background > grid.horizontal {
 
     > frame {
       background: none;
-      box-shadow: if($variant == 'light', $inline-shadow-light,
-                                          $inline-shadow-dark);
+      box-shadow: if($variant == light, $inline-shadow-light,
+                                        $inline-shadow-dark);
 
       > box > label {
         margin: rem(-5.3px) rem(8px);
@@ -2336,16 +2176,8 @@ window.background > box.vertical > stack > widget > stack {
 
 // sidebar-pane styling
 scrolledwindow.category-sidebar.frame > viewport.frame > list {
+  @extend %sidebar_template;
   margin-top: -4px; // hide weird header-gap
-  background-color: $secondary_dark_color;
-  &:dir(ltr) {
-    box-shadow: if($variant == 'light', $sidebar-light-ltr,
-                                        $sidebar-dark-ltr);
-  }
-  &:dir(rtl) {
-    box-shadow: if($variant == 'light', $sidebar-light-rtl,
-                                        $sidebar-dark-rtl);
-  }
 
   > row.activatable {
     color: $secondary_fg_color;
@@ -2368,40 +2200,6 @@ button.round-button { // categories expander button
   padding: 0;
   border-radius: 16px;
   -gtk-outline-radius: 16px;
-}
-
-
-// /****************
-//  * Gnome-Photos *
-//  ****************/
-
-window.background {
-  &.csd,
-  &.solid-csd {
-    > box.vertical > overlay > revealer > spinner { // allocation: 128 x 128
-      min-height: $icon_size;
-      padding: 56px 0;
-    }
-  }
-}
-
-
-// /**************
-//  * Gnome-Maps *
-//  **************/
-
-window.background {
-  > grid.horizontal > stack > spinner {
-    // allocation: 768 x 600!?
-    min-height: $icon_size;
-    padding: (600px - $icon_size * 2) / 2 (768px - $icon_size * 20) / 2;
-  }
-
-  > popover > grid.vertical > grid.horizontal > stack > spinner {
-    // allocation: 96 x 48
-    min-height: $icon_size;
-    padding: (48px - $icon_size) / 2 (96px - $icon_size * 4) / 2;
-  }
 }
 
 
@@ -2432,6 +2230,37 @@ dialog.background {
       // prevent truncated drop-shadows
       margin: rem(4px) rem(5.3px) rem(10.7px);
     }
+  }
+}
+
+
+// /********
+//  * GHex *
+//  ********/
+
+menubar#MainMenu + box.vertical > widget, // main window
+menubar#MainMenu + widget { // 'Add view' window(s)
+  > widget {
+    &:not(.view) { // left-most pane
+      background-image: none;
+      color: $tertiary_fg_color;
+      transition: unset;
+    }
+
+    &.view {
+      background-image: none;
+      transition: unset;
+    }
+  }
+}
+
+// a focused cell
+menubar#MainMenu + box.vertical > widget > widget.view.header,
+menubar#MainMenu + widget >  widget.view:first-child {
+  &:selected {
+    // do not use transparency
+    background-color: mix($base_color, $selected_bg_color, 87%);
+    color: $selected_bg_color;
   }
 }
 

@@ -2,7 +2,7 @@
 #
 # This file is part of adapta-gtk-theme
 #
-# Copyright (C) 2016-2017 Tista <tista.gma500@gmail.com>
+# Copyright (C) 2016-2018 Tista <tista.gma500@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@ render-non-scale() {
     ID=`echo $i | tr '/' '_'`
     $INKSCAPE --export-id=$ID \
               --export-dpi="$non_scale_dpi" \
+              --export-id-only \
               --export-png=$ASSETS_DIR/$i.png $SRC_FILE >/dev/null \
                                                         2>>../inkscape.log
 }

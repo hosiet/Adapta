@@ -1,7 +1,7 @@
 /*
  *  This file is part of adapta-gtk-theme
  *
- * Copyright (C) 2016-2017 Tista <tista.gma500@gmail.com>
+ * Copyright (C) 2016-2018 Tista <tista.gma500@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,54 +30,38 @@ $ref_size: 13.33px; // = 10pt = 1em
 // Default shadows
 //
 
-$z-depth-1: 0 1px 1px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.16);
-$z-depth-2: 0 2px 2px rgba(0, 0, 0, 0.12), 0 3px 4px rgba(0, 0, 0, 0.20);
-$z-depth-3: 0 4px 5px rgba(0, 0, 0, 0.16), 0 4px 4px rgba(0, 0, 0, 0.20);
-$z-depth-4: 0 6px 8px -4px rgba(0, 0, 0, 0.16),
-            0 10px 6px rgba(0, 0, 0, 0.20);
-$z-depth-5: 0 8px 10px -4px rgba(0, 0, 0, 0.20),
-            0 12px 8px rgba(0, 0, 0, 0.24);
+$z-depth-1: 0 1px 2px rgba(0, 0, 0, 0.28);
+$z-depth-2: 0 2.5px 4.5px rgba(0, 0, 0, 0.34);
+$z-depth-3: 0 4.5px 5.5px rgba(0, 0, 0, 0.38);
+$z-depth-4: 0 10px 14px rgba(0, 0, 0, 0.44);
+$z-depth-5: 0 14px 19px rgba(0, 0, 0, 0.50);
 
-// z-depth-1 actual shadows + dummy z-depth-2 area
-$z-depth-1-backdrop: 0 2px 2px transparent,
-                     0 3px 4px transparent,
-                     0 3px 3px -1px rgba(0, 0, 0, 0.08);
-$z-depth-1-backdrop-tiled: 0 2px 2px transparent,
-                           0 3px 4px transparent,
-                           1px 0 $panel_bg_color, // side-edges
-                           -1px 0 $panel_bg_color;
-$z-depth-1-backdrop-tiled-top: 0 2px 2px transparent,
-                               0 3px 4px transparent,
-                               0 1px $panel_bg_color;
-$z-depth-1-backdrop-tiled-bottom: 0 2px 2px transparent,
-                                  0 3px 4px transparent,
-                                  0 -1px $panel_bg_color;
-$z-depth-1-backdrop-tiled-left: 0 2px 2px transparent,
-                                0 3px 4px transparent,
-                                1px 0 $panel_bg_color;
-$z-depth-1-backdrop-tiled-right: 0 2px 2px transparent,
-                                 0 3px 4px transparent,
-                                 -1px 0 $panel_bg_color;
-// z-depth-2 actual shadows + dummy z-depth-4 area
-$z-depth-2-backdrop: 0 6px 8px -4px transparent,
-                     0 10px 6px transparent,
-                     0 2px 2px rgba(0, 0, 0, 0.12),
-                     0 3px 4px rgba(0, 0, 0, 0.20);
-$z-depth-2-backdrop-tiled: 0 6px 8px -4px transparent,
-                           0 10px 6px transparent,
+// tile borders + dummy z-depth-2 area
+$z-depth-2-tiled: 0 2.5px 4.5px transparent,
+                  1px 0 $panel_bg_color, // side-edges
+                  -1px 0 $panel_bg_color;
+$z-depth-2-tiled-top: 0 2.5px 4.5px transparent,
+                      0 1px $panel_bg_color;
+$z-depth-2-tiled-bottom: 0 2.5px 4.5px transparent,
+                         0 -1px $panel_bg_color;
+$z-depth-2-tiled-left: 0 2.5px 4.5px transparent,
+                       1px 0 $panel_bg_color;
+$z-depth-2-tiled-right: 0 2.5px 4.5px transparent,
+                        -1px 0 $panel_bg_color;
+// z-depth-2.5 actual shadows + dummy z-depth-4 area
+$z-depth-2-backdrop: 0 10px 14px transparent,
+                     0 4.5px 5.5px rgba(0, 0, 0, 0.13),
+                     $z-depth-2;
+$z-depth-2-backdrop-tiled: 0 10px 14px transparent,
                            1px 0 $panel_bg_color,
                            -1px 0 $panel_bg_color;
-$z-depth-2-backdrop-tiled-top: 0 6px 8px -4px transparent,
-                               0 10px 6px transparent,
+$z-depth-2-backdrop-tiled-top: 0 10px 14px transparent,
                                0 1px $panel_bg_color;
-$z-depth-2-backdrop-tiled-bottom: 0 6px 8px -4px transparent,
-                                  0 10px 6px transparent,
+$z-depth-2-backdrop-tiled-bottom: 0 10px 14px transparent,
                                   0 -1px $panel_bg_color;
-$z-depth-2-backdrop-tiled-left: 0 6px 8px -4px transparent,
-                                0 10px 6px transparent,
+$z-depth-2-backdrop-tiled-left: 0 10px 14px transparent,
                                 1px 0 $panel_bg_color;
-$z-depth-2-backdrop-tiled-right: 0 6px 8px -4px transparent,
-                                 0 10px 6px transparent,
+$z-depth-2-backdrop-tiled-right: 0 10px 14px transparent,
                                  -1px 0 $panel_bg_color;
 
 
@@ -114,19 +98,27 @@ $sub-header-shadow-dark-rtl: 0 1px 1px rgba(0, 0, 0, 0.02),
 $selected-header-shadow-light-ltr: 0 1px 1px rgba(0, 0, 0, 0.16),
                                    0 1px 2px rgba(0, 0, 0, 0.26),
                                    0 2px 3px rgba(0, 0, 0, 0.32),
-                                   -5px 0 0 -1px $selected_bg_color;
+                                   -5px 0 0 -1px
+                                   mix($selected_bg_color,
+                                   $inverted_dark_color, 87%);
 $selected-header-shadow-dark-ltr: 0 1px 1px rgba(0, 0, 0, 0.02),
                                   0 1px 2px rgba(0, 0, 0, 0.11),
                                   0 2px 3px rgba(0, 0, 0, 0.10),
-                                  -5px 0 0 -1px $selected_bg_color;
+                                  -5px 0 0 -1px
+                                  mix($selected_bg_color,
+                                  $inverted_dark_color, 87%);
 $selected_header-shadow-light-rtl: 0 1px 1px rgba(0, 0, 0, 0.16),
                                    0 1px 2px rgba(0, 0, 0, 0.26),
                                    0 2px 3px rgba(0, 0, 0, 0.32),
-                                   5px 0 0 -1px $selected_bg_color;
+                                   5px 0 0 -1px
+                                   mix($selected_bg_color,
+                                   $inverted_dark_color, 87%);
 $selected-header-shadow-dark-rtl: 0 1px 1px rgba(0, 0, 0, 0.02),
                                   0 1px 2px rgba(0, 0, 0, 0.11),
                                   0 2px 3px rgba(0, 0, 0, 0.10),
-                                  5px 0 0 -1px $selected_bg_color;
+                                  5px 0 0 -1px
+                                  mix($selected_bg_color,
+                                  $inverted_dark_color, 87%);
 $tiled-header-shadow-light-ltr: 0 1px 1px rgba(0, 0, 0, 0.16),
                                 0 1px 2px rgba(0, 0, 0, 0.26),
                                 0 2px 3px rgba(0, 0, 0, 0.32),
@@ -295,7 +287,7 @@ $slope_quick: cubic-bezier(0.4, 0.0, 0.6, 1.0);
 
 // templates for the fallback mode entries
 %entry_fallback_normal {
-  border: 1px solid if($variant == 'light',
+  border: 1px solid if($variant == light,
                     mix($base_color, $fixed_fg_color, 90%),
                     $solid_light_borders_color);
   border-image: none;
@@ -313,7 +305,7 @@ $slope_quick: cubic-bezier(0.4, 0.0, 0.6, 1.0);
 }
 
 %entry_fallback_insensitive {
-  border: 1px solid if($variant == 'light',
+  border: 1px solid if($variant == light,
                     mix($base_color, $fixed_fg_color, 90%),
                     $solid_light_borders_color);
   border-image: none;
@@ -322,18 +314,19 @@ $slope_quick: cubic-bezier(0.4, 0.0, 0.6, 1.0);
   box-shadow: none;
 }
 
-@mixin entry($t, $fc:$selected_bg_color) {
+@mixin entry($t, $c: $fg_color, $fc:$selected_bg_color) {
 //
 // Entries drawing function
 //
 // $t: entry type
+// $c: text color
 // $fc: focus color
 //
 // possible $t values:
 // normal, focus, insensitive, flat-normal, flat-focus, flat-insensitive;
 //
 
-  @if $t==normal {
+  @if $t == normal {
     border-radius: 0;
     -gtk-outline-radius: 0;
     border-color: $solid_light_borders_color;
@@ -341,28 +334,28 @@ $slope_quick: cubic-bezier(0.4, 0.0, 0.6, 1.0);
                                   $outline_track_color 100%,
                                   transparent)
                                   0 0 1 / 0 0 1px;
-    color: $secondary_fg_color;
+    color: gtkopacity($c, 0.87);
   }
-  @if $t==focus {
+  @if $t == focus {
     border-color: $solid_light_borders_color;
     border-image: radial-gradient(circle farthest-corner at center,
                                   $fc 100%,
                                   transparent)
                                   0 0 2 / 0 0 2px;
-    color: $fg_color;
+    color: $c;
     transition: all 0.2s $slope_medium,
                 box-shadow 0.2s $slope_medium,
                 color 0s;
   }
-  @if $t==insensitive {
+  @if $t == insensitive {
     border-color: $solid_light_borders_color;
     border-image: radial-gradient(circle farthest-corner at center,
                                   $outline_track_color 100%,
                                   transparent)
                                   0 0 1 / 0 0 1px;
-    color: $insensitive_fg_color;
+    color: gtkopacity($c, 0.28);
   }
-  @if $t==flat-normal {
+  @if $t == flat-normal {
     border-radius: 0;
     -gtk-outline-radius: 0;
     border-color: $solid_light_borders_color;
@@ -371,27 +364,27 @@ $slope_quick: cubic-bezier(0.4, 0.0, 0.6, 1.0);
                                   transparent)
                                   0 0 1 / 0 0 1px;
     background-color: transparent;
-    color: $secondary_fg_color;
+    color: gtkopacity($c, 0.87);
   }
-  @if $t==flat-focus {
+  @if $t == flat-focus {
     border-color: $solid_light_borders_color;
     border-image: radial-gradient(circle farthest-corner at center,
                                   $fc 100%,
                                   transparent)
                                   0 0 2 / 0 0 2px;
-    color: $fg_color;
+    color: $c;
     transition: all 0.2s $slope_medium,
                 box-shadow 0.2s $slope_medium,
                 color 0s;
   }
-  @if $t==flat-insensitive {
+  @if $t == flat-insensitive {
     border-color: $solid_light_borders_color;
     border-image: radial-gradient(circle farthest-corner at center,
                                   $outline_track_color 100%,
                                   transparent)
                                   0 0 1 / 0 0 1px;
     background-color: transparent;
-    color: $insensitive_fg_color;
+    color: gtkopacity($c, 0.28);
   }
 }
 
@@ -479,7 +472,7 @@ $slope_quick: cubic-bezier(0.4, 0.0, 0.6, 1.0);
 
 // templates for the fallback mode buttons
 %button_fallback_normal {
-  border: 1px solid if($variant == 'light',
+  border: 1px solid if($variant == light,
                     mix($base_color, $fixed_fg_color, 90%),
                     $solid_light_borders_color);
   background-color: $light_color;
@@ -488,7 +481,7 @@ $slope_quick: cubic-bezier(0.4, 0.0, 0.6, 1.0);
 }
 
 %button_fallback_hover {
-  border: 1px solid if($variant == 'light',
+  border: 1px solid if($variant == light,
                     mix($base_color, $fixed_fg_color, 80%),
                     $solid_light_borders_color);
   background-color: mix($light_color, $fg_color, 96%);
@@ -497,7 +490,7 @@ $slope_quick: cubic-bezier(0.4, 0.0, 0.6, 1.0);
 }
 
 %button_fallback_active {
-  border: 1px solid if($variant == 'light',
+  border: 1px solid if($variant == light,
                     mix($base_color, $fixed_fg_color, 80%),
                     $solid_light_borders_color);
   background-color: mix($light_color, $fg_color, 92%);
@@ -534,7 +527,7 @@ $slope_quick: cubic-bezier(0.4, 0.0, 0.6, 1.0);
 // flat-checked-insensitive, undecorated
 //
 
-  @if $t==normal {
+  @if $t == normal {
   //
   // normal button
   //
@@ -543,22 +536,22 @@ $slope_quick: cubic-bezier(0.4, 0.0, 0.6, 1.0);
     color: $secondary_fg_color;
   }
 
-  @else if $t==hover {
+  @else if $t == hover {
   //
   // hovered button
   //
     @extend %button_hover;
-    color: $fg_color;
+    color: $tc;
   }
 
-  @else if $t==active {
+  @else if $t == active {
   //
   // pushed button
   //
     @extend %button_active;
-    color: $fg_color;
+    color: $tc;
   }
-  @else if $t==insensitive {
+  @else if $t == insensitive {
   //
   // insensitive button
   //
@@ -567,7 +560,7 @@ $slope_quick: cubic-bezier(0.4, 0.0, 0.6, 1.0);
     color: if($tc!=$fg_color, $insensitive_fg_color,
                               $insensitive_secondary_fg_color);
   }
-  @else if $t==checked {
+  @else if $t == checked {
   //
   // checked button
   //
@@ -575,7 +568,7 @@ $slope_quick: cubic-bezier(0.4, 0.0, 0.6, 1.0);
     background-color: $selected_bg_color;
     color: $selected_fg_color;
   }
-  @else if $t==checked-insensitive {
+  @else if $t == checked-insensitive {
   //
   // checked insensitive button
   //
@@ -584,41 +577,41 @@ $slope_quick: cubic-bezier(0.4, 0.0, 0.6, 1.0);
     color: gtkopacity($selected_bg_color, 0.4);
   }
 
-  @else if $t==flat-normal {
+  @else if $t == flat-normal {
   //
   // normal flat button
   //
     @extend %button_flat_normal;
     background-color: transparent;
   }
-  @else if $t==flat-hover {
+  @else if $t == flat-hover {
   //
   // hovered flat button
   //
     @extend %button_flat_hover;
   }
-  @else if $t==flat-active {
+  @else if $t == flat-active {
   //
   // pushed flat button
   //
     @extend %button_flat_active;
   }
-  @else if $t==flat-insensitive {
+  @else if $t == flat-insensitive {
   //
   // insensitive flat button
   //
     @extend %button_flat_disabled;
     background-color: transparent;
   }
-  @else if $t==flat-checked {
+  @else if $t == flat-checked {
   //
   // checked flat button
   //
     @extend %button_flat_checked;
     background-color: $track_color;
-    color: $fg_color;
+    color: $tc;
   }
-  @else if $t==flat-checked-insensitive {
+  @else if $t == flat-checked-insensitive {
   //
   // checked flat insensitive button
   //
@@ -661,32 +654,5 @@ $slope_quick: cubic-bezier(0.4, 0.0, 0.6, 1.0);
   border: none;
   box-shadow: none;
   transition: none;
-}
-
-
-//
-// Spinner animation
-//
-
-@keyframes colorful_bar {
-  @each $progress, $_color, $_hscale in (0%, $solid_red, 0),
-                                        (24.9%, $solid_red, 1.0),
-                                        (25%, $solid_yellow, 1.0),
-                                        (49.9%, $solid_yellow, 0),
-                                        (50%, $solid_green, 0),
-                                        (74.9%, $solid_green, 1.0),
-                                        (75%, $solid_blue, 1.0),
-                                        (99.9%, $solid_blue, 0),
-                                        (100%, $solid_red, 0) {
-    #{$progress} {
-      -gtk-icon-source: linear-gradient(to bottom,
-                                        transparent 50%,
-                                        #{$_color} 50%,
-                                        #{$_color} calc(50% + 2px),
-                                        transparent calc(50% + 2px),
-                                        transparent 100%);
-      -gtk-icon-transform: scale(#{$_hscale}, 1.0);
-    }
-  }
 }
 
