@@ -1,7 +1,8 @@
-$variant: 'light';
-$nokto: 'false';
-$eta: 'true';
+$nokto: false;
+$eta: true;
+$gdm: false;
 
 @import "../../common/colors"; // use gtk colors
 @import "../../common/drawing";
 @import "common";
+@import "extensions";

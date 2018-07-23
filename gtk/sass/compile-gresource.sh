@@ -2,7 +2,7 @@
 #
 # This file is part of adapta-gtk-theme
 #
-# Copyright (C) 2016-2017 Tista <tista.gma500@gmail.com>
+# Copyright (C) 2016-2018 Tista <tista.gma500@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,21 +30,22 @@ usage() {
 #############
 
 xml="gtk.gresource.xml"
+xml_eta="gtk-eta.gresource.xml"
 xml_dark="gtk-dark.gresource.xml"
-image_list="`grep -e 'pixdata' ./$xml.in | cut -d'>' -f2 | cut -d'<' -f1 | \
+xml_dark_eta="gtk-dark-eta.gresource.xml"
+image_list="`grep -e '.png' ./$xml.in | cut -d'>' -f2 | cut -d'<' -f1 | \
            cut -d'/' -f2`"
 
 for i in $image_list
 do
     if [ ! -f ../asset/assets-gtk3/$i ]; then
         echo "Error: 'assets-gtk3/$i' not found, aborted..."
-        return
         exit 1
     fi
 done
 
 case "$1" in
-    3.18)
+    3.20|3.22|3.24|4.0)
         cp "$xml".in ../gtk-"$1"/"$xml"
         sed -i "s|@VERSION[@]|$1|g" ../gtk-"$1"/"$xml"
         cd ../gtk-"$1" && ln -sf ../asset/assets-gtk3 assets && cd ../sass
@@ -58,60 +59,39 @@ case "$1" in
         rm -f ../gtk-"$1"/"$xml"
         rm -rf ../gtk-"$1"/assets
 
-        cp "$xml_dark".in ../gtk-"$1"-nokto/"$xml"
-        sed -i "s|@VERSION[@]|$1-nokto|g" ../gtk-"$1"-nokto/"$xml"
-        cd ../gtk-"$1"-nokto && ln -sf ../asset/assets-gtk3 assets && cd ../sass
-        $(command -v glib-compile-resources) --sourcedir=../gtk-"$1"-nokto \
-                                             ../gtk-"$1"-nokto/"$xml"
-        echo '@import url("resource:///org/adapta-project/gtk-'$1'-nokto/gtk-contained-dark.css");' \
-            > ../gtk-"$1"-nokto/gtk.css
-
-        rm -f ../gtk-"$1"-nokto/"$xml"
-        rm -rf ../gtk-"$1"-nokto/assets
-        ;;
-    3.20|3.22|4.0)
-        cp "$xml".in ../gtk-"$1"/"$xml"
-        cp "$xml".in ../gtk-"$1"-eta/"$xml"
-        sed -i "s|@VERSION[@]|$1|g" ../gtk-"$1"/"$xml"
+        cp "$xml_eta".in ../gtk-"$1"-eta/"$xml"
         sed -i "s|@VERSION[@]|$1-eta|g" ../gtk-"$1"-eta/"$xml"
-        cd ../gtk-"$1" && ln -sf ../asset/assets-gtk3 assets && cd ../sass
         cd ../gtk-"$1"-eta && ln -sf ../asset/assets-gtk3 assets && cd ../sass
-        $(command -v glib-compile-resources) --sourcedir=../gtk-"$1" \
-                                             ../gtk-"$1"/"$xml"
         $(command -v glib-compile-resources) --sourcedir=../gtk-"$1"-eta \
                                              ../gtk-"$1"-eta/"$xml"
-        echo '@import url("resource:///org/adapta-project/gtk-'$1'/gtk-contained.css");' \
-            > ../gtk-"$1"/gtk.css
-        echo '@import url("resource:///org/adapta-project/gtk-'$1'/gtk-contained-dark.css");' \
-            > ../gtk-"$1"/gtk-dark.css
         echo '@import url("resource:///org/adapta-project/gtk-'$1'-eta/gtk-contained.css");' \
             > ../gtk-"$1"-eta/gtk.css
         echo '@import url("resource:///org/adapta-project/gtk-'$1'-eta/gtk-contained-dark.css");' \
             > ../gtk-"$1"-eta/gtk-dark.css
 
-        rm -f ../gtk-"$1"/"$xml"
         rm -f ../gtk-"$1"-eta/"$xml"
-        rm -rf ../gtk-"$1"/assets
         rm -rf ../gtk-"$1"-eta/assets
 
         cp "$xml_dark".in ../gtk-"$1"-nokto/"$xml"
-        cp "$xml_dark".in ../gtk-"$1"-nokto-eta/"$xml"
         sed -i "s|@VERSION[@]|$1-nokto|g" ../gtk-"$1"-nokto/"$xml"
-        sed -i "s|@VERSION[@]|$1-nokto-eta|g" ../gtk-"$1"-nokto-eta/"$xml"
         cd ../gtk-"$1"-nokto && ln -sf ../asset/assets-gtk3 assets && cd ../sass
-        cd ../gtk-"$1"-nokto-eta && ln -sf ../asset/assets-gtk3 assets && cd ../sass
         $(command -v glib-compile-resources) --sourcedir=../gtk-"$1"-nokto \
                                              ../gtk-"$1"-nokto/"$xml"
-        $(command -v glib-compile-resources) --sourcedir=../gtk-"$1"-nokto-eta \
-                                             ../gtk-"$1"-nokto-eta/"$xml"
         echo '@import url("resource:///org/adapta-project/gtk-'$1'-nokto/gtk-contained-dark.css");' \
             > ../gtk-"$1"-nokto/gtk.css
+
+        rm -f ../gtk-"$1"-nokto/"$xml"
+        rm -rf ../gtk-"$1"-nokto/assets
+
+        cp "$xml_dark_eta".in ../gtk-"$1"-nokto-eta/"$xml"
+        sed -i "s|@VERSION[@]|$1-nokto-eta|g" ../gtk-"$1"-nokto-eta/"$xml"
+        cd ../gtk-"$1"-nokto-eta && ln -sf ../asset/assets-gtk3 assets && cd ../sass
+        $(command -v glib-compile-resources) --sourcedir=../gtk-"$1"-nokto-eta \
+                                             ../gtk-"$1"-nokto-eta/"$xml"
         echo '@import url("resource:///org/adapta-project/gtk-'$1'-nokto-eta/gtk-contained-dark.css");' \
             > ../gtk-"$1"-nokto-eta/gtk.css
 
-        rm -f ../gtk-"$1"-nokto/"$xml"
         rm -f ../gtk-"$1"-nokto-eta/"$xml"
-        rm -rf ../gtk-"$1"-nokto/assets
         rm -rf ../gtk-"$1"-nokto-eta/assets
         ;;
     *)

@@ -1,3 +1,15 @@
+adapta-gtk-theme (3.94.0.28-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Yangfl <mmyangfl@gmail.com>  Mon, 23 Jul 2018 19:31:53 +0800
+
+adapta-gtk-theme (3.91.2.233-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Yangfl <mmyangfl@gmail.com>  Tue, 10 Oct 2017 17:06:18 +0800
+
 adapta-gtk-theme (3.91.0.62-1) unstable; urgency=medium
 
   * New upstream release.

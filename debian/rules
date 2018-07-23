@@ -9,11 +9,12 @@
 	dh $@
 
 override_dh_auto_configure:
-	dh_auto_configure -- --prefix=/usr \
-	                     --disable-parallel \
-	                     --disable-gtk_next \
-	                     --enable-chrome \
-	                     --enable-plank
-
-override_dh_auto_build:
-	dh_auto_build --max-parallel=1
+	dh_auto_configure -- --enable-parallel \
+	                     --enable-gnome \
+	                     --enable-cinnamon \
+	                     --enable-flashback \
+	                     --enable-xfce \
+	                     --enable-mate \
+	                     --enable-openbox \
+	                     --enable-plank \
+	                     --enable-telegram

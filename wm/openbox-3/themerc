@@ -1,34 +1,47 @@
-# Menu
-menu.border.color: #455A64
+# This file is part of adapta-gtk-theme
+#
+# Copyright (C) 2016-2018 Tista <tista.gma500@gmail.com>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
 
-menu.title.bg: flat solid
-menu.title.bg.color: #FDFDFE
-menu.title.text.color: #5B6469
+
+# Fonts
+window.active.label.text.font:shadow=n
+window.inactive.label.text.font:shadow=n
+menu.items.font:shadow=n
+menu.title.text.font:shadow=n
+window.label.text.justify: center
 menu.title.text.justify: center
 
-menu.items.bg: flat solid
-menu.items.bg.color: #FDFDFE
-menu.items.text.color: #5B6469
-menu.items.disabled.text.color: #A7ABAE
 
-menu.items.active.bg: flat solid
-menu.items.active.bg.color: #E7E9EA
-menu.items.active.text.color: #263238
+# Width and height
+padding.width: 7
+padding.height: 5
 
-menu.separator.color: #E9EAEC
+border.width: 2
+menu.border.width: 1
+osd.border.width: 1
+
+window.handle.width: 0
+window.client.padding.width: 0
+
 menu.separator.width: 1
-menu.separator.padding.width: 2
+menu.separator.padding.width: 0
 menu.separator.padding.height: 4
 
 
 # Active window
 window.active.border.color: #222D32
-window.active.title.bg: raised solid
+window.active.title.bg: flat solid
 window.active.title.bg.color: #222D32
 window.active.title.separator.color: #222D32
 window.active.text.justify: center
 
-window.active.title.bg.highlight: 20
+window.active.title.bg.highlight: 0
 window.active.title.bg.shadow: 0
 
 window.active.label.bg: parentrelative
@@ -42,19 +55,19 @@ window.active.grip.bg.color: #222D32
 
 window.active.button.unpressed.bg: flat solid
 window.active.button.unpressed.bg.color: #222D32
-window.active.button.unpressed.image.color: #A3ADB1
+window.active.button.unpressed.image.color: #B8C1C6
 
 window.active.button.hover.bg: flat solid
-window.active.button.hover.bg.color: #323D42
+window.active.button.hover.bg.color: #364146
 window.active.button.hover.image.color: #CFD8DC
 
 window.active.button.pressed.bg: flat solid
-window.active.button.pressed.bg.color: #444F54
+window.active.button.pressed.bg.color: #4C575C
 window.active.button.pressed.image.color: #CFD8DC
 
 window.active.button.toggled.bg: flat solid
 window.active.button.toggled.bg.color: #222D32
-window.active.button.toggled.image.color: #A3ADB1
+window.active.button.toggled.image.color: #B8C1C6
 window.active.button.toggled.hover.image.color: #CFD8DC
 
 window.active.button.disabled.bg: flat solid
@@ -64,12 +77,12 @@ window.active.button.disabled.image.color: #555F64
 
 # Inactive window
 window.inactive.border.color: #222D32
-window.inactive.title.bg: raised solid
+window.inactive.title.bg: flat solid
 window.inactive.title.bg.color: #222D32
 window.inactive.title.separator.color: #222D32
 window.inactive.text.justify: center
 
-window.inactive.title.bg.highlight: 20
+window.inactive.title.bg.highlight: 0
 window.inactive.title.bg.shadow: 0
 
 window.inactive.label.bg: parentrelative
@@ -86,11 +99,11 @@ window.inactive.button.unpressed.bg.color: #222D32
 window.inactive.button.unpressed.image.color: #555F64
 
 window.inactive.button.hover.bg: flat solid
-window.inactive.button.hover.bg.color: #2A353A
+window.inactive.button.hover.bg.color: #283237
 window.inactive.button.hover.image.color: #788286
 
 window.inactive.button.pressed.bg: flat solid
-window.inactive.button.pressed.bg.color: #323D42
+window.inactive.button.pressed.bg.color: #2A393E
 window.inactive.button.pressed.image.color: #788286
 
 window.inactive.button.toggled.bg: flat solid
@@ -103,8 +116,26 @@ window.inactive.button.disabled.bg.color: #222D32
 window.inactive.button.disabled.image.color: #3B464B
 
 
+# Menu
+menu.border.color: #E5E9EC
+
+menu.title.bg: flat solid
+menu.title.bg.color: #FDFDFE
+menu.title.text.color: #888F92
+
+menu.items.bg: flat solid
+menu.items.bg.color: #FDFDFE
+menu.items.text.color: #414C51
+menu.items.disabled.text.color: #C1C4C6
+
+menu.items.active.bg: flat solid
+menu.items.active.bg.color: #E7E9EA
+menu.items.active.text.color: #263238
+
+menu.separator.color: #E9EAEC
+
+
 # OSD
-osd.border.width: 1
 osd.border.color: #222D32
 
 osd.bg: flat solid
@@ -123,7 +154,7 @@ osd.hilight.bg: flat solid
 osd.hilight.bg.color: #4DB6AC
 
 osd.unhilight.bg: flat solid
-osd.unhilight.bg.color: #323D42
+osd.unhilight.bg.color: #364146
 
 osd.button.unpressed.bg: flat border 
 osd.button.unpressed.bg.color: #222D32
@@ -146,19 +177,3 @@ osd.button.focused.*.border.color: #2D4348
 osd.button.focused.text.color: #8DCDC8
 
 osd.button.focused.box.color: #2D4348
-
-
-# Fonts
-window.active.label.text.font:shadow=n
-window.inactive.label.text.font:shadow=n
-menu.items.font:shadow=n
-menu.title.text.font:shadow=n
-
-
-# Everything else
-border.width: 0
-padding.width: 8
-padding.height: 6
-window.handle.width: 0
-window.client.padding.width: 0
-window.label.text.justify: center

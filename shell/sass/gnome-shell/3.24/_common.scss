@@ -18,20 +18,14 @@
   &:focus { transition-duration: 0s; }
 }
 
-$font-family: Noto Sans, Cantarell, Sans-Serif;
-$mono-font-family: Noto Mono, Monospace;
+$font-family: Noto Sans, Sans-Serif;
+$font-family-for-ornament: Sans-Serif;
 
 stage {
   @include fontscaling($ref_size);
   font-family: $font-family;
-  font-weight: 400;
   color: $fg_color;
 }
-
-
-// /***********
-//  * Widgets *
-//  ***********/
 
 
 // /***********
@@ -40,7 +34,7 @@ stage {
 
 .button {
   @include button(flat-normal);
-  padding: if($eta == 'false', 7px 16px 8px, 5px 12px 6px);
+  padding: if($eta == false, 7px 16px 8px, 5px 12px 6px);
   border-radius: 2px;
   border-width: 0;
   font-weight: 500;
@@ -51,7 +45,7 @@ stage {
 }
 
 .modal-dialog-linked-button {
-  padding: if($eta == 'false', 9px 16px 10px, 6px 12px 7px);
+  padding: if($eta == false, 9px 16px 10px, 6px 12px 7px);
   border: none;
   color: $inverted_secondary_accent_label_color;
   background-color: transparent;
@@ -61,17 +55,17 @@ stage {
   font-weight: 700;
   &:hover {
     color: $inverted_accent_label_color;
-    background-color: $accent_fill_color;
+    background-color: $accent_semi_fill_color;
   }
   &:focus {
     color: $inverted_accent_label_color;
     background-color: $hidden_fill_color;
-    box-shadow: inset 0 0 0 2px $accent_fill_color;
-    &:hover { background-color: $accent_fill_color; }
+    box-shadow: inset 0 0 0 2px $accent_outline_fill_color;
+    &:hover { background-color: $accent_semi_fill_color; }
   }
   &:active {
     color: $inverted_accent_label_color;
-    background-color: $accent_active_fill_color;
+    background-color: $accent_fill_color;
     box-shadow: $empty_shadow;
   }
   &:insensitive { @include button(osd-insensitive); }
@@ -94,10 +88,12 @@ stage {
 
 StEntry {
   @include entry(normal);
-  padding: if($eta == 'false', 7px 8px 8px, 5px 6px 6px);
+  min-height: if($eta == false, 1em + 0.7em + 0.8em,
+                                1em + 0.5em + 0.6em);
+  padding: if($eta == false, 0 0.8em, 0 0.6em);
   border-radius: 0;
   border-width: 0;
-  color: if($nokto == 'false', $inverted_fg_color, $fg_color);
+  color: $osd_fg_color;
   selection-background-color: $selected_bg_color;
   selected-color: $selected_fg_color;
   transition-duration: 0s;
@@ -108,7 +104,7 @@ StEntry {
   StIcon.capslock-warning {
     icon-size: 16px;
     warning-color: $warning_color;
-    padding: 0 2px;
+    padding: 0 0.3em;
   }
 }
 
@@ -127,8 +123,8 @@ StScrollBar {
   padding: 0;
 
   StScrollView & {
-    min-width: if($eta == 'false', 0.45em, 0.3em);
-    min-height: if($eta == 'false', 0.45em, 0.3em);
+    min-width: if($eta == false, 0.45em, 0.3em);
+    min-height: if($eta == false, 0.45em, 0.3em);
   }
 
   StBin#trough {
@@ -141,8 +137,8 @@ StScrollBar {
   StButton#hhandle {
     margin: 0;
     border-radius: 0;
-    background-color: shellopacity($osd_fg_color, 0.5 * 0.55);
-    &:hover { background-color: shellopacity($osd_fg_color, 0.75 * 0.55); }
+    background-color: shellopacity($osd_fg_color, 0.54 * 0.55);
+    &:hover { background-color: shellopacity($osd_fg_color, 0.87 * 0.55); }
     &:active { background-color: $osd_fg_color; }
   }
 }
@@ -156,9 +152,7 @@ StScrollBar {
   height: 16px;
   color: $accent_color;
   -slider-height: 2px;
-  -slider-background-color: if($nokto == 'false',
-                            shellopacity($fg_color, 0.1),
-                            $fill_color); // background of the trough
+  -slider-background-color: $outline_fill_color; // background of the trough
   -slider-border-color: transparent; // trough border color
   -slider-active-background-color: $accent_color; // active trough fill
   -slider-active-border-color: transparent; // active trough border
@@ -178,24 +172,20 @@ StScrollBar {
     width: 20px;
     height: 20px;
     background-image: url("assets/checkbox-off.svg");
-    color: if($nokto == 'false', $inverted_secondary_fg_color,
-                                 $secondary_fg_color);
+    color: $osd_secondary_fg_color;
   }
 
   &:focus StBin {
     background-image: url("assets/checkbox-off-hover.svg");
-    color: if($nokto == 'false', $inverted_fg_color,
-                                 $fg_color);
+    color: $osd_fg_color;
   }
   &:checked StBin {
     background-image: url("assets/checkbox.svg");
-    color: if($nokto == 'false', $inverted_fg_color,
-                                 $fg_color);
+    color: $osd_fg_color;
   }
   &:focus:checked StBin {
     background-image: url("assets/checkbox-hover.svg");
-    color: if($nokto == 'false', $inverted_fg_color,
-                                 $fg_color);
+    color: $osd_fg_color;
   }
 }
 
@@ -205,8 +195,8 @@ StScrollBar {
 //  ************/
 
 .toggle-switch {
-  width: 3.0em; // = 40px nominal
-  height: 1.5em; // = 20px nominal
+  width: 40px;
+  height: 20px;
   background-size: contain;
 }
 
@@ -224,14 +214,14 @@ StScrollBar {
 
 .shell-link {
   border-radius: 2px;
-  color: $link_color;
+  color: $link_label_color;
   &:hover {
-    color: $link_color;
-    background-color: shellopacity($link_color, 0.1);
+    color: $link_label_color;
+    background-color: shellopacity($link_label_color, 0.12);
   }
   &:active {
-    color: $link_color;
-    background-color: shellopacity($link_color, 0.2);
+    color: $link_label_color;
+    background-color: shellopacity($link_label_color, 0.25);
   }
 }
 
@@ -249,33 +239,32 @@ StScrollBar {
 .modal-dialog {
   border: none;
   border-radius: 2px;
-  color: if($nokto == 'false', $inverted_fg_color, $fg_color);
+  color: $osd_fg_color;
   background-color: shellopacity($osd_bg_color, 0.9);
   box-shadow: $z-depth-4;
 
-  &-content-box { padding: if($eta == 'false', 24px, 20px); }
+  &-content-box { padding: if($eta == false, 24px, 20px); }
 
   .run-dialog {
     &-entry {
       width: 20em;
-      margin-bottom: if($eta == 'false', 6px, 4px);
+      margin-bottom: if($eta == false, 6px, 4px);
     }
 
     &-error-box {
       @include fontscaling($ref_size * 0.9);
-      padding-top: if($eta == 'false', 16px, 12px);
-      spacing: if($eta == 'false', 6px, 4px);
+      padding-top: if($eta == false, 16px, 12px);
+      spacing: if($eta == false, 6px, 4px);
       color: $error_color;
     }
 
-    &-button-box { padding-top: if($eta == 'false', 1em, 0.7em); }
+    &-button-box { padding-top: if($eta == false, 1em, 0.7em); }
 
     &-label {
       @include fontscaling($ref_size * 1.1);
-      padding-bottom: if($eta == 'false', 0.4em, 0.3em);
+      padding-bottom: if($eta == false, 0.4em, 0.3em);
       font-weight: 400;
-      color: if($nokto == 'false', $inverted_dim_fg_color,
-                                   $dim_fg_color);
+      color: $osd_tertiary_fg_color;
     }
   }
 }
@@ -292,26 +281,26 @@ StScrollBar {
 //  **********************/
 
 .end-session-dialog {
-  spacing: if($eta == 'false', 42px, 30px);
+  spacing: if($eta == false, 42px, 30px);
   border: none;
 
-  &-list { padding-top: if($eta == 'false', 20px, 14px); }
+  &-list { padding-top: if($eta == false, 20px, 14px); }
 
   &-layout {
-    &:ltr { padding-left: if($eta == 'false', 17px, 12px); }
-    &:rtl { padding-right: if($eta == 'false', 17px, 12px); }
+    &:ltr { padding-left: if($eta == false, 17px, 12px); }
+    &:rtl { padding-right: if($eta == false, 17px, 12px); }
   }
 
   &-description {
     width: 28em;
-    padding-bottom: if($eta == 'false', 10px, 7px);
+    padding-bottom: if($eta == false, 10px, 7px);
     &:ltr { text-align: left; }
     &:rtl { text-align: right; }
   }
 
   &-warning {
     width: 28em;
-    padding-top: if($eta == 'false', 6px, 4px);
+    padding-top: if($eta == false, 6px, 4px);
     color: $warning_color;
     &:ltr { text-align: left; }
     &:rtl { text-align: right; }
@@ -322,23 +311,24 @@ StScrollBar {
     height: 48px;
     border-radius: 2px;
     background-size: contain;
+    color: $osd_fg_color;
   }
 
   &-shutdown-icon {
     width: 48px;
     height: 48px;
-    color: $dim_fg_color;
+    color: $osd_fg_color;
   }
 
   &-inhibitor-layout {
-    spacing: if($eta == 'false', 16px, 12px);
-    max-height: if($eta == 'false', 200px, 180px);
-    padding-right: if($eta == 'false', 65px, 50px);
-    padding-left: if($eta == 'false', 65px, 50px);
+    spacing: if($eta == false, 16px, 12px);
+    max-height: if($eta == false, 200px, 180px);
+    padding-right: if($eta == false, 65px, 50px);
+    padding-left: if($eta == false, 65px, 50px);
   }
 
   &-session-list,
-  &-app-list { spacing: if($eta == 'false', 1em, 0.7em); }
+  &-app-list { spacing: if($eta == false, 1em, 0.7em); }
 
   &-list-header {
     font-weight: 700;
@@ -347,15 +337,14 @@ StScrollBar {
   }
 
   &-app-list-item,
-  &-session-list-item { spacing: if($eta == 'false', 1em, 0.7em); }
+  &-session-list-item { spacing: if($eta == false, 1em, 0.7em); }
 
   &-app-list-item-name,
   &-session-list-item-name { font-weight: 700; }
 
   &-app-list-item-description {
     @include fontscaling($ref_size * 1.0);
-    color: if($nokto == 'false', $inverted_dim_fg_color,
-                                 $dim_fg_color);
+    color: $osd_tertiary_fg_color;
   }
 }
 
@@ -372,49 +361,45 @@ StScrollBar {
 
 .show-processes,
 .mount-question {
-  &-dialog { spacing: if($eta == 'false', 24px, 18px); }
+  &-dialog { spacing: if($eta == false, 24px, 18px); }
 
   &-dialog-subject {
-    padding-top: if($eta == 'false', 10px, 8px);
-    padding-bottom: if($eta == 'false', 6px, 5px);
-    &:ltr { padding-left: if($eta == 'false', 17px, 12px); }
-    &:rtl { padding-right: if($eta == 'false', 17px, 12px); }
+    padding-top: if($eta == false, 10px, 8px);
+    padding-bottom: if($eta == false, 6px, 5px);
+    &:ltr { padding-left: if($eta == false, 17px, 12px); }
+    &:rtl { padding-right: if($eta == false, 17px, 12px); }
   }
 
   &-dialog-description {
     width: 28em;
-    &:ltr { padding-left: if($eta == 'false', 17px, 12px); }
-    &:rtl { padding-right: if($eta == 'false', 17px, 12px); }
+    &:ltr { padding-left: if($eta == false, 17px, 12px); }
+    &:rtl { padding-right: if($eta == false, 17px, 12px); }
   }
 }
 
 .show-processes-dialog {
   &-app-list {
-    max-height: if($eta == 'false', 200px, 180px);
-    padding-top: if($eta == 'false', 24px, 18px);
+    max-height: if($eta == false, 200px, 180px);
+    padding-top: if($eta == false, 24px, 18px);
     &:ltr {
-      padding-left: if($eta == 'false', 49px, 37px);
-      padding-right: if($eta == 'false', 32px, 26px);
+      padding-left: if($eta == false, 49px, 37px);
+      padding-right: if($eta == false, 32px, 26px);
     }
     &:rtl {
-      padding-right: if($eta == 'false', 49px, 37px);
-      padding-left: if($eta == 'false', 32px, 26px);
+      padding-right: if($eta == false, 49px, 37px);
+      padding-left: if($eta == false, 32px, 26px);
     }
 
     &-item {
-      color: if($nokto == 'false', $inverted_secondary_fg_color,
-                                   $secondary_fg_color);
-      &:hover {
-        color: if($nokto == 'false', $inverted_fg_color,
-                                     $fg_color);
-      }
-      &:ltr { padding-right: if($eta == 'false', 1em, 0.7em); }
-      &:rtl { padding-left: if($eta == 'false', 1em, 0.7em); }
+      color: $osd_secondary_fg_color;
+      &:hover { color: $osd_fg_color; }
+      &:ltr { padding-right: if($eta == false, 1em, 0.7em); }
+      &:rtl { padding-left: if($eta == false, 1em, 0.7em); }
     }
 
     &-item-icon {
-      &:ltr { padding-right: if($eta == 'false', 17px, 12px); }
-      &:rtl { padding-left: if($eta == 'false', 17px, 12px); }
+      &:ltr { padding-right: if($eta == false, 17px, 12px); }
+      &:rtl { padding-left: if($eta == false, 17px, 12px); }
     }
 
     &-item-name { @include fontscaling($ref_size * 1.0); }
@@ -432,16 +417,15 @@ StScrollBar {
   border: none;
 
   &-main-layout {
-    spacing: if($eta == 'false', 24px, 18px);
-    padding: if($eta == 'false', 10px, 8px);
+    spacing: if($eta == false, 24px, 18px);
+    padding: if($eta == false, 10px, 8px);
   }
 
-  &-message-layout { spacing: if($eta == 'false', 16px, 12px); }
+  &-message-layout { spacing: if($eta == false, 16px, 12px); }
 
   &-headline {
     @include fontscaling($ref_size * 1.3);
-    color: if($nokto == 'false', $inverted_fg_color,
-                                 $fg_color);
+    color: $osd_fg_color;
     font-weight: 500;
   }
 
@@ -452,12 +436,12 @@ StScrollBar {
 
   &-password-box {
     spacing: 1em;
-    padding-bottom: if($eta == 'false', 1em, 0.7em);
+    padding-bottom: if($eta == false, 1em, 0.7em);
   }
 
   &-error-label {
     @include fontscaling($ref_size * 1.0);
-    padding-bottom: if($eta == 'false', 8px, 6px);
+    padding-bottom: if($eta == false, 8px, 6px);
     color: $error_color;
   }
 
@@ -477,9 +461,9 @@ StScrollBar {
 
 .polkit-dialog {
   &-user-layout {
-    spacing: if($eta == 'false', 10px, 7px);
-    &:ltr { padding-left: if($eta == 'false', 10px, 7px); }
-    &:rtl { padding-right: if($eta == 'false', 10px, 7px); }
+    spacing: if($eta == false, 10px, 7px);
+    &:ltr { padding-left: if($eta == false, 10px, 7px); }
+    &:rtl { padding-right: if($eta == false, 10px, 7px); }
   }
 
   &-user-root-label { color: $warning_color; }
@@ -497,12 +481,12 @@ StScrollBar {
 //  * Audio Selection Dialog *
 //  **************************/
 
-.audio-device-selection-dialog { spacing: if($eta == 'false', 3em, 2.2em); }
+.audio-device-selection-dialog { spacing: if($eta == false, 3em, 2.2em); }
 
 .audio-selection {
   &-content {
-    padding: if($eta == 'false', 2.2em, 1.8em);
-    spacing: if($eta == 'false', 2em, 1.6em);
+    padding: if($eta == false, 2.2em, 1.8em);
+    spacing: if($eta == false, 2em, 1.6em);
   }
 
   &-title {
@@ -510,19 +494,22 @@ StScrollBar {
     text-align: center;
   }
 
-  &-box { spacing: if($eta == 'false', 2em, 1.6em); }
+  &-box { spacing: if($eta == false, 2em, 1.6em); }
 
   &-device {
     border: 1px solid $borders_color;
     border-radius: 2px;
     &:hover,
-    &:focus { background-color: $osd_fill_color; }
-    &:active { background-color: $selected_bg_color; }
+    &:focus { background-color: $osd_semi_fill_color; }
+    &:active {
+      background-color: $selected_bg_color;
+      color: $selected_fg_color;
+    }
   }
 
   &-device-box {
-    padding: if($eta == 'false', 2em, 1.6em);
-    spacing: if($eta == 'false', 2em, 1.6em);
+    padding: if($eta == false, 2em, 1.6em);
+    spacing: if($eta == false, 2em, 1.6em);
   }
 
   &-device-icon { icon-size: 64px; }
@@ -534,16 +521,16 @@ StScrollBar {
 //  *****************/
 
 .access-dialog {
-  spacing: if($eta == 'false', 30px, 24px);
+  spacing: if($eta == false, 30px, 24px);
 
   &-main-layout {
-    padding: if($eta == 'false', 1em 1.6em 0, 0.7em 1.2em 0);
-    spacing: if($eta == 'false', 1em, 0.7em);
+    padding: if($eta == false, 1em 1.6em 0, 0.7em 1.2em 0);
+    spacing: if($eta == false, 1em, 0.7em);
   }
 
   &-content {
     max-width: 28em;
-    spacing: if($eta == 'false', 2em, 1.6em);
+    spacing: if($eta == false, 2em, 1.6em);
   }
 
   &-icon {
@@ -555,8 +542,7 @@ StScrollBar {
 
   &-subtitle {
     @include fontscaling($ref_size * 1.1);
-    color: if($nokto == 'false', $inverted_dim_fg_color,
-                                 $dim_fg_color);
+    color: $osd_tertiary_fg_color;
     font-weight: 700;
   }
 }
@@ -567,19 +553,18 @@ StScrollBar {
 //  **********************/
 
 .geolocation-dialog {
-  spacing: if($eta == 'false', 30px, 24px);
+  spacing: if($eta == false, 30px, 24px);
 
-  &-main-layout { spacing: if($eta == 'false', 1em, 0.7em); }
+  &-main-layout { spacing: if($eta == false, 1em, 0.7em); }
 
-  &-content { spacing: if($eta == 'false', 2em, 1.6em); }
+  &-content { spacing: if($eta == false, 2em, 1.6em); }
 
   &-icon { icon-size: 48px; }
 
   &-title { font-weight: 700; }
 
   &-reason {
-    color: if($nokto == 'false', $inverted_dim_fg_color,
-                                 $dim_fg_color);
+    color: $osd_tertiary_fg_color;
     font-weight: 400;
   }
 }
@@ -600,70 +585,82 @@ StScrollBar {
 //  * Popovers/Menus *
 //  ******************/
 
+$default_spacing: if($eta == false, 8px, 6px);
+$extra_spacing: 2.5px;
+
 .popup-menu {
   min-width: 15em;
-
-  .popup-menu-arrow { // defined globally in the TOP BAR
-  }
 
   .popup-sub-menu {
     border-bottom: 1px solid $borders_color;
     background-color: $secondary_dark_color;
     box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.12);
+
+    // sub-menu 'label-only' item indentations
+    .popup-menu-item > StLabel:first-child {
+      // .popup-menu-icon width + child spacing
+      // + avatar icon's extra spacing
+      &:ltr {
+        margin-left: 16px;
+        padding-left: $default_spacing * 2 + $extra_spacing;
+      }
+      &:rtl {
+        margin-right: 16px;
+        padding-right: $default_spacing * 2 + $extra_spacing;
+      }
+    }
   }
 
-  .popup-menu-content { padding: if($eta == 'false', 0.45em 0, 0.3em 0); }
+  .popup-menu-content { padding: if($eta == false, 0.3em 0, 0.21em 0); }
 
   .popup-menu-item {
-    spacing: if($eta == 'false', 8px, 6px);
+    spacing: $default_spacing;
     color: $secondary_fg_color;
+    font-weight: 400;
     transition-duration: 0s;
 
     &:ltr {
-      padding: if($eta == 'false', 0.45em 1.75em 0.45em 0,
-                                   0.3em 1.2em 0.3em 0);
+      padding: if($eta == false, 0.45em 1.75em 0.45em 0,
+                                 0.3em 1.2em 0.3em 0);
     }
     &:rtl {
-      padding: if($eta == 'false', 0.45em 0 0.45em 1.75em,
-                                   0.3em 0 0.3em 1.2em);
+      padding: if($eta == false, 0.45em 0 0.45em 1.75em,
+                                 0.3em 0 0.3em 1.2em);
     }
 
     &:checked {
-      background-color: $selected_bg_color;
-      color: $selected_fg_color;
-      box-shadow: $empty_shadow;
-      font-weight: 500;
-      &.selected {
-        background-color: mix($selected_bg_color, $selected_fg_color, 90%);
-        color: $selected_fg_color;
+      &, &.selected {
+        background-color: transparent;
+        color: $selected_bg_color;
+        box-shadow: $empty_shadow;
+      }
+      &:hover {
+        background-color: shellopacity($selected_bg_color, 0.12);
+        color: $selected_bg_color;
       }
       &:active {
-        background-color: mix($selected_bg_color, $selected_fg_color, 80%);
-        color: $selected_fg_color;
+        background-color: shellopacity($selected_bg_color, 0.25);
+        color: $selected_bg_color;
       }
-      &:insensitive { color: shellopacity($selected_fg_color, 0.5); }
+      &:insensitive { color: shellopacity($selected_bg_color, 0.4); }
     }
     &.selected {
-      background-color: if($nokto == 'false',
-                        shellopacity($fg_color, 0.1),
-                        $semi_fill_color);
+      background-color: $semi_fill_color;
       color: $fg_color;
       transition-duration: 0s;
     }
     &:active {
-      background-color: if($nokto == 'false',
-                        shellopacity($fg_color, 0.2),
-                        $fill_color);
+      background-color: $fill_color;
       color: $fg_color;
       transition-duration: $duration_medium;
     }
     &.selected:active { color: $fg_color; }
-    &:insensitive { color: shellopacity($fg_color, 0.5); }
+    &:insensitive { color: $insensitive_fg_color; }
   }
 
   .popup-inactive-menu-item { // all icons and other graphical elements
     color: $secondary_fg_color;
-    &:insensitive { color: shellopacity($secondary_fg_color, 0.5); }
+    &:insensitive { color: $insensitive_fg_color; }
   }
 
   .popup-status-menu-item {
@@ -671,7 +668,7 @@ StScrollBar {
 
   &.panel-menu {
     -boxpointer-gap: 4px;
-    margin-bottom: if($eta == 'false', 1.75em, 1.2em);
+    margin-bottom: 16px;
   }
 
   StEntry { // use variant-sensitive foreground colours
@@ -701,17 +698,31 @@ StScrollBar {
 
     StButton#vhandle,
     StButton#hhandle { // use variant-sensitive slider-bit
-      background-color: shellopacity($fg_color, 0.5 * 0.55);
-      &:hover { background-color: shellopacity($fg_color, 0.75 * 0.55); }
+      background-color: shellopacity($fg_color, 0.54 * 0.55);
+      &:hover { background-color: shellopacity($fg_color, 0.87 * 0.55); }
       &:active { background-color: $fg_color; }
     }
   }
 }
 
-.popup-menu-ornament {
-  width: 1.2em;
-  height: 1.2em;
-  text-align: right;
+.popup-menu {
+  &-arrow { // not really top bar only
+    width: 16px;
+    height: 16px;
+  }
+
+  &-icon { icon-size: 16px; }
+
+  &-ornament {
+    @include fontscaling($ref_size * 1.1);
+    width: 1.1em; // protect the region
+    height: 0; // trick for minimum separator-menu-item height
+    padding-top: 1.3px; // not need to scale
+    color: $selected_bg_color;
+    text-align: right;
+    font-family: $font-family-for-ornament;
+    font-weight: 700;
+  }
 }
 
 .popup-menu-boxpointer {
@@ -762,95 +773,16 @@ StScrollBar {
   -arrow-rise: 0;
 }
 
-// Volume-mixer extension
-.masterslider.smaller {
-  .masterlabel,
-  .slider {
-    min-width: 15em - (0.4em * 2);
-  }
-}
-
-
-// /*******************************
-//  * Applications Menu Extension *
-//  *******************************/
-
-.popup-menu {
-  // '.apps-menu' is the child boxLayout (right-pane)
-  StScrollView.apps-menu {
-    margin: 0 4px;
-    border-style: solid;
-    border-color: $borders_color;
-
-    &:ltr {
-      padding: if($eta == 'false', 0 0 0 12px, 0 0 0 8px);
-      border-left-width: 1px;
-    }
-    &:rtl {
-      padding: if($eta == 'false', 0 12px 0 0, 0 8px 0 0);
-      border-right-width: 1px;
-    }
-  }
-}
-
-
-// /**********************
-//  * Arc Menu Extension *
-//  **********************/
-
-#panelApplications {
-  &,
-  &:hover,
-  &:focus,
-  &:active,
-  &:checked {
-    StIcon { color: transparent; } // hide stock icon
+// an avatar icon in menus
+.system-switch-user-submenu-icon {
+  &.user-icon {
+    icon-size: 16px + 4px;
+    padding: 0 ($default_spacing + $extra_spacing - 4px) / 2;
   }
 
-  StIcon.popup-menu-icon {
-    min-width: if($eta == 'false', 26px, 20px);
-    padding: if($eta == 'false', 0 5px, 0 2px);
-    background-image: url("assets/show-apps-panel.svg");
-    background-size: 32px 32px;
-    background-position: center center;
-    transition-duration: 0s;
-  }
-
-  &:hover,
-  &:focus,
-  &:active,
-  &:checked {
-    StIcon.popup-menu-icon {
-      background-image: url("assets/show-apps-panel-hover.svg");
-      transition-duration: 0s;
-    }
-  }
-}
-
-.main-box {
-  background-color: $secondary_base_color;
-
-  .popup-menu {
-    &:ltr { padding-right: 4px; }
-    &:rtl { padding-left: 4px; }
-  }
-
-  // use tiny padding
-  .system-menu-action {
-    &,
-    &:focus,
-    &:hover,
-    &:active,
-    &:checked { padding: 10px; }
-  }
-
-  StScrollView.apps-menu { // left-pane
-    margin-bottom: if($eta == 'false', 6px, 4px);
-    padding: 0;
-    border-width: 1px;
-    background-color: $bg_color;
-
-    StIcon { icon-size: 16px; }
+  &.default-icon {
+    icon-size: 16px;
+    padding: 0 ($default_spacing + $extra_spacing) / 2;
   }
 }
 
@@ -862,8 +794,8 @@ StScrollBar {
 .osd-window {
   min-width: 64px;
   min-height: 64px;
-  margin: if($eta == 'false', 32px, 24px);
-  spacing: if($eta == 'false', 1em, 0.7em);
+  margin: if($eta == false, 32px, 24px);
+  spacing: if($eta == false, 1em, 0.7em);
   font-weight: 700;
   text-align: center;
 
@@ -872,7 +804,7 @@ StScrollBar {
   .level {
     height: 3px;
     border-radius: 0;
-    background-color: $osd_semi_fill_color;
+    background-color: $osd_outline_fill_color;
     color: $success_color;
   }
 
@@ -889,13 +821,13 @@ StScrollBar {
 
 .pad-osd {
   &-window {
-    padding: if($eta == 'false', 32px, 26px);
+    padding: if($eta == false, 32px, 26px);
     background-color: shellopacity($osd_bg_color, 0.9);
 
     .pad-osd-title {
-      &-box { spacing: if($eta == 'false', 12px, 10px); }
+      &-box { spacing: if($eta == false, 12px, 10px); }
 
-      &-menu-box { spacing: if($eta == 'false', 6px, 5px); }
+      &-menu-box { spacing: if($eta == false, 6px, 5px); }
     }
   }
 }
@@ -908,8 +840,8 @@ StScrollBar {
 //  ****************/
 
 .switcher-popup {
-  padding: if($eta == 'false', 8px, 6px);
-  spacing: if($eta == 'false', 16px, 12px);
+  padding: if($eta == false, 8px, 6px);
+  spacing: if($eta == false, 16px, 12px);
 }
 
 .osd-window,
@@ -919,19 +851,23 @@ StScrollBar {
 }
 
 .switcher-list {
-  &-item-container { spacing: if($eta == 'false', 8px, 6px); }
+  > StLabel { // for app titles in AlternativeTabExtension
+    // prepare for tall/dense font-families
+    min-height: 13.3px * 2; // use 'px' unit
+  }
+
+  &-item-container { spacing: if($eta == false, 8px, 6px); }
 
   .item-box {
-    padding: if($eta == 'false', 8px, 6px);
+    padding: if($eta == false, 8px, 6px);
     border-radius: 2px;
 
     &:outlined {
-      padding: if($eta == 'false', 6px, 4px);
-      border: 2px solid if($nokto == 'false', $osd_fill_color,
-                                              $fill_color);
+      padding: if($eta == false, 6px, 4px);
+      border: 2px solid $osd_outline_fill_color;
     }
     &:selected {
-      background-color: $accent_active_fill_color;
+      background-color: $accent_fill_color;
       color: $inverted_accent_label_color;
     }
   }
@@ -941,7 +877,7 @@ StScrollBar {
     spacing: 4px;
   }
 
-  .thumbnail { width: if($eta == 'false', 256px, 192px); }
+  .thumbnail { width: if($eta == false, 256px, 192px); }
 
   .separator {
     width: 1px;
@@ -951,16 +887,16 @@ StScrollBar {
 
 .switcher-arrow {
   border-color: transparent;
-  color: if($nokto == 'false', $osd_dim_fg_color, $dim_fg_color);
+  color: $osd_secondary_fg_color;
   &:highlighted {
-    color: if($nokto == 'false', $osd_fg_color, $fg_color);
+    color: $osd_fg_color;
   }
 }
 
 .input-source-switcher-symbol {
-  @include fontscaling($ref_size * if($eta == 'false', 3.0, 2.4));
-  width: if($eta == 'false', 96px, 72px);
-  height: if($eta == 'false', 96px, 72px);
+  @include fontscaling($ref_size * if($eta == false, 3.0, 2.4));
+  width: if($eta == false, 96px, 72px);
+  height: if($eta == false, 96px, 72px);
 }
 
 
@@ -981,43 +917,45 @@ StScrollBar {
 
 .workspace-switcher {
   padding: 0;
-  spacing: if($eta == 'false', 8px, 6px);
+  spacing: if($eta == false, 8px, 6px);
   border: 0;
   border-radius: 0;
   background: transparent;
 
-  &-group { padding: if($eta == 'false', 12px, 8px); }
+  &-group { padding: if($eta == false, 12px, 8px); }
 
   &-container { @extend %osd-panel; }
 }
 
 .ws-switcher {
   &-active-up {
-    height: if($eta == 'false', 50px, 36px);
-    background-color: $accent_active_fill_color;
+    height: if($eta == false, 50px, 36px);
+    background-color: $accent_fill_color;
     background-image: url("assets/go-up.svg");
     background-size: 24px;
     border-radius: 2px;
   }
 
   &-active-down {
-    height: if($eta == 'false', 50px, 36px);
-    background-color: $accent_active_fill_color;
+    height: if($eta == false, 50px, 36px);
+    background-color: $accent_fill_color;
     background-image: url("assets/go-down.svg");
     background-size: 24px;
     border-radius: 2px;
   }
 
   &-box {
-    height: if($eta == 'false', 50px, 36px);
-    border: 2px solid $osd_semi_fill_color;
+    height: if($eta == false, 50px, 36px);
+    border: 2px solid $osd_outline_fill_color;
     border-radius: 2px;
     background: transparent;
   }
 }
 
 %osd-panel {
-  padding: if($eta == 'false', 12px, 8px);
+  // the value of bottom-padding is shared with '.switcher-arrow' size,
+  // so do not reduce to < 12px (StDrawingArea)
+  padding: if($eta == false, 16px, 12px);
   border-radius: 2px;
   border: none;
   color: $osd_fg_color;
@@ -1032,15 +970,12 @@ StScrollBar {
 
 .tile-preview {
   border: 1px solid $selected_bg_color;
+  border-radius: 0;
   background-color: shellopacity($selected_bg_color, 0.2);
 
-  &-left.on-primary {
-    border-radius: 2px 2px 0 0;
-
-    &.tile-preview-right { border-radius: 2px 2px 0 0; }
-  }
-
-  &-right.on-primary { border-radius: 0 2px 0 0; }
+  &-left.on-primary,
+  &-left.on-primary.tile-preview-right,
+  &-right.on-primary { border-radius: 0; }
 }
 
 
@@ -1049,8 +984,12 @@ StScrollBar {
 //  ***********/
 
 #panel {
-  height: if($eta == 'false', 30px,  // = 2.25em
-                              25px); // = 1.875em
+  // default height
+  min-height: if($eta == false, 30px,  // = 2.25em
+                                25px); // = 1.875em
+  // special height for upscaled via font-scaling-factor
+  // this should be always smaller than min-height if f-s-f < 1.0
+  height: if($eta == false, 2.1em, 1.8em);
   background-color: $panel_bg_color;
   font-weight: 700;
   transition-timing-function: $slope_slow;
@@ -1071,23 +1010,20 @@ StScrollBar {
     spacing: 0;
   }
 
-  .panel-corner {
+  .panel-corner { // unset all properties
     -panel-corner-radius: 0;
-    -panel-corner-background-color: $panel_bg_color;
-    -panel-corner-border-width: 2px;
+    -panel-corner-background-color: $panel_hidden_fill_color;
+    -panel-corner-border-width: 0;
     -panel-corner-border-color: transparent;
+    transition-duration: 0s;
 
-    transition-timing-function: $slope_slow;
-    transition-duration: $duration_long;
-
-    &:hover {
+    &:hover,
+    &:focus {
       background-color: $panel_hidden_fill_color;
-      box-shadow: inset 0 2px $osd_fill_color;
+      box-shadow: inset 0 2px $osd_outline_fill_color;
     }
     &:active,
-    &:overview,
-    &:focus {
-      -panel-corner-border-color: transparent;
+    &:overview {
       background-color: $panel_hidden_fill_color;
       box-shadow: inset 0 2px $osd_indicator_color;
     }
@@ -1097,15 +1033,18 @@ StScrollBar {
     &.unlock-screen {
       -panel-corner-radius: 0;
       -panel-corner-background-color: transparent;
+      -panel-corner-border-width: 0;
       -panel-corner-border-color: transparent;
     }
 
-    StLabel { padding: if($eta == 'false', 0 4px 1px, 0 2px 1px); }
+    StLabel { padding: if($eta == false, 0 4px 1px, 0 2px 1px); }
+
+    StIcon { margin-top: 1px; } // reset base-line
   }
 
   .panel-button {
-    -natural-hpadding: if($eta == 'false', 10px, 6px);
-    -minimum-hpadding: if($eta == 'false', 10px, 6px);
+    -natural-hpadding: if($eta == false, 10px, 6px);
+    -minimum-hpadding: if($eta == false, 10px, 6px);
     color: $osd_fg_color;
     font-weight: 700;
     // FIXME: once these buttons are placed in panel-corners,
@@ -1115,13 +1054,13 @@ StScrollBar {
 
     .app-menu-icon { // dimensions of the icon are hardcoded
       -st-icon-style: symbolic;
-      padding: if($eta == 'false', 0 5px, 0 2px);
+      padding: if($eta == false, 0 5px, 0 2px);
     }
 
     &:hover {
       color: $selected_fg_color;
       background-color: $panel_hidden_fill_color;
-      box-shadow: inset 0 2px $osd_fill_color;
+      box-shadow: inset 0 2px $osd_outline_fill_color;
     }
     &:active,
     &:focus,
@@ -1138,13 +1077,28 @@ StScrollBar {
 
     .system-status-icon {
       icon-size: 16px;
-      padding: if($eta == 'false', 0 5px, 0 3px);
+      padding: if($eta == false, 0 5px, 0 3px);
     }
 
-    StLabel { padding: if($eta == 'false', 0 4px 1px, 0 2px 1px); }
+    StLabel { padding: if($eta == false, 0 4px 1px, 0 2px 1px); }
 
-    .popup-menu-arrow { // hide down-arrows
-      width: 0;
+    StIcon { margin-top: 1px; } // reset base-line
+
+    &,
+    &:hover,
+    &:active,
+    &:focus,
+    &:checked,
+    &:overview,
+    &.unlock-screen,
+    &.login-screen,
+    &.lock-screen {
+      .popup-menu-arrow { // hide down-arrows
+        width: 0;
+        height: 0;
+        color: transparent;
+        icon-shadow: none; // unset drop-shadow
+      }
     }
   }
 
@@ -1160,17 +1114,17 @@ StScrollBar {
 //  ********************/
 
 #calendarArea {
-  padding: if($eta == 'false', 0.75em 1.0em,
-                               0.5em 0.7em);
+  padding: if($eta == false, 0.75em 1.0em,
+                             0.5em 0.7em);
 }
 
-.calendar { margin-bottom: if($eta == 'false', 1em, 0.7em); }
+.calendar { margin-bottom: if($eta == false, 1em, 0.7em); }
 
 .calendar,
 .datemenu-today-button,
 .datemenu-displays-box,
 .message-list-sections {
-  margin: if($eta == 'false', 0 1.5em, 0 1em);
+  margin: if($eta == false, 0 1.5em, 0 1em);
 }
 
 .datemenu { // optimize spacing
@@ -1178,7 +1132,7 @@ StScrollBar {
 
   &-displays-section { padding-bottom: 0; }
 
-  &-displays-box { spacing: if($eta == 'false', 1em, 0.7em); }
+  &-displays-box { spacing: if($eta == false, 1em, 0.7em); }
 }
 
 // pane-separator between messages and calendar
@@ -1222,7 +1176,10 @@ StScrollBar {
 }
 
 .datemenu-today-button { // re-define foregrounds
-  .day-label { color: $dim_fg_color; }
+  .day-label {
+    color: $tertiary_fg_color;
+    font-weight: 700;
+  }
 
   .date-label {
     @include fontscaling($ref_size * 1.5);
@@ -1242,7 +1199,7 @@ StScrollBar {
 .weather-header,
 .message-list-section-title, // in 3.24 cycle, use .event-section-title
 .events-section-title {
-  color: $dim_fg_color;
+  color: $tertiary_fg_color;
   font-weight: 700;
 }
 
@@ -1322,7 +1279,7 @@ StScrollBar {
     margin-top: 0.2em;
     padding: 0.5em 0 0;
     background-color: transparent;
-    color: $dim_fg_color;
+    color: $tertiary_fg_color;
     font-weight: 700;
     text-align: center;
   }
@@ -1334,7 +1291,7 @@ StScrollBar {
   margin: 0.2em;
   padding: 0.5em 0 0;
   background-color: transparent;
-  color: $dim_fg_color;
+  color: $tertiary_fg_color;
   font-weight: 700;
   text-align: center;
 }
@@ -1349,10 +1306,10 @@ StScrollBar {
 
   &-with-events {
     background-image: none;
-    color: $link_color;
+    color: $link_label_color;
     font-weight: 700;
     text-decoration: underline;
-    &:hover { background-color: shellopacity($link_color, 0.2); }
+    &:hover { background-color: shellopacity($link_label_color, 0.2); }
     &:active,
     &:selected {
       &, &:hover {
@@ -1374,8 +1331,8 @@ StScrollBar {
 
   &,
   &.calendar-day-with-events {
-    background-color: shellopacity($panel_bg_color, 0.75);
-    color: shellopacity($selected_fg_color, 0.75);
+    background-color: shellopacity($panel_bg_color, 0.87);
+    color: shellopacity($selected_fg_color, 0.87);
     &:hover,
     &:focus {
       background-color: $panel_bg_color;
@@ -1392,14 +1349,20 @@ StScrollBar {
 }
 
 .calendar-other-month-day {
-  color: $dim_fg_color;
+  color: shellopacity($tertiary_fg_color, 0.55);
   &:hover,
-  &:focus { background-color: shellopacity($semi_fill_color, 0.5); }
+  &:focus {
+    color: $tertiary_fg_color;
+    background-color: shellopacity($tertiary_fg_color, 0.12);
+  }
 
   &.calendar-day-with-events {
-    color: shellopacity($link_color, 0.5);
+    color: shellopacity($link_label_color, 0.54 * 0.55);
     &:hover,
-    &:focus { background-color: shellopacity($link_color, 0.1); }
+    &:focus {
+      color: shellopacity($link_label_color, 0.54);
+      background-color: shellopacity($link_label_color, 0.54 * 0.12);
+    }
   }
 }
 
@@ -1409,27 +1372,27 @@ StScrollBar {
 //  ****************/
 
 .message-list {
-  width: if($eta == 'false', 420px, 380px);
+  width: if($eta == false, 420px, 380px);
 
   &-clear-button.button { // 'Clear all' button
-    margin:  if($eta == 'false', 1.5em 1.5em 0, 1.2em 1.2em 0);
+    margin:  if($eta == false, 1.5em 1.5em 0, 1.2em 1.2em 0);
     color: $secondary_accent_label_color;
     background-color: transparent;
     font-weight: 700;
     &:hover,
     &:focus {
       color: $accent_label_color;
-      background-color: $accent_fill_color;
+      background-color: $accent_semi_fill_color;
     }
     &:active {
       color: $accent_label_color;
-      background-color: $accent_active_fill_color;
+      background-color: $accent_fill_color;
       box-shadow: $empty_shadow;
     }
     &:insensitive { @include button(flat-insensitive); }
   }
 
-  &-sections { spacing: if($eta == 'false', 1.5em, 1.2em); }
+  &-sections { spacing: if($eta == false, 1.5em, 1.2em); }
 
   &-section,
   &-section-list { spacing: 0.7em; }
@@ -1458,7 +1421,7 @@ StScrollBar {
   }
 
   // labels for empty messages/events
-  &-placeholder { color: $dim_fg_color; }
+  &-placeholder { color: $tertiary_fg_color; }
 }
 
 .message {
@@ -1474,8 +1437,8 @@ StScrollBar {
   .popup-menu & {
     background-color: $semi_fill_color;
     color: $secondary_fg_color;
-    &:ltr { box-shadow: inset 4px 0 $semi_fill_color; }
-    &:rtl { box-shadow: inset -4px 0 $semi_fill_color; }
+    &:ltr { box-shadow: inset 4px 0 $outline_fill_color; }
+    &:rtl { box-shadow: inset -4px 0 $outline_fill_color; }
 
     .message-icon-bin > StIcon,
     .message-title,
@@ -1483,7 +1446,7 @@ StScrollBar {
 
     &:hover,
     &:focus {
-      background-color: $accent_fill_color;
+      background-color: $accent_semi_fill_color;
       color: $fg_color;
       &:ltr { box-shadow: inset 4px 0 $secondary_accent_color; }
       &:rtl { box-shadow: inset -4px 0 $secondary_accent_color; }
@@ -1498,7 +1461,7 @@ StScrollBar {
       }
     }
     &:active {
-      background-color: $accent_active_fill_color;
+      background-color: $accent_fill_color;
       color: $fg_color;
       &:ltr { box-shadow: inset 4px 0 $accent_color; }
       &:rtl { box-shadow: inset -4px 0 $accent_color; }
@@ -1523,6 +1486,8 @@ StScrollBar {
     &:rtl { margin: 4px - 2px 6px 0 0; }
 
     > StIcon {
+      min-width: 16px;  // for an indentation of .message-content
+      min-height: 16px; // reserve StIcon region even if StIcon was null
       color: $osd_fg_color;
       icon-size: 16px;
       -st-icon-style: symbolic;
@@ -1530,7 +1495,7 @@ StScrollBar {
   }
 
   &-secondary-bin {
-    color: $osd_dim_fg_color;
+    color: $osd_tertiary_fg_color;
     &:ltr { padding-left: 6px; }
     &:rtl { padding-right: 6px; }
 
@@ -1538,14 +1503,14 @@ StScrollBar {
       @include fontscaling($ref_size * 0.8);
       // '.message-title' padding + extra 0.1em for finer base-line
       padding-bottom: 0.5em + 0.1em;
-      color: $osd_dim_fg_color;
+      color: $osd_tertiary_fg_color;
     }
 
     > StIcon { icon-size: 16px; }
 
     .popup-menu & {
       &,
-      > .event-time { color: $dim_fg_color; }
+      > .event-time { color: $tertiary_fg_color; }
     }
   }
 
@@ -1572,11 +1537,11 @@ StScrollBar {
     *:hover > StIcon,
     *:focus > StIcon {
       color: $accent_label_color;
-      background-color: $accent_fill_color;
+      background-color: $accent_semi_fill_color;
     }
     *:active > StIcon {
       color: $accent_label_color;
-      background-color: $accent_active_fill_color;
+      background-color: $accent_fill_color;
     }
   }
 }
@@ -1607,21 +1572,21 @@ StScrollBar {
 
 .media-message-cover-icon {
   // use 'important' flag to overrride .message-icon-bin > StIcon size
-  icon-size: if($eta == 'false', 48px, 36px) !important;
+  icon-size: if($eta == false, 48px, 36px) !important;
   // subtruct .message-content's 'close' button padding
   margin-bottom: 4px - 2px;
 
   &.fallback {
-    icon-size: if($eta == 'false', 24px, 16px) !important;
-    padding: if($eta == 'false', 12px, 10px);
+    icon-size: if($eta == false, 24px, 16px) !important;
+    padding: if($eta == false, 12px, 10px);
     border: none;
     border-radius: 2px;
-    color: $osd_dim_fg_color;
+    color: $osd_tertiary_fg_color;
     background-color: $osd_semi_fill_color;
     box-shadow: $empty_shadow;
 
     .popup-menu .message & {
-      color: $dim_fg_color;
+      color: $tertiary_fg_color;
       background-color: $semi_fill_color;
     }
 
@@ -1635,32 +1600,19 @@ StScrollBar {
 }
 
 
-// /******************************
-//  * A Little Unstructured Mess *
-//  ******************************/
-
-.system-switch-user-submenu-icon {
-  &.user-icon {
-    icon-size: 20px;
-    padding: 0 1px;
-  }
-
-  &.default-icon {
-    icon-size: 16px;
-    padding: 0 3px;
-  }
-}
-
-
 // /************
 //  * App Menu *
 //  ************/
 
 #appMenu {
   spinner-image: url("process-working.svg");
-  padding: if($eta == 'false', 0 10px, 0 6px);
+  padding: if($eta == false, 0 10px, 0 6px);
 
-  StLabel { padding: if($eta == 'false', 0 4px 1px, 0 2px 1px); }
+  // LR padding and make more gap between label and spinner
+  StLabel {
+    &:ltr { padding: if($eta == false, 0 10px 0 3px, 0 6px 0 2px); }
+    &:rtl { padding: if($eta == false, 0 3px 0 10px, 0 2px 0 6px); }
+  }
 
   .label-shadow { color: transparent; }
 }
@@ -1668,80 +1620,27 @@ StScrollBar {
 .aggregate-menu {
   min-width: 24em;
 
-  .popup-menu-icon { padding: if($eta == 'false', 0 6px, 0 4px); }
+  .popup-menu-icon { padding: if($eta == false, 0 6px, 0 4px); }
 }
 
 .system-menu-action {
-  padding: if($eta == 'false', 16px, 10px);
+  padding: if($eta == false, 16px, 10px);
   border-radius: 100px;
   border: none;
   color: $secondary_accent_label_color;
   &:hover,
   &:focus {
-    padding: if($eta == 'false', 16px, 10px);
+    padding: if($eta == false, 16px, 10px);
     border: none;
-    background-color: $accent_fill_color;
+    background-color: $accent_semi_fill_color;
     color: $accent_label_color;
   }
   &:active {
     color: $accent_label_color;
-    background-color: $accent_active_fill_color;
+    background-color: $accent_fill_color;
   }
 
   > StIcon { icon-size: 16px; }
-}
-
-
-// /*************************
-//  * OpenWeather Extension *
-//  *************************/
-
-// FIXME: Why devs use 'system-menu-action' class? wrong place...
-.openweather-button,
-.openweather-menu-button-container,
-.openweather-button-box,
-.openweather-provider {
-  color: $secondary_fg_color;
-  &:hover {
-    color: $fg_color;
-    background-color: $semi_fill_color;
-
-    > StIcon { color: $fg_color; }
-  }
-  &:active,
-  &:focus {
-    color: $fg_color;
-    background-color: $fill_color;
-
-    > StIcon { color: $fg_color; }
-  }
-
-  > StIcon,
-  > StLabel { color: $secondary_fg_color; }
-}
-
-.openweather-current {
-  &-icon,
-  &-summary,
-  &-summarybox { color: $fg_color; }
-
-  &-databox-values { color: $dim_fg_color; }
-
-  &-databox-captions { color: $dim_fg_color; }
-}
-
-.openweather-forecast {
-  &-icon,
-  &-summary { color: $secondary_fg_color; }
-
-  &-day,
-  &-temperature { color: $dim_fg_color; }
-}
-
-.openweather-sunrise-icon,
-.openweather-sunset-icon,
-.openweather-build-icon {
-  color: $secondary_fg_color;
 }
 
 
@@ -1758,17 +1657,11 @@ StScrollBar {
   &:rtl { background-image: url("assets/corner-ripple-rtl.svg"); }
 }
 
-// not really top bar only
-.popup-menu {
-  &-arrow {
-    width: 16px;
-    height: 16px;
-  }
 
-  &-icon { icon-size: 14px; }
-}
+// /*****************
+//  * Close Buttons *
+//  *****************/
 
-// close buttons
 .window-close {
   height: 32px;
   width: 32px;
@@ -1781,13 +1674,6 @@ StScrollBar {
     -st-background-image-shadow: $z-depth-2;
   }
   &:active { background-image: url("assets/window-close-active.svg"); }
-
-  &:rtl {
-    -st-background-image-shadow: $z-depth-1;
-    &:hover {
-      -st-background-image-shadow: $z-depth-2;
-    }
-  }
 }
 
 
@@ -1801,14 +1687,14 @@ StScrollBar {
   min-width: 34em;
 
   &-content {
-    spacing: if($eta == 'false', 20px, 16px);
-    padding: if($eta == 'false', 24px, 18px);
+    spacing: if($eta == false, 20px, 16px);
+    padding: if($eta == false, 24px, 18px);
   }
 
   &-header-hbox {
-    spacing: if($eta == 'false', 10px, 7px);
-    // diming for subtitle
-    color: $osd_dim_fg_color;
+    spacing: if($eta == false, 10px, 7px);
+    // dimming for subtitle
+    color: $osd_tertiary_fg_color;
   }
 
   &-header { // title
@@ -1824,7 +1710,7 @@ StScrollBar {
 
   &-airplane {
     &-box {
-      spacing: if($eta == 'false', 12px, 9px);
+      spacing: if($eta == false, 12px, 9px);
 
       .button {
         color: $inverted_secondary_accent_label_color;
@@ -1832,11 +1718,11 @@ StScrollBar {
         font-weight: 700;
         &:hover {
           color: $inverted_accent_label_color;
-          background-color: $accent_fill_color;
+          background-color: $accent_semi_fill_color;
         }
         &:active {
           color: $inverted_accent_label_color;
-          background-color: $accent_active_fill_color;
+          background-color: $accent_fill_color;
           box-shadow: $empty_shadow;
         }
         &:insensitive { @include button(osd-insensitive); }
@@ -1848,15 +1734,15 @@ StScrollBar {
       text-align: center;
     }
 
-    &-text { color: if($nokto == 'false', $osd_fg_color, $fg_color); }
+    &-text { color: $osd_fg_color; }
   }
 
   &-scroll-view { border: 1px solid $borders_color; }
 
   &-item {
     @include fontscaling($ref_size * 1.0);
-    spacing: if($eta == 'false', 20px, 16px);
-    padding: if($eta == 'false', 12px, 8px);
+    spacing: if($eta == false, 20px, 16px);
+    padding: if($eta == false, 12px, 8px);
     color: $osd_fg_color;
     &:selected {
       background-color: $selected_bg_color;
@@ -1870,11 +1756,9 @@ StScrollBar {
 }
 
 .no-networks {
-  &-label {
-    color: if($nokto == 'false', $osd_dim_fg_color, $dim_fg_color);
-  }
+  &-label { color: $osd_tertiary_fg_color; }
 
-  &-box { spacing: if($eta == 'false', 12px, 8px); }
+  &-box { spacing: if($eta == false, 12px, 8px); }
 }
 
 
@@ -1883,19 +1767,19 @@ StScrollBar {
 //  ************/
 
 #overview {
-  spacing: if($eta == 'false', 24px, 18px);
+  spacing: if($eta == false, 24px, 18px);
 
-  &-controls { padding-bottom: if($eta == 'false', 32px, 26px); }
+  &-controls { padding-bottom: if($eta == false, 32px, 26px); }
 }
 
 .window-picker { // container around window thumbnails
-  -horizontal-spacing: if($eta == 'false', 32px, 26px);
-  -vertical-spacing: if($eta == 'false', 32px, 26px);
-  padding-left: if($eta == 'false', 32px, 26px);
-  padding-right: if($eta == 'false', 32px, 26px);
-  padding-bottom: if($eta == 'false', 48px, 36px);
+  -horizontal-spacing: if($eta == false, 32px, 26px);
+  -vertical-spacing: if($eta == false, 32px, 26px);
+  padding-left: if($eta == false, 32px, 26px);
+  padding-right: if($eta == false, 32px, 26px);
+  padding-bottom: if($eta == false, 48px, 36px);
 
-  &.external-monitor { padding: if($eta == 'false', 32px, 26px); }
+  &.external-monitor { padding: if($eta == false, 32px, 26px); }
 }
 
 .window-clone-border {
@@ -1904,16 +1788,16 @@ StScrollBar {
   // For window decorations with round corners we can't match
   // the exact shape when the window is scaled. So apply a shadow
   // to fix that case
-  box-shadow: inset 0 0 0 1px $osd_slight_fill_color;
+  box-shadow: inset 0 0 0 1px $osd_semi_fill_color;
 }
 
 .window-caption {
-  spacing: if($eta == 'false', 25px, 19px);
-  padding: if($eta == 'false', 4px 8px, 3px 6px);
+  spacing: if($eta == false, 25px, 19px);
+  padding: if($eta == false, 0.3em 0.9em 0.4em, 0.2em 0.6em 0.3em);
   border-radius: 2px;
   color: $osd_fg_color;
   background-color: shellopacity($osd_bg_color, 0.9);
-  -shell-caption-spacing: if($eta == 'false', 12px, 8px);
+  -shell-caption-spacing: if($eta == false, 12px, 8px);
   box-shadow: $z-depth-1;
   &:hover {
     color: $osd_fg_color;
@@ -1924,46 +1808,35 @@ StScrollBar {
 
 // Search entry
 .search-entry { // use raised entry-box styling
-  @include fontscaling($ref_size * 1.1);
-  width: 320px;
-  padding: 0;
+  width: if($eta == false, 400px, 340px);
+  padding: if($eta == false, 0.4em 0.8em, 0.3em 0.6em);
   border-radius: 100px;
-  border-color: transparent;
-  border-top: 1px solid if($nokto == 'false', $borders_highlight,
-                                              $panel_bg_color);
-  color: $secondary_fg_color;
-  background-color: if($nokto == 'false', $bg_color, $panel_bg_color);
-  font-weight: 500;
-  box-shadow: if($nokto == 'false', $z-depth-2, none);
+  border-top: 1px solid transparent;
+  color: $tertiary_fg_color;
+  background-color: if($nokto == false, shellopacity($base_color, 0.54),
+                                          shellopacity($panel_bg_color, 0.54));
+  box-shadow: $empty_shadow;
+  font-weight: 400;
+  transition-duration: $duration_medium;
 
   selection-background-color: $selected_bg_color;
   selected-color: $selected_fg_color;
 
-  StLabel { margin: 0 8px 7px; }
+  StLabel { margin-bottom: 0.1em; }
 
   &:hover,
   &:focus {
-    border-top: 1px solid if($nokto == 'false', $borders_highlight,
-                                                $panel_bg_color);
+    border-top: 1px solid if($nokto == false,
+                             $borders_highlight,
+                             shellopacity($borders_highlight, 0.54));
     color: $fg_color;
-    box-shadow: if($nokto == 'false', $z-depth-3, none);
-    transition-duration: $duration_medium;
+    background-color: if($nokto == false, $base_color, $panel_bg_color);
+    box-shadow: $z-depth-2;
   }
 
   .search-entry-icon {
-    margin: 0;
-    padding: 8px 16px 7px;
     icon-size: 16px;
-    border-radius: 100px;
-    border-width: if($nokto == 'false', 1px, 0);
-    border-style: solid;
-    border-color: if($nokto == 'false',
-                  transparent $borders_color $borders_color,
-                  transparent transparent transparent);
-    color: $secondary_fg_color;
-    background-color: if($nokto == 'false', $base_color,
-                                            transparent);
-    box-shadow: if($nokto == 'false', $z-depth-3, none);
+    color: $tertiary_fg_color;
   }
 
   &:hover,
@@ -1973,66 +1846,130 @@ StScrollBar {
 }
 
 // Search results
+$provider_icon_size: 32px;
+
 #searchResultsBin { max-width: 1000px; }
 
 #searchResultsContent {
-  padding-left: if($eta == 'false', 20px, 14px);
-  padding-right: if($eta == 'false', 20px, 14px);
-  spacing: if($eta == 'false', 16px, 10px);
+  spacing: if($eta == false, $provider_icon_size / 2,
+                             $provider_icon_size / 4);
+  padding: if($eta == false, $provider_icon_size / 2,
+                             $provider_icon_size / 4);
 }
 
  // This should be equal to #searchResultsContent spacing
 .search-section {
-  spacing: if($eta == 'false', 16px, 10px);
+  spacing: if($eta == false, $provider_icon_size / 2,
+                             $provider_icon_size / 4);
 
   // This is the space between the provider icon and the results container
-  &-content { spacing: 32px; }
+  &-content {
+    spacing: if($eta == false, $provider_icon_size / 2,
+                               $provider_icon_size / 4);
+  }
+
+  &-separator {
+    height: 1px;
+    // FIXME: keep meaningless gradient properties
+    // otherwise warnings are recorded
+    -gradient-height: 1px;
+    -gradient-start: $osd_outline_fill_color;
+    -gradient-end: $osd_outline_fill_color;
+    &:ltr {
+      margin-left: if($eta == false, $provider_icon_size * (2 + 0.5),
+                                     $provider_icon_size * (2 + 0.25));
+    }
+    &:rtl {
+      margin-right: if($eta == false, $provider_icon_size * (2 + 0.5),
+                                      $provider_icon_size * (2 + 0.25));
+    }
+  }
 }
+
 .search-statustext { // "no results"
   @extend %status_text;
 }
 
-.list-search-results { spacing: 3px; }
+.list-search {
+  &-results { spacing: 3px; }
 
-.search-section-separator {
-  height: 1px;
-  &:ltr { margin-left: 96px; }
-  &:rtl { margin-right: 96px; }
+  &-result {
+    &:ltr { margin-right: $provider_icon_size / 2; }
+    &:rtl { margin-left: $provider_icon_size / 2; }
 
-  -gradient-height: 1px;
-  -gradient-start: $osd_semi_fill_color;
-  -gradient-end: $osd_semi_fill_color;
-}
-
-.list-search-result {
-  &-content {
-    spacing: if($eta == 'false', 12px, 8px);
-    padding: if($eta == 'false', 12px, 8px);
-  }
-
-  &-title {
-    @include fontscaling($ref_size * 1.5);
-    color: $osd_fg_color;
-  }
-
-  &-description { color: $osd_dim_fg_color; }
-}
-
-.search-provider {
-  &-icon {
-    padding: 15px;
-    border: none;
-    border-radius: 100px;
-    color: $osd_secondary_fg_color;
+    padding: 0;
     transition-duration: 0s;
     &:focus,
     &:selected,
     &:hover {
-      background-color: $osd_slight_fill_color;
+      background-color: $osd_semi_fill_color;
+      transition-duration: 0s;
+
+      .list-search-result {
+        &-title { color: $selected_fg_color; }
+
+        &-description { color: $osd_fg_color; }
+      }
+    }
+    &:active {
+      background-color: $osd_fill_color;
+      transition-duration: $duration_medium;
+
+      .list-search-result {
+        &-title { color: $selected_fg_color; }
+
+        &-description { color: $osd_fg_color; }
+      }
+    }
+    &:checked {
+      background-color: $osd_indicator_color;
+      transition-duration: $duration_medium;
+
+      .list-search-result {
+        &-title { color: $selected_fg_color; }
+
+        &-description { color: $osd_fg_color; }
+      }
+    }
+
+    &-content {
+      spacing: if($eta == false, $provider_icon_size / 2,
+                                 $provider_icon_size / 4);
+      padding: if($eta == false, $provider_icon_size / 2,
+                                 $provider_icon_size / 4);
+      // concern the rows without 48px icons
+      min-height: $provider_icon_size * (1.5 + 0.5);
+    }
+
+    &-title {
+      @include fontscaling($ref_size * 1.1);
+      color: $osd_fg_color;
+      font-weight: 700;
+    }
+
+    &-description {
+      @include fontscaling($ref_size * 0.9);
+      color: $osd_secondary_fg_color;
+    }
+  }
+}
+
+.search-provider {
+  &-icon {
+    margin: if($eta == false, $provider_icon_size / 4 0, 0);
+    padding: $provider_icon_size / 2;
+    border: none;
+    border-radius: 100px;
+    color: $osd_fg_color;
+    transition-duration: 0s;
+    &:focus,
+    &:selected,
+    &:hover {
+      background-color: $osd_semi_fill_color;
       transition-duration: 0s;
     }
     &:active {
-      background-color: $osd_semi_fill_color;
+      background-color: $osd_fill_color;
       transition-duration: $duration_medium;
     }
     &:checked {
@@ -2042,10 +1979,10 @@ StScrollBar {
   }
 
   &-icon-more {
-    width: 16px;
-    height: 16px;
+    width: $provider_icon_size / 2;
+    height: $provider_icon_size / 2;
     background-image: url("assets/more-results.svg");
-    -st-background-image-shadow: $z-depth-1;
+    -st-background-image-shadow: $z-depth-2;
   }
 }
 
@@ -2059,7 +1996,7 @@ StScrollBar {
   padding: 1px 0;
   border: none;
   color: $osd_fg_color;
-  background-color: $osd_slight_fill_color;
+  background-color: $osd_semi_fill_color;
   box-shadow: $empty_shadow;
   transition-duration: $duration_long;
 
@@ -2067,9 +2004,9 @@ StScrollBar {
   &:rtl { border-radius: 2px 0 0 2px; }
 
   .placeholder {
+    height: 24px;
     background-image: url("assets/dash-placeholder.svg");
     background-size: contain;
-    height: 24px;
   }
 
   .empty-dash-drop-target {
@@ -2085,104 +2022,14 @@ StScrollBar {
 }
 
 .dash-label { // osd tooltip
-  padding: if($eta == 'false', 4px 12px, 3px 8px);
+  padding: if($eta == false, 7px 8px 8px,
+                             6px 7px 7px); // non-scalable unit instead
   border-radius: 2px;
-  color: if($nokto == 'false', $osd_fg_color, $fg_color);
+  color: $osd_fg_color;
   background-color: shellopacity($osd_bg_color, 0.9);
   box-shadow: $z-depth-2;
   text-align: center;
   -x-offset: 8px;
-}
-
-// Add Dash to Dock Support
-#dashtodockContainer {
-  background: transparent;
-
-  #dash,
-  &:overview #dash,
-  &.extended #dash,
-  &.extended:overview #dash {
-    padding: 0;
-    border: none;
-    box-shadow: $empty_shadow;
-    transition-duration: $duration_long;
-  }
-
-  @each $_dock, $_radius in (top, 0 0 2px 2px),
-                            (bottom, 2px 2px 0 0),
-                            (left, 0 2px 2px 0),
-                            (right, 2px 0 0 2px) {
-    &.#{$_dock} #dash {
-      border-radius: #{$_radius};
-      background-color: $panel_fill_color;
-    }
-    &.#{$_dock}:overview #dash {
-      border-radius: #{$_radius};
-      background-color: $osd_slight_fill_color;
-    }
-    &.#{$_dock}.extended #dash {
-      border-radius: 0;
-      background-color: $panel_fill_color;
-    }
-    &.#{$_dock}.extended:overview #dash {
-      border-radius: 0;
-      background-color: $osd_slight_fill_color;
-    }
-  }
-
-  .app-well-app {
-    &-running-dot { background: transparent; }
-
-    .overview-icon {
-      padding: 9px;
-      background-size: contain;
-    }
-  }
-
-  .show-apps .overview-icon {
-    padding: 9px;
-  }
-
-  .dash-item-container { // actual parent container
-    background: transparent;
-
-    > StWidget { background-size: contain; }
-  }
-}
-
-// running-dot styling
-@each $_dock, $_dot, $_inv in (top, -top, -top),
-                              (bottom, -bottom, -bottom),
-                              (left, -left, -right),
-                              (right, -right, -left) {
-  #dashtodockContainer.#{$_dock},
-  #dashtodockContainer.extended.#{$_dock} {
-    @each $_num in 1, 2, 3, 4 {
-      &:ltr {
-        .dash-item-container > StWidget.running#{$_num} {
-          background-image: url("assets/dot/running#{$_num}#{$_dot}.svg");
-          &.focused {
-            background-image:
-              url("assets/dot/running#{$_num}#{$_dot}-focused.svg");
-          }
-        }
-      }
-      &:rtl {
-        .dash-item-container > StWidget.running#{$_num} {
-          background-image: url("assets/dot/running#{$_num}#{$_inv}.svg");
-          &.focused {
-            background-image:
-              url("assets/dot/running#{$_num}#{$_inv}-focused.svg");
-          }
-        }
-      }
-    }
-  }
-}
-
-// Add Simple Dock Support
-#dash:desktop {
-  background-color: $osd_bg_color;
 }
 
 // App Vault/Grid
@@ -2196,25 +2043,23 @@ StScrollBar {
 
 // .app-display { spacing: 20px; }
 
-.app-view-controls { // favorties | all toggle container
-  width: 320px;
-  padding-bottom: if($eta == 'false', 24px, 18px);
+.app-view-controls { // favorites | all toggle container
+  width: if($eta == false, 400px, 340px);
+  padding-bottom: if($eta == false, 24px, 18px);
   background-color: $hidden_fill_color !important;
-  box-shadow: inset 0 1px $osd_semi_fill_color;
+  box-shadow: inset 0 1px $osd_outline_fill_color;
 }
 
 .app-view-control { // favorties | all toggle button
-  padding: if($eta == 'false', 7px 32px 8px, 5px 32px 6px);
+  padding: if($eta == false, 7px 32px 8px, 5px 32px 6px);
   border-radius: 0;
   font-weight: 700;
-  color: if($nokto == 'false', $osd_secondary_fg_color,
-                               $secondary_fg_color);
+  color: $osd_secondary_fg_color;
   background-color: $hidden_fill_color !important;
   &:hover {
     color: $osd_fg_color;
-    background-color: if($nokto == 'false', $osd_slight_fill_color !important,
-                                            $fill_color !important);
-    box-shadow: inset 0 2px $osd_semi_fill_color;
+    background-color: $osd_semi_fill_color !important;
+    box-shadow: inset 0 2px $osd_outline_fill_color;
   }
   &:active {
     color: $osd_fg_color;
@@ -2228,98 +2073,54 @@ StScrollBar {
   }
   &:hover:checked {
     color: $osd_fg_color;
-    background-color: if($nokto == 'false', $osd_semi_fill_color !important,
-                                            $fill_color !important);
+    background-color: $osd_semi_fill_color !important;
     box-shadow: inset 0 2px $osd_indicator_color;
   }
 }
 
 // Icon tile
-.list-search-result {
-  @extend %icon_tile;
-  transition-duration: 0s;
-  &:focus,
-  &:selected,
-  &:hover {
-    background-color: $osd_slight_fill_color;
-    transition-duration: 0s;
-  }
-  &:active {
-    background-color: $osd_semi_fill_color;
-    transition-duration: $duration_medium;
-  }
-  &:checked {
-    background-color: $osd_indicator_color;
-    transition-duration: $duration_medium;
-  }
-}
-
 .app-well-app,
 .app-well-app.app-folder,
 .show-apps,
 .grid-search-result {
   .overview-icon {
-    @extend %icon_tile;
-    color: $osd_secondary_fg_color;
+    padding: 9px;
+    border: none;
+    border-radius: 2px;
+    color: $osd_fg_color;
+    text-align: center;
     transition-duration: 0s;
 
-    // FIXME: workaround for DashToPanelExtension
-    #panelLeft & { border-radius: 0; }
+    // FIXME: on some GPUs, text-shadow property strongly affects to rendering
+    // performance while transitioning #overview <-> .all-apps, so do not set
+    // label shadows.
+    StLabel { padding-top: 6px; } // for HiDPI
   }
 
   &:focus .overview-icon,
   &:hover .overview-icon,
   &:selected .overview-icon {
     border-image: none;
-    background-color: $osd_slight_fill_color;
+    background-color: $osd_semi_fill_color;
     background-image: none;
-    color: $osd_fg_color;
-    transition-duration: 0s;
-
-    // FIXME: workaround for DashToPanelExtension
-    #panelLeft & {
-      border-radius: 0;
-      background-color: $hidden_fill_color;
-      box-shadow: inset 0 2px $osd_fill_color;
-    }
-
-    #dashtopanelScrollview & {
-      background-color: $osd_slight_fill_color;
-      box-shadow: $empty_shadow;
-    }
+    color: $selected_fg_color;
+    transition-duration: $duration_short;
   }
 
   &:active .overview-icon {
     border-image: none;
-    background-color: $osd_semi_fill_color;
+    background-color: $osd_fill_color;
     background-image: none;
-    color: $osd_fg_color;
+    color: $selected_fg_color;
     transition-duration: $duration_medium;
-
-    // FIXME: workaround for DashToPanelExtension
-    #panelLeft & {
-      border-radius: 0;
-      background-color: $hidden_fill_color;
-      box-shadow: inset 0 2px $osd_fill_color;
-    }
-
-    #dashtopanelScrollview & {
-      background-color: $osd_slight_fill_color;
-      box-shadow: $empty_shadow;
-    }
   }
 
   &:checked .overview-icon {
     border-radius: 0;
     background-color: $hidden_fill_color;
-    color: $osd_fg_color;
+    color: $selected_fg_color;
     box-shadow: inset 0 -2px $osd_indicator_color;
-    transition-duration: $duration_long;
-
-    // FIXME: workaround for DashToPanelExtension
-    #panelLeft & { box-shadow: inset 0 2px $osd_indicator_color; }
-
-    #dashtopanelScrollview & { box-shadow: $empty_shadow; }
+    transition-duration: 0s;
   }
 }
 
@@ -2333,21 +2134,22 @@ StScrollBar {
     }
 
     &:hover .overview-icon,
-    &:focus .overview-icon { // more lighter fill than osd_semi_fill!
-      background-color: $osd_slight_fill_color;
-      transition-duration: 0s;
+    &:focus .overview-icon {
+      background-color: $osd_semi_fill_color;
+      transition-duration: $duration_short;
     }
 
     &:active .overview-icon {
-      background-color: $osd_semi_fill_color;
+      background-color: $osd_fill_color;
       transition-duration: $duration_medium;
     }
 
     &:checked .overview-icon,
     &:checked:hover .overview-icon {
-      background-color: $hidden_fill_color;
+      background-color: shellopacity($osd_indicator_color, 0.12);
+      color: $osd_indicator_color;
       box-shadow: $empty_shadow;
-      transition-duration: $duration_long;
+      transition-duration: 0s;
     }
   }
 }
@@ -2355,78 +2157,21 @@ StScrollBar {
 .app-well-app-running-dot { // running apps indicator
   width: 32px;
   height: 2px;
-  background-color: $osd_indicator_color;
   margin-bottom: 0;
-}
-
-%icon_tile {
-  padding: 9px;
-  border: none;
-  border-radius: 2px;
-  color: $osd_fg_color;
-  transition-duration: $duration_medium;
-  text-align: center;
-
-  StLabel { padding-top: 6px; }
+  background-color: $osd_indicator_color;
 }
 
 .show-apps {
-  .show-apps-icon {
-    border: none;
-    background-image: url("assets/show-apps.svg");
-    background-size: contain;
-    color: transparent;
-    transition-duration: $duration_long;
-    -st-background-image-shadow: $z-depth-1;
+  .show-apps-icon { border: none; }
 
-    // FIXME: workaround for DashToPanelExtension
-    #panelLeft & {
-      background-image: url("assets/show-apps-panel.svg");
-      background-size: 32px 32px;
-      background-position: center center;
-      transition-duration: 0s;
-      -st-background-image-shadow: none;
-    }
-  }
-
-  &:hover .show-apps-icon,
-  &:active .show-apps-icon,
-  &:focus .show-apps-icon {
-    color: transparent;
-    background-image: url("assets/show-apps-hover.svg");
-    transition-duration: $duration_long;
-    -st-background-image-shadow: $z-depth-1;
-
-    // FIXME: workaround for DashToPanelExtension
-    #panelLeft & {
-      background-image: url("assets/show-apps-panel-hover.svg");
-      background-size: 32px 32px;
-      background-position: center center;
-      transition-duration: 0s;
-      -st-background-image-shadow: none;
-    }
-  }
-  &:checked .show-apps-icon {
-    color: transparent;
-    background-image: url("assets/show-apps-checked.svg");
-    transition-duration: $duration_long;
-    -st-background-image-shadow: $z-depth-2;
-
-    // FIXME: workaround for DashToPanelExtension
-    #panelLeft & {
-      background-image: url("assets/show-apps-panel-hover.svg");
-      background-size: 32px 32px;
-      background-position: center center;
-      transition-duration: 0s;
-      -st-background-image-shadow: none;
-    }
-  }
+  &:checked .show-apps-icon,
+  &:checked:hover .show-apps-icon { color: $osd_indicator_color; }
 }
 
 // Collections
 .app-well-app.app-folder {
   > .overview-icon {
-    background-color: $osd_slight_fill_color;
+    background-color: $osd_semi_fill_color;
     box-shadow: $empty_shadow;
   }
   &:hover,
@@ -2440,7 +2185,7 @@ StScrollBar {
     &, &:hover {
       > .overview-icon {
         border-radius: 0;
-        background-color: $osd_semi_fill_color;
+        background-color: $osd_fill_color;
         box-shadow: inset 0 -2px $osd_indicator_color;
       }
     }
@@ -2465,9 +2210,8 @@ StScrollBar {
   &-bin {
     padding: 5px;
     border-radius: 2px;
-    border-top: 1px solid $menu_highlight;
-    background-color: if($nokto == 'false', $inverted_bg_color,
-                                            $bg_color);
+    border-top: 0 none transparent;
+    background-color: shellopacity($osd_bg_color, 0.9);
     box-shadow: $z-depth-1;
   }
 }
@@ -2488,7 +2232,7 @@ StScrollBar {
     padding: 0;
     border-radius: 12px;
     background-image: none;
-    background-color: $osd_semi_fill_color;
+    background-color: $osd_outline_fill_color;
   }
   &:hover .page-indicator-icon {
     margin: 0;
@@ -2500,7 +2244,7 @@ StScrollBar {
     margin: 2px;
     padding: 0;
     background-image: none;
-    background-color: shellopacity($osd_indicator_color, 0.75);
+    background-color: shellopacity($osd_indicator_color, 0.87);
   }
   &:checked .page-indicator-icon {
     margin: 0;
@@ -2519,72 +2263,62 @@ StScrollBar {
 }
 
 
-// /***************************
-//  * Dash To Panel Extension *
-//  ***************************/
-
-// main workarounds for .overview-icon class are embedded
-// into common section directly.
-#panelLeft {
-  StBin.overview-icon {
-    .show-apps-icon {
-      min-height: 24px;
-      padding: 0;
-      background-size: 32px 32px;
-      background-repeat: no-repeat;
-    }
-  }
-
-  StScrollView#dashtopanelScrollview { padding: 0; }
-}
-
-
 // /*******************
 //  * Workspace Pager *
 //  *******************/
 
-.workspace-thumbnails,
-.workspace-thumbnails-left { // container ala dash
-  visible-width: 32px; // amount visible before hover
-  spacing: 12px;
-  margin-bottom: 32px;
-  padding: 12px;
-  border: none;
-  border-radius: 0;
-  background-color: $panel_hidden_fill_color;
-  color: $osd_fg_color;
-}
+.workspace {
+  &-thumbnails,
+  &-thumbnails-left { // container ala dash
+    visible-width: 32px; // amount visible before hover
+    spacing: 12px;
+    margin-bottom: 32px;
+    padding: 12px;
+    border: none;
+    border-radius: 0;
+    background-color: $panel_hidden_fill_color;
+    color: $osd_fg_color;
 
-.workspace-thumbnail-indicator {
-  border: 0 solid $osd_indicator_color;
-  border-radius: 0;
-
-  &:ltr {
-    padding: 6px 6px 6px 10px;
-    border-left-width: 2px;
+    StBin.placeholder { // solid-line indicator for drop-target
+      height: 4px;
+      background-color: $accent_color;
+    }
   }
-  &:rtl {
-    padding: 6px 10px 6px 6px;
-    border-right-width: 2px;
+
+  &-thumbnail-indicator {
+    border: 0 solid $osd_indicator_color;
+    border-radius: 0;
+    &:ltr {
+      padding: 6px 6px 6px 10px;
+      border-left-width: 2px;
+    }
+    &:rtl {
+      padding: 6px 10px 6px 6px;
+      border-right-width: 2px;
+    }
+  }
+
+  &-thumbnails,
+  &-thumbnails-left:rtl {
+    box-shadow: inset 1px 0 $osd_outline_fill_color;
+  }
+
+  &-thumbnails:rtl,
+  &-thumbnails-left {
+    box-shadow: inset -1px 0 $osd_outline_fill_color;
+
+    .workspace-thumbnail-indicator {
+      padding: 6px 10px 6px 6px;
+      border-right-width: 2px;
+    }
   }
 }
 
-.workspace-thumbnails,
-.workspace-thumbnails-left:rtl {
-  box-shadow: inset 1px 0 $osd_semi_fill_color;
-}
 
-.workspace-thumbnails:rtl,
-.workspace-thumbnails-left {
-  box-shadow: inset -1px 0 $osd_semi_fill_color;
+// /***************************
+//  * Some hacks I don't even *
+//  ***************************/
 
-  .workspace-thumbnail-indicator {
-    padding: 6px 10px 6px 6px;
-    border-right-width: 2px;
-  }
-}
-
-// Some hacks I don't even
 .search-display > StBoxLayout,
 .all-apps,
 .frequent-apps > StBoxLayout {
@@ -2595,18 +2329,7 @@ StScrollBar {
 %status_text {
   @include fontscaling($ref_size * 2.0);
   font-weight: 700;
-  color: $osd_dim_fg_color;
-}
-
-// Add Dash to Dock Support
-#workspacestodockContainer {
-  &,
-  &:overview,
-  &.fullheight:overview {
-    background-color: $panel_hidden_fill_color;
-
-    .workspace-thumbnails { background-color: transparent; }
-  }
+  color: $osd_tertiary_fg_color;
 }
 
 
@@ -2614,14 +2337,13 @@ StScrollBar {
 //  * Notifications & Message Tray *
 //  ********************************/
 
-.url-highlighter { link-color: $link_color; }
+.url-highlighter { link-color: $link_label_color; }
 
 // Banners
 .notification-banner {
   @include fontscaling($ref_size * 1.1);
   width: 34em;
-  min-height: if($eta == 'false', 4.5em, 3.6em);
-  margin: 5px;
+  margin: 6px;
   border: none;
   border-radius: 2px;
   background-color: shellopacity($osd_bg_color, 0.9);
@@ -2634,37 +2356,39 @@ StScrollBar {
     box-shadow: $z-depth-2;
   }
 
-  .notification-icon { padding: if($eta == 'false', 8px, 6px); }
+  .notification {
+    &-icon { padding: if($eta == false, 8px, 6px); }
 
-  .notification-content {
-    padding: if($eta == 'false', 8px, 6px);
-    spacing: if($eta == 'false', 8px, 6px);
+    &-content {
+      padding: if($eta == false, 8px, 6px);
+      spacing: if($eta == false, 8px, 6px);
+    }
+
+    &-actions {
+      padding: 0;
+      spacing: 0;
+      border: transparent;
+      background-color: transparent;
+    }
   }
 
-  .secondary-icon { icon-size: 14px; }
+  .secondary-icon { icon-size: 16px; }
 
   * > StIcon { color: $inverted_secondary_accent_label_color; }
 
   *:hover > StIcon,
   *:focus > StIcon {
     color: $inverted_accent_label_color;
-    background-color: $accent_fill_color;
-  }
-  *:active > StIcon {
-    color: $inverted_accent_label_color;
-    background-color: $accent_active_fill_color;
+    background-color: $accent_semi_fill_color;
   }
 
-  .notification-actions {
-    padding-top: 0;
-    border: transparent;
-    spacing: 1px;
-    color: $inverted_secondary_accent_label_color;
-    background-color: transparent;
+  *:active > StIcon {
+    color: $inverted_accent_label_color;
+    background-color: $accent_fill_color;
   }
 
   .notification-button {
-    padding: if($eta == 'false', 9px 4px 10px, 6px 3px 7px);
+    padding: if($eta == false, 9px 4px 10px, 6px 3px 7px);
     background-color: transparent;
     color: $inverted_secondary_accent_label_color;
     font-weight: 700;
@@ -2674,12 +2398,12 @@ StScrollBar {
 
     &:hover {
       color: $inverted_accent_label_color;
-      background-color: $accent_fill_color;
+      background-color: $accent_semi_fill_color;
     }
     &:focus { color: $inverted_accent_label_color; }
     &:active {
       color: $inverted_accent_label_color;
-      background-color: $accent_active_fill_color;
+      background-color: $accent_fill_color;
     }
   }
 }
@@ -2706,10 +2430,7 @@ StScrollBar {
 
   &-response { margin: 5px; }
 
-  &-log-message {
-    color: if($nokto == 'false', $osd_secondary_fg_color,
-                                 $secondary_fg_color);
-  }
+  &-log-message { color: $osd_secondary_fg_color; }
 
   &-new-group { padding-top: 1em; }
 
@@ -2719,8 +2440,7 @@ StScrollBar {
   }
 
   &-sent {
-    color: if($nokto == 'false', $osd_secondary_fg_color,
-                                 $secondary_fg_color);
+    color: $osd_secondary_fg_color;
     &:ltr { padding-left: 18pt; }
     &:rtl { padding-right: 18pt; }
   }
@@ -2728,8 +2448,7 @@ StScrollBar {
   &-meta-message {
     @include fontscaling($ref_size * 0.9);
     font-weight: 700;
-    color: if($nokto == 'false', $insensitive_osd_fg_color,
-                                 $insensitive_fg_color);
+    color: $insensitive_osd_fg_color;
     &:ltr { padding-left: 4px; }
     &:rtl { padding-right: 4px; }
   }
@@ -2748,11 +2467,11 @@ StScrollBar {
     font-weight: 700;
     &:hover {
       color: $inverted_accent_label_color;
-      background-color: $accent_fill_color;
+      background-color: $accent_semi_fill_color;
     }
     &:active {
       color: $inverted_accent_label_color;
-      background-color: $accent_active_fill_color;
+      background-color: $accent_fill_color;
     }
     &:focus {
       // padding: 1px 71px 1px 11px;
@@ -2771,14 +2490,8 @@ StScrollBar {
   &-resident-mount {
     spacing: 8px;
     border-radius: 2px;
-    &:hover {
-      background-color: if($nokto == 'false', $osd_semi_fill_color,
-                                              $semi_fill_color);
-    }
-    &:active {
-      background-color: if($nokto == 'false', $osd_fill_color,
-                                              $fill_color);
-    }
+    &:hover { background-color: $osd_semi_fill_color; }
+    &:active { background-color: $osd_fill_color; }
 
     &-label {
       padding-left: 6px;
@@ -2805,7 +2518,7 @@ StScrollBar {
 //  * Legacy Tray *
 //  ***************/
 
-$legacy_icon_size: if($eta == 'false', 24px, 16px);
+$legacy_icon_size: if($eta == false, 24px, 16px);
 
 .legacy-tray {
   padding: 0;
@@ -2821,15 +2534,14 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
     padding: 4px 4px 2px;
     border-radius: 2px;
     border: 2px solid $panel_bg_color;
-    color: if($nokto == 'false', $inverted_secondary_fg_color,
-                                 $secondary_fg_color);
+    color: $osd_secondary_fg_color;
     &:hover,
     &:focus {
-      background-color: $osd_slight_fill_color;
+      background-color: $osd_semi_fill_color;
       color: $selected_fg_color;
     }
     &:active {
-      background-color: $osd_semi_fill_color;
+      background-color: $osd_fill_color;
       color: $selected_fg_color;
     }
 
@@ -2864,65 +2576,62 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
 //  ************/
 
 // On-screen Keyboard
-#keyboard { background-color: shellopacity($panel_bg_color, 0.75); }
+#keyboard { background-color: shellopacity($panel_bg_color, 0.54); }
 
-.keyboard-layout {
-  spacing: 10px;
-  padding: 10px;
-}
+.keyboard {
+  &-layout {
+    spacing: if($eta == false, 12px, 8px);
+    padding: if($eta == false, 12px, 8px);
+  }
 
-.keyboard-row { spacing: 15px; }
+  &-row { spacing: if($eta == false, 12px, 8px); }
 
-.keyboard-key {
-  @include fontscaling($ref_size * 2.0);
-  min-height: 2em;
-  min-width: 2em;
-  border-radius: 2px;
-  border-width: 1px;
-  background-color: mix($panel_bg_color, $selected_fg_color, 95%);
-  color: if($nokto == 'false', $inverted_secondary_fg_color,
-                               $secondary_fg_color);
-  box-shadow: 0 0 5px rgba(255, 255, 255, 0.24);
-  text-shadow: none;
-  icon-shadow: none;
-  font-weight: 700;
-  &:focus {
-    color: $selected_fg_color;
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.24);
-  }
-  &:hover,
-  &:checked {
-    color: $selected_fg_color;
-    background-color: mix($panel_bg_color, $selected_fg_color, 95%);
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.36);
-  }
-  &:active {
-    @include fontscaling($ref_size * 1.8);
-    color: $osd_dim_fg_color;
-    background-color: $panel_bg_color;
-    box-shadow: 0 0 3px rgba(255, 255, 255, 0.24);
-  }
-  &:grayed { // FIXME
-    border-top-color: $osd_borders_color;
-    color: $osd_dim_fg_color;
+  &-key {
+    @include fontscaling($ref_size * 2.0);
+    min-height: 2em;
+    min-width: 2em;
+    border-radius: 2px;
+    border: none;
     background-color: $osd_bg_color;
+    color: $osd_secondary_fg_color;
+    box-shadow: $empty_shadow;
+    text-shadow: none;
+    icon-shadow: none;
+    font-weight: 700;
+    transition-timing-function: $slope_slow;
+    &:focus,
+    &:hover,
+    &:checked {
+      color: $osd_fg_color;
+      background-color: mix($osd_bg_color, $osd_fg_color, 88%);
+      transition-timing-function: $slope_slow;
+    }
+    &:active {
+      color: $osd_fg_color;
+      background-color: mix($osd_bg_color, $osd_fg_color, 75%);
+      transition-timing-function: $slope_slow;
+    }
+    &:grayed { // FIXME
+      color: $osd_tertiary_fg_color;
+      background-color: $panel_bg_color;
+      transition-timing-function: $slope_slow;
+    }
   }
-}
 
-.keyboard-subkeys { //long press on a key popup
-  padding: 5px;
-  border-radius: 2px;
-  -arrow-border-radius: 0;
-  -arrow-background-color: transparent;
-  -arrow-border-width: 0;
-  -arrow-border-color: transparent;
-  -arrow-base: 0;
-  -arrow-rise: 0;
-  -boxpointer-gap: 5px;
-  background-color: shellopacity($osd_bg_color, 0.9);
-  color: if($nokto == 'false', $inverted_secondary_fg_color,
-                               $secondary_fg_color);
-  box-shadow: $z-depth-2;
+  &-subkeys { //long press on a key popup
+    padding: 0;
+    border-radius: 2px;
+    -arrow-border-radius: 0;
+    -arrow-background-color: transparent;
+    -arrow-border-width: 0;
+    -arrow-border-color: transparent;
+    -arrow-base: 0;
+    -arrow-rise: 0;
+    -boxpointer-gap: if($eta == false, 12px, 8px);
+    background-color: $suggested_color;
+    color: $selected_fg_color;
+    box-shadow: $z-depth-2;
+  }
 }
 
 
@@ -2934,11 +2643,13 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
   &-popup-content {
     padding: 0.5em;
     spacing: 0.3em;
+    color: $osd_tertiary_fg_color;
   }
 
   &-index {
-    padding: 0 0.5em 0 0;
-    color: if($nokto == 'false', $osd_dim_fg_color, $dim_fg_color);
+    color: $osd_secondary_fg_color;
+    &:ltr { padding: 0.3em 0.5em 0.3em 0; }
+    &:rtl { padding: 0.3em 0 0.3em 0.5em; }
   }
 
   &-box {
@@ -2947,11 +2658,23 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
     border-radius: 2px;
     color: $osd_secondary_fg_color;
     transition-duration: 0s;
-    &:hover,
-    &:active,
-    &:selected {
+    &:hover {
       background-color: $osd_semi_fill_color;
+      color: $osd_fg_color;
+
+      .candidate-index { color: $osd_fg_color; }
+    }
+    &:active {
+      background-color: $osd_fill_color;
+      color: $osd_fg_color;
+
+      .candidate-index { color: $osd_fg_color; }
+    }
+    &:selected {
+      background-color: $suggested_color;
       color: $selected_fg_color;
+
+      .candidate-index { color: $osd_secondary_fg_color; }
     }
   }
 
@@ -2959,6 +2682,7 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
     height: 2em;
 
     .vertical & { padding-top: 0.5em; }
+
     .horizontal & { padding-left: 0.5em; }
   }
 
@@ -2966,11 +2690,11 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
     padding: 4px;
     color: $inverted_secondary_accent_label_color;
     &:hover {
-      background-color: $accent_fill_color;
+      background-color: $accent_semi_fill_color;
       color: $inverted_accent_label_color;
     }
     &:active {
-      background-color: $accent_active_fill_color;
+      background-color: $accent_fill_color;
       color: $inverted_accent_label_color;
     }
 
@@ -3017,47 +2741,40 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
   background-color: transparent;
 
   StEntry {
-    min-height: 1.2em; // prevent unwanted shrinking
+    @include entry(normal, $fc: $osd_outline_fill_color);
     color: $osd_fg_color;
     selection-background-color: $selected_bg_color;
     selected-color: $selected_fg_color;
-    font-family: $mono-font-family;
     transition-duration: 0s;
-    @include entry(normal, $fc:$osd_semi_fill_color);
-    &:hover { @include entry(hover, $fc:$osd_fill_color); }
-    &:focus { @include entry(focus, $fc:$osd_indicator_color); }
+    &:hover { @include entry(hover, $fc: $osd_outline_fill_color); }
+    &:focus { @include entry(focus, $fc: $osd_indicator_color); }
     &:insensitive {
-      @include entry(insensitive, $fc:$insensitive_osd_fill_color);
+      @include entry(insensitive, $fc: $insensitive_osd_outline_fill_color);
       color: $insensitive_osd_fg_color;
     }
+
+    StIcon.capslock-warning { color: $warning_color; } // CapsLock warning
   }
 
   .modal-dialog-button-box { spacing: 1em; }
 
   .modal-dialog-button {
     @include fontscaling($ref_size * 1.1);
+    @include button(flat-normal, $tc: $osd_secondary_fg_color);
     padding: 7px 16px 8px;
     font-weight: 700;
-    @include button(flat-normal, $tc: if($nokto == 'false',
-                                      $inverted_secondary_fg_color,
-                                      $secondary_fg_color));
     &:hover,
     &:focus {
       @include button(flat-hover, $c: $osd_semi_fill_color,
-                                  $tc: if($nokto == 'false',
-                                  $inverted_fg_color,
-                                  $fg_color));
+                                  $tc: $osd_fg_color);
     }
     &:active {
       @include button(flat-active, $c: $osd_fill_color,
-                                   $tc: if($nokto == 'false',
-                                   $inverted_fg_color,
-                                   $fg_color));
+                                   $tc: $osd_fg_color);
     }
     &:insensitive {
-      @include button(flat-insensitive, $tc: if($nokto == 'false',
-                                        $inverted_dim_fg_color,
-                                        $insensitive_secondary_fg_color));
+      @include button(flat-insensitive,
+                      $tc: $insensitive_osd_secondary_fg_color);
     }
     &:default { // raised button
       @include button(normal, $c: $suggested_color,
@@ -3072,9 +2789,8 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
                                 $tc: $selected_fg_color);
       }
       &:insensitive {
-        @include button(flat-insensitive, $tc: if($nokto == 'false',
-                                          $inverted_dim_fg_color,
-                                          $insensitive_secondary_fg_color));
+        @include button(insensitive,
+                        $tc: $insensitive_osd_secondary_fg_color);
       }
     }
   }
@@ -3092,7 +2808,7 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
   &-message-hint {
     padding-top: 0;
     padding-bottom: 20px;
-    color: $osd_dim_fg_color;
+    color: $osd_tertiary_fg_color;
   }
 
   &-user-selection-box { padding: 100px 0; }
@@ -3100,11 +2816,14 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
   &-not-listed-button {
     // this class seems almost meaningless
     margin: 12px 0 0;
+
+    &:ltr { margin-right: 4px; }
+    &:rtl { margin-left: 4px; }
   }
 
   &-not-listed-label {
     @include fontscaling($ref_size * 0.9);
-    padding: 4px 4px 5px;
+    padding: 4px 0 5px;
     border-radius: 2px;
     color: $inverted_secondary_accent_label_color;
     font-weight: 700;
@@ -3117,25 +2836,24 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
     }
     .login-dialog-not-listed-button:hover & {
       color: $inverted_accent_label_color;
-      background-color: $accent_fill_color;
+      background-color: $accent_semi_fill_color;
     }
     .login-dialog-not-listed-button:active & {
       color: $inverted_accent_label_color;
-      background-color: $accent_active_fill_color;
+      background-color: $accent_fill_color;
       box-shadow: $empty_shadow;
     }
   }
 
   &-user-list {
     width: 23em;
-    padding: 4px;
     spacing: 12px;
 
     &:expanded .login-dialog-user-list-item {
       &:focus {
         color: $osd_fg_color;
         background-color: $hidden_fill_color;
-        box-shadow: inset 0 0 0 2px $osd_semi_fill_color;
+        box-shadow: inset 0 0 0 2px $osd_outline_fill_color;
       }
       &:hover {
         color: $osd_fg_color;
@@ -3145,18 +2863,22 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
         color: $osd_fg_color;
         background-color: $osd_fill_color;
       }
+      &:selected {
+        color: $selected_fg_color;
+        background-color: $selected_bg_color;
+      }
 
       &:logged-in {
         border-radius: 0;
-        background-color: shellopacity($selected_bg_color, 0.2);
+        background-color: shellopacity($selected_bg_color, 0.25);
         &:focus,
         &:hover {
-          background-color: mix(shellopacity($selected_bg_color, 0.2),
+          background-color: mix(shellopacity($selected_bg_color, 0.25),
                                 shellopacity($osd_semi_fill_color, 0.5),
                                 50%);
         }
         &:active {
-          background-color: mix(shellopacity($selected_bg_color, 0.2),
+          background-color: mix(shellopacity($selected_bg_color, 0.25),
                                 shellopacity($osd_fill_color, 0.5),
                                 50%);
         }
@@ -3175,13 +2897,14 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
     color: $osd_secondary_fg_color;
     transition-duration: $duration_short;
 
-    &:ltr { padding-right: 1em; }
-    &:rtl { padding-left: 1em; }
+    // exclude timed-login-indicator
+    &:ltr .user-widget { padding-right: 1em; }
+    &:rtl .user-widget { padding-left: 1em; }
 
     &:focus {
       color: $osd_fg_color;
       background-color: $hidden_fill_color;
-      box-shadow: inset 0 0 0 2px $osd_semi_fill_color;
+      box-shadow: inset 0 0 0 2px $osd_outline_fill_color;
     }
     &:hover {
       color: $osd_fg_color;
@@ -3191,15 +2914,19 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
       color: $osd_fg_color;
       background-color: $osd_fill_color;
     }
+    &:selected {
+      color: $selected_fg_color;
+      background-color: $selected_bg_color;
+    }
 
     .login-dialog-timed-login-indicator {
-      height: 2px;
-      margin: 2px 0 0 0;
-      background-color: $osd_fg_color;
+      height: 4px;
+      margin: 4px 0 0 0;
+      background-color: $secondary_accent_color;
     }
 
     &:focus .login-dialog-timed-login-indicator {
-      background-color: $osd_fg_color;
+      background-color: $accent_color;
     }
   }
 }
@@ -3214,8 +2941,8 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
 }
 
 .user-widget-label {
-  &:ltr { padding-left: 1.5em; }
-  &:rtl { padding-right: 1.5em; }
+  &:ltr { padding-left: 1em; }
+  &:rtl { padding-right: 1em; }
 }
 
 .login-dialog-prompt {
@@ -3229,7 +2956,7 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
   &-label {
     @include fontscaling($ref_size * 1.0);
     padding-top: 1em;
-    color: $osd_dim_fg_color;
+    color: $osd_tertiary_fg_color;
   }
 }
 
@@ -3241,7 +2968,7 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
     &:focus {
       color: $osd_fg_color;
       background-color: $hidden_fill_color;
-      box-shadow: inset 0 0 0 2px $osd_semi_fill_color;
+      box-shadow: inset 0 0 0 2px $osd_outline_fill_color;
     }
     &:hover {
       color: $osd_fg_color;
@@ -3276,19 +3003,20 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
 
   &-clock {
     padding-bottom: 1.5em;
-    color: $selected_fg_color;
+    color: $osd_fg_color;
     text-align: center;
 
     &-time {
       @include fontscaling($ref_size * 8.4);
+      font-family: Roboto, Noto Sans, Cantarell, Sans-Serif;
       font-weight: 300;
-      text-shadow: none;
+      text-shadow: $z-depth-1;
     }
 
     &-date {
       @include fontscaling($ref_size * 1.3);
       font-weight: 700;
-      text-shadow: none;
+      text-shadow: $z-depth-1;
     }
   }
 
@@ -3337,9 +3065,8 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
 #screenShieldNotifications {
   StButton#vhandle,
   StButton#hhandle {
-    background-color: shellopacity($osd_fg_color, 0.6);
-    &:hover,
-    &:focus { background-color: shellopacity($osd_fg_color, 0.8); }
+    background-color: shellopacity($osd_fg_color, 0.54 * 0.55);
+    &:hover { background-color: shellopacity($osd_fg_color, 0.87 * 0.55); }
     &:active { background-color: $osd_fg_color; }
   }
 }
@@ -3349,40 +3076,48 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
 //  * Looking Glass *
 //  *****************/
 
+$tool_icon_size: 24px;
+
 #LookingGlassDialog {
   spacing: 4px;
   padding: 0;
   border: none;
   border-radius: 2px;
-  background-color: shellopacity($osd_base_color, 0.9);
+  background-color: shellopacity($osd_bg_color, 0.9);
   color: $osd_fg_color;
   box-shadow: $z-depth-4;
 
   > #Toolbar {
-    padding: 0 8px;
+    padding: if($eta == false, 0 8px, 0 6px);
     border: none;
     border-radius: 0;
     background-color: $osd_bg_color;
     box-shadow: $z-depth-1;
+
+    > StIcon { // 'color-picker' and 'trash'
+      // base-line shift
+      padding: if($eta == false, 5px 4px 3px, 4px 3px 2px);
+    }
   }
 
   .labels { spacing: 0; }
 
   .notebook-tab {
-    -natural-hpadding: 12px;
-    -minimum-hpadding: 6px;
-    padding: 7px 32px 8px;
+    @include fontscaling($ref_size * 0.9);
+    min-height: $tool_icon_size + if($eta == false, 8px, 6px);
+    padding: if($eta == false, 0 8px * 2, 0 6px * 2);
     color: $osd_secondary_fg_color;
+    font-family: $font-family; // stop using fixed-fonts
     font-weight: 700;
-    transition-duration: 0s;
+    transition-duration: $duration_medium;
     &:hover {
       border-bottom-width: 0;
       border-color: transparent;
       background-color: $hidden_fill_color;
-      color: if($nokto == 'false', $osd_fg_color, $fg_color);
-      box-shadow: inset 0 -2px $osd_fill_color;
+      color: $osd_fg_color;
+      box-shadow: inset 0 -2px $osd_outline_fill_color;
       text-shadow: none;
-      transition-duration: 0s;
+      transition-duration: $duration_medium;
     }
     &:selected {
       border-bottom-width: 0;
@@ -3393,6 +3128,8 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
       text-shadow: none;
       transition-duration: $duration_medium;
     }
+
+    StLabel { padding-bottom: 0.1em; }
   }
 
   StBoxLayout#EvalBox {
@@ -3407,10 +3144,10 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
   StEntry {
     selection-background-color: $selected_bg_color;
     selected-color: $selected_fg_color;
-    box-shadow: inset 0 -1px $osd_semi_fill_color;
+    box-shadow: inset 0 -1px $osd_outline_fill_color;
     &:hover {
       color: $selected_fg_color;
-      box-shadow: inset 0 -2px $osd_semi_fill_color;
+      box-shadow: inset 0 -2px $osd_outline_fill_color;
     }
     &:focus {
       color: $selected_fg_color;
@@ -3419,8 +3156,8 @@ $legacy_icon_size: if($eta == 'false', 24px, 16px);
   }
 
   .shell-link {
-    color: $link_color;
-    &:hover { color: $link_color; }
+    color: $link_label_color;
+    &:hover { color: $link_label_color; }
   }
 }
 
