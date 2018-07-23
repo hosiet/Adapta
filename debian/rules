@@ -10,7 +10,11 @@
 
 override_dh_auto_configure:
 	dh_auto_configure -- --enable-parallel \
-	                     --disable-gtk_next \
-	                     --enable-chrome \
+	                     --enable-gnome \
+	                     --enable-cinnamon \
+	                     --enable-flashback \
+	                     --enable-xfce \
+	                     --enable-mate \
+	                     --enable-openbox \
 	                     --enable-plank \
 	                     --enable-telegram

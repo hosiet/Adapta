@@ -2,7 +2,7 @@ Source: adapta-gtk-theme
 Section: x11
 Priority: optional
 Maintainer: Boyuan Yang <073plan@gmail.com>
-Build-Depends: debhelper (>= 10),
+Build-Depends: debhelper (>= 11~),
 	       parallel,
 	       pkg-config,
 	       sassc (>= 3.3),
@@ -10,7 +10,7 @@ Build-Depends: debhelper (>= 10),
 	       libglib2.0-dev (>= 2.48.0),
 	       libgdk-pixbuf2.0-dev (>= 2.32.2),
 	       libxml2-utils,
-Standards-Version: 4.1.1
+Standards-Version: 4.1.5
 Homepage: https://github.com/adapta-project/adapta-gtk-theme
 Vcs-Git: https://github.com/hosiet/adapta
 Vcs-Browser: https://github.com/hosiet/adapta
